@@ -1,6 +1,16 @@
-// declaration of express
+// import npm libraries
 const express = require('express');
 const app = express();
+
+//import local files
+const authRoute = require('./Routes/auth');
+
+
+//routes
+app.use("/", authRoute);
+
+
+
 const port = 8000; // port no, in which our backend server will run
 
 // declaration of mongodb and create connection
