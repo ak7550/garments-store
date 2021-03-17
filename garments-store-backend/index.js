@@ -4,8 +4,8 @@ const express = require('express');
 const app = express()
 
 //middlewares ==> 3rd party library
-const cors = require('cors') // to call apis from postman
-app.use(cors());
+// const cors = require('cors') // to call apis from postman or other restricted domains https://auth0.com/blog/cors-tutorial-a-guide-to-cross-origin-resource-sharing/
+// app.use(cors());
 const bodyParser = require('body-parser'); // ==> to parse the information in req.body in json format
 app.use(bodyParser.json()); // parse data in json format within req.body ==> https://www.npmjs.com/package/body-parser
 

@@ -1,5 +1,5 @@
-import mongoose, { Schema } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid'); // https://www.npmjs.com/package/uuid
 const crypto = require('crypto');
 
 const UserSchema = new mongoose.Schema({
@@ -21,8 +21,8 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
     userInfo: {
-        type: String,
-        trim: true
+        sex: String,
+        age: Number,
     },
     encryptedPassword: {
         type: String,
@@ -89,4 +89,4 @@ UserSchema.methods.authenticate = function (plainPassword) {
 const User = mongoose.model('User', UserSchema);
 
 // exporting, so it can be imported by other files.
-export default User;
+module.exports= User;
