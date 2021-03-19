@@ -9,6 +9,9 @@ const app = express()
 const bodyParser = require('body-parser'); // ==> to parse the information in req.body in json format
 app.use(bodyParser.json()); // parse data in json format within req.body ==> https://www.npmjs.com/package/body-parser
 
+var cookieParser = require('cookie-parser')
+// load the cookie-parsing middleware
+app.use(cookieParser())
 //import local files
 const authRoute = require('./Routes/auth');
 
@@ -44,4 +47,4 @@ mongoose.connect(process.env.DATABASE, {
 
 app.get("/", (req, res) => res.send("Hello World!!"));
 
-app.listen(port, () => console.log(`app is running at port no: ${port}`));
+app.listen(port, () => console.log(`app hello world is running at port no: ${port}`));

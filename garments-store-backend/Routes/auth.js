@@ -9,10 +9,9 @@ const { check, body } = require('express-validator'); // docs==> https://express
 router.get("/", (req, res) => res.send("You are in auth route"));
 
 //singin route
-router.post("/signIn",
+router.post("/signUp",
     
-    check("name").isLength({ min: 5, max: 30 }).withMessage("Write your name in between 5 to 30")
-        .isAlphanumeric().withMessage("Name should not contain any number"),
+    check("name").isLength({ min: 5, max: 30 }).withMessage("Write your name in between 5 to 30").isAlpha().withMessage("Name should not contain any number"),
     check("email")
         .isEmail().withMessage('Valid email is required'),
     check("password")
@@ -21,12 +20,12 @@ router.post("/signIn",
         // .matches(/(?=.*[A-Z])/).withMessage('Password needs to have at least one capital letter ')
         // .matches(/(?=.*[a-z])/).withMessage('Password needs to have at least one small letter ')
         // .matches(/(?=.*[!@#$&*])/).withMessage('Password needs to have a special character ')
-        .not().isIn(['abc', 'password', 'god', 'abc',]).withMessage('Do not use a common word as the password')
+        .not().isIn(['abc', 'password', 'god', '123']).withMessage('Do not use a common word as the password')
 ,
-    signIn);
+    signUp);
 // docs==> https://express-validator.github.io/docs/custom-error-messages.html
 
-router.post("/signUp",
+router.post("/signIn",
     
     check("email")
         .isEmail().withMessage('Valid email is required'),
@@ -38,7 +37,7 @@ router.post("/signUp",
         .matches(/(?=.*[!@#$&*])/).withMessage('Password needs to have a special character ')
         .not().isIn(['abc', 'password', 'god', 'abc',]).withMessage('Do not use a common word as the password'),
     
-    signUp);
+    signIn);
 
 module.exports = router;
 
