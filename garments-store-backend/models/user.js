@@ -48,7 +48,8 @@ const UserSchema = new mongoose.Schema({
     description: {
         type: String,
         trim: true,
-        maxLength: 100
+        maxLength: 100,
+        default: ""
     },
 }, {
     // The timestamps option tells mongoose to assign createdAt and updatedAt fields to your schema.The type assigned is Date. (docs)

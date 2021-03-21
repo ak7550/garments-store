@@ -17,39 +17,46 @@ exports.signUp = (req, res) => {
         // now we need to assign the user info into our database as a new user entry, he/she might be our customer or a seller (admin).
         console.log(`req.body: ${JSON.stringify(req.body)}`);
         // TODO: add buyer / seller option and other descriptions as well
-        const { name, email, password } = req.body; // object destructing
-        // this saves the entry into our database ==> https://mongoosejs.com/docs/models.html#compiling
+        const { name, email, password, role, description, userInfo } = req.body; // object destructing
+
+        // checking if the email id is already present within our database
+        User.findOne({ email }, (err, user) => {
+            if (user) return res.status(400).json({
+                msg: `user with ${email} already exist. Please try logging in.`
+            })
+            else if (err) return res.status(400).json({
+                msg: `Error occured!!`
+            })
+        });
+
+        // creating a new entry inside of database
         const user = new User({
             fullName: name,
             email,
-            password
+            password,
+            role, description, userInfo
         });
-        console.log(`newly created user is: ${JSON.stringify(user)}`);
-        user.save(
-            (err) => {
-                if (err)
-                    res.status(400).json({
-                        err,
-                        user,
-                        msg: `info is not able to saved into the database.`
-                    });
-                else {
-                    const token = jwt.sign({
-                        _id: user._id
-                    }, process.env.secret, { expiresIn: '100h' });
-                    res.cookie("token", token , {
-                        expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
-                    });
-                    res.status(200).json({
-                        user,
-                        msg: `is successfully stored into the databse.`
-                    }); // think of putting the signin process alltogether
 
-
-                }
-
-
+        // this saves the entry into our database ==> https://mongoosejs.com/docs/models.html#compiling
+        user.save(err => {
+            if (err) return res.status(400).json({
+                msg: `Error Occured!!`
             });
+            else {
+                const token = jwt.sign({
+                    _id: user._id
+                }, process.env.secret, { expiresIn: '100h' }); // creates the token (ticket), 
+                res.status(200).cookie("token", token,
+                    {
+                        expires: new Date(Date.now() + 100 * 3600000) // cookie will be removed after 8 hours
+                    });
+                return res.status(200).json({
+                    user,
+                    msg: `is saved inside of the database.`
+                })
+            }
+        })
+
         // other information will be given later
         console.log(`kisike najar na lage`);
     }
@@ -100,23 +107,24 @@ exports.signIn = (req, res) => {
 
 exports.signOut = (req, res) => {
     res.clearCookie("token").status(200).json({
-        msg: `${JSON.stringify(req.body.user) } is signedout!!`
+        msg: `${JSON.stringify(req.body.user)} is signedout!!`
     });
 
 }
 
 exports.isSignedIn = (req, res, next) => {
+    console.log("building");
     next();
 }
 
 
 exports.isAdmin = (req, res, next) => {
-
+    console.log("building");
     next();
 }
 
 exports.isAuthenticated = (req, res, next) => {
-
+    console.log("building");
     next();
 }
 
