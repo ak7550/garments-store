@@ -11,7 +11,7 @@ router.get("/", (req, res) => res.send("You are in auth route"));
 //singin route
 router.post("/signUp",
     
-    check("name").isLength({ min: 5, max: 30 }).withMessage("Write your name in between 5 to 30").isAlpha().withMessage("Name should not contain any number"),
+    check("name").isLength({ min: 5, max: 30 }).withMessage("Write your name in between 5 to 30"),
     check("email")
         .isEmail().withMessage('Valid email is required'),
     check("password")
