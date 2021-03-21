@@ -37,6 +37,10 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    watchList: {
+        type: Array,
+        default: []
+    },
     accountCreated: {
         type: Date,
         default: Date.now
@@ -51,6 +55,9 @@ const UserSchema = new mongoose.Schema({
         maxLength: 100,
         default: ""
     },
+    friends: [{
+        type: mongoose.ObjectId, // this will accept or store the ids of user schema documents
+    }]
 }, {
     // The timestamps option tells mongoose to assign createdAt and updatedAt fields to your schema.The type assigned is Date. (docs)
     timestamps: true,
