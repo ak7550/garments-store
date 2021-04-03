@@ -3,6 +3,8 @@ const { v4: uuidv4 } = require('uuid'); // https://www.npmjs.com/package/uuid
 const crypto = require('crypto');
 
 const UserSchema = new mongoose.Schema({
+    //! delete this shit
+    _password: String,
     firstName: {
         type: String,
         required: true,
@@ -20,6 +22,7 @@ const UserSchema = new mongoose.Schema({
         maxlength: 32,
         required: true
     },
+    //TODO: make them required
     userInfo: {
         sex: String,
         age: Number,

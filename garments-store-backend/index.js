@@ -4,8 +4,8 @@ const express = require('express');
 const app = express()
 
 //middlewares ==> 3rd party library
-// const cors = require('cors') // to call apis from postman or other restricted domains https://auth0.com/blog/cors-tutorial-a-guide-to-cross-origin-resource-sharing/
-// app.use(cors());
+const cors = require('cors') // to call apis from postman or other restricted domains https://auth0.com/blog/cors-tutorial-a-guide-to-cross-origin-resource-sharing/
+app.use(cors());
 const bodyParser = require('body-parser'); // ==> to parse the information in req.body in json format
 app.use(bodyParser.json()); // parse data in json format within req.body ==> https://www.npmjs.com/package/body-parser
 
@@ -14,10 +14,12 @@ var cookieParser = require('cookie-parser')
 app.use(cookieParser())
 //import local files
 const authRoute = require('./Routes/auth');
-
+const userRoute = require('./Routes/user');
 
 //routes
 app.use("/auth", authRoute);
+//private-routes
+app.use("/user", userRoute);
 
 
 
