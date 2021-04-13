@@ -1,6 +1,6 @@
 const express = require('express');
 const { isSignedIn, isAuthenticated, isAdmin } = require('../Controllers/auth');
-const { getUserById, getUser, updateUser, deleteUser, deleteAllUser } = require('../Controllers/user');
+const { getUserById, getUser, updateUser, deleteUser, deleteAllUser, getAllUser } = require('../Controllers/user');
 const router = express.Router();
 
 // http://expressjs.com/en/5x/api.html#app.param
@@ -20,6 +20,6 @@ router.get("/:userId/checkSignedIn", isSignedIn, isAuthenticated, (req, res) => 
 
 //! this bitch will destroy your life, make it highly highly protected
 //* THE MOST EVIL API
-router.get("/:userId/deleteAllUser", isSignedIn, isAuthenticated, isAdmin, deleteAllUser);
-
+router.get("/:userId/deleteAllUser", isSignedIn, isAuthenticated, isAdmin, deleteAllUser); //done
+router.get("/:userId/getAllUser", isSignedIn, isAuthenticated, isAdmin, getAllUser); // done
 module.exports = router;

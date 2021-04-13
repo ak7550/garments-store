@@ -1,6 +1,7 @@
 const User = require("../Models/user")
 
 // testing done
+// http://expressjs.com/en/api.html#app.param
 exports.getUserById = (req, res, next, id) => {
     User.findById(id).exec((err, user) => {
         if (err || !user) {
@@ -100,4 +101,11 @@ exports.deleteAllUser = (req, res) => {
             })
         }
     });
+}
+
+exports.getAllUser = (req, res) => {
+    User.find((err, users) => {
+        if (err) return res.status(400).json(err);
+        else return res.status(200).json(users);
+    })
 }

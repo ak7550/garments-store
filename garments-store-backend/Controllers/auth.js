@@ -9,7 +9,7 @@ const User = require('../Models/user');
 exports.signUp = (req, res) => {
     const errs = validationResult(req); // ==> https://express-validator.github.io/docs/running-imperatively.html
     // res.send(req.body);
-    console.log(`validation result: ${JSON.stringify(errs)}`);
+    console.log(`\n\n\n\n\nvalidation result: ${JSON.stringify(errs)}`);
     // https://express-validator.github.io/docs/validation-chain-api.html
     if (!errs.isEmpty()) {
         res.status(400).json({
@@ -44,6 +44,7 @@ exports.signUp = (req, res) => {
             if (err) return res.status(400).json({
                 msg: `Error Occured!!`
             });
+            
             else {
                 const token = jwt.sign({
                     _id: user._id
@@ -53,6 +54,7 @@ exports.signUp = (req, res) => {
                         expires: new Date(Date.now() + 100 * 3600000) // cookie will be removed after 8 hours
                     });
                 return res.status(200).json({
+                    token,
                     user,
                     msg: `is saved inside of the database.`
                 })
@@ -87,7 +89,7 @@ exports.signIn = (req, res) => {
                 return res.status(400).json({
                     msg: `db error`.toUpperCase()
                 })
-            // nay problem, return with error msg
+            // any problem, return with error msg
 
 
             // now we got the user, check if the passwrd is same and give entry
@@ -164,9 +166,9 @@ exports.isAuthenticated = (req, res, next) => {
     // By default, the decoded token is attached to req.user ==> https://www.npmjs.com/package/express-jwt
     const { userProfileInfo, user } = req // object destructuring
     // userProfileInfo says the user is signedIn in, user says that the user is signedIn in his own account adan trying to get the protected route of his own account.
-    const check = user && userProfileInfo && user._id == userProfileInfo._id;
-    if (!check) {
-        return res.status(403).json({
+    conscheck) {
+        returt check = user && userProfileInfo && user._id == userProfileInfo._id;
+    if (!n res.status(403).json({
             userProfileInfo,
             user,
             msg: `both are not same`
