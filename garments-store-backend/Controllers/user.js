@@ -5,7 +5,7 @@ const User = require("../Models/user")
 exports.getUserById = (req, res, next, id) => {
     User.findById(id).exec((err, user) => {
         if (err || !user) {
-            console.log(`User not found in db`);
+            console.log(`User not found in db\n Error is: ${err}`);
             // return so i don't want to proceed further the api call as an error has already occured.
             return res.status(400).json({
                 msg: `${user} not found in db`
@@ -13,7 +13,7 @@ exports.getUserById = (req, res, next, id) => {
         } else {
             console.log(`User found in db`);
             req.userProfileInfo = user; // parsing a new section into the req json obj
-            next(); // calling next over here, cause i don't want to proceed the api call further if there's any error occurs in fi statement
+            next(); // calling next over here, cause i don't want to proceed the api call further if there's any error occurs in if statement
         }
     })
 }
@@ -31,6 +31,7 @@ exports.getUser = (req, res) => {
 // https://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate
 // testing done
 exports.updateUser = (req, res) => {
+    // TODO: add the process of updating profile picture
     User.findByIdAndUpdate(req.userProfileInfo._id,
         {
             // what are the new values, you wanna set/update
@@ -54,7 +55,7 @@ exports.updateUser = (req, res) => {
                 user,
                 msg: ` is the updated info.`
             });
-            console.log(`Changed profile is: ${user}`);
+            console.log(`Changed profile is: ${user}`); 
         });
 }
 

@@ -7,6 +7,7 @@ const User = require('../Models/user');
 
 // signUp testing done
 exports.signUp = (req, res) => {
+    // TODO: add the process of uploading profile picture
     const errs = validationResult(req); // ==> https://express-validator.github.io/docs/running-imperatively.html
     // res.send(req.body);
     console.log(`\n\n\n\n\nvalidation result: ${JSON.stringify(errs)}`);
@@ -162,18 +163,18 @@ exports.isAdmin = (req, res, next) => {
 // testing done
 exports.isAuthenticated = (req, res, next) => {
     console.log(`reached to isAuthenticated middle ware`);
-    // userProfileInfo i parsed into req in params method
+    // userProfileInfo is parsed into req in params method
     // By default, the decoded token is attached to req.user ==> https://www.npmjs.com/package/express-jwt
     const { userProfileInfo, user } = req // object destructuring
     // userProfileInfo says the user is signedIn in, user says that the user is signedIn in his own account adan trying to get the protected route of his own account.
-    conscheck) {
-        returt check = user && userProfileInfo && user._id == userProfileInfo._id;
-    if (!n res.status(403).json({
+    const check = user && userProfileInfo && user._id == userProfileInfo._id;
+    if (!check)
+     return res.status(403).json({
             userProfileInfo,
             user,
             msg: `both are not same`
-        })
-    } else {
+        });
+    else {
         // this will go long, as everything is ok, so we won't return......return will go back to the caller of the api
         console.log(`it's now authenticated.\nwork is done in isAuthenticated middle ware`);
         // you can't add multiple response to the response, it should get attach at the end, when it's ready to go back to the client

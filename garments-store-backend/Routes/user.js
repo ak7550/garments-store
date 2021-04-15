@@ -5,7 +5,7 @@ const router = express.Router();
 
 // http://expressjs.com/en/5x/api.html#app.param
 router.param("userId", getUserById);
-router.get("/:userId", isSignedIn, isAuthenticated, isAdmin, getUser); // done
+router.get("/:userId", isSignedIn, isAuthenticated, getUser); // done
 router.put("/:userId", isSignedIn, isAuthenticated, updateUser); 
 router.delete("/:userId", isSignedIn, isAuthenticated, deleteUser);
 router.get("/", (req, res) => res.send(`in user route`));
