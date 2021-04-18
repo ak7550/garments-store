@@ -58,7 +58,11 @@ const UserSchema = new mongoose.Schema({
         maxLength: 100,
         default: ""
     },
-    friends: [{
+    followers: [{
+        type: mongoose.ObjectId, // this will accept or store the ids of user schema documents
+        ref: "User"
+    }],
+    followings: [{
         type: mongoose.ObjectId, // this will accept or store the ids of user schema documents
         ref: "User"
     }],
