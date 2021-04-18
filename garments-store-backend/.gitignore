@@ -25,3 +25,24 @@ yarn-error.log*
 
 Screenshot (1).png
 mongo.exe - Shortcut.lnk
+
+
+
+
+
+
+
+
+
+
+important shortcuts:
+
+Ctrl+Shift+] ==> Unfold (uncollapse) region
+
+Ctrl+K, then Ctrl+[ ==> Fold (collapse) all subregions
+
+Ctrl+K, then Ctrl+] ==> Unfold (uncollapse) all subregions
+
+Ctrl+K, then Ctrl+0 ==> Fold (collapse) all regions
+
+Ctrl+K, then Ctrl+J ==> Unfold (uncollapse) all regions

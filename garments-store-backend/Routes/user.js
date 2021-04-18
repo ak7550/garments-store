@@ -1,15 +1,17 @@
 const express = require('express');
 const { isSignedIn, isAuthenticated, isAdmin } = require('../Controllers/auth');
-const { getUserById, getUser, updateUser, deleteUser, deleteAllUser } = require('../Controllers/user');
+const { getUserById, getUser, updateUser, deleteUser, deleteAllUser, getAllUser, uploadProfilePic, getProfilePic, deleteProfilePic } = require('../Controllers/user');
 const router = express.Router();
 
 // http://expressjs.com/en/5x/api.html#app.param
 router.param("userId", getUserById);
-router.get("/:userId", isSignedIn, isAuthenticated, isAdmin, getUser); // done
+router.get("/:userId", isSignedIn, isAuthenticated, getUser); // done
 router.put("/:userId", isSignedIn, isAuthenticated, updateUser); 
 router.delete("/:userId", isSignedIn, isAuthenticated, deleteUser);
-router.get("/", (req, res) => res.send(`in user route`));
-
+router.get("/:userId/getAllUser", isSignedIn, isAuthenticated, getAllUser); // done
+router.post("/:userId/profilePic", isSignedIn, isAuthenticated, uploadProfilePic);
+router.get("/:userId/profilePic", isSignedIn, isAuthenticated, getProfilePic);
+router.delete("/:userId/profilePic", isSignedIn, isAuthenticated, deleteProfilePic);
 
 //testing route
 router.get("/:userId/checkSignedIn", isSignedIn, isAuthenticated, (req, res) => res.status(200).json({
@@ -18,8 +20,7 @@ router.get("/:userId/checkSignedIn", isSignedIn, isAuthenticated, (req, res) => 
 }));
 
 
-//! this bitch will destroy your life, make it highly highly protected
+//! this will destroy your life, make it highly highly protected
 //* THE MOST EVIL API
-router.get("/:userId/deleteAllUser", isSignedIn, isAuthenticated, isAdmin, deleteAllUser);
-
+router.get("/:userId/deleteAllUser", isSignedIn, isAuthenticated, isAdmin, deleteAllUser); //done
 module.exports = router;

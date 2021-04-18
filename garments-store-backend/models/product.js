@@ -1,42 +1,89 @@
 const mongoose = require('mongoose');
+const { getString, getSize } = require("../Controllers/random");
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
         trim: true,
-        required: true,
-        maxlength: 32
+        maxlength: 32,
+        default: function () {
+            getString(32); //! check it working properly or not
+        },
     },
     description: {
         type: String,
         trim: true,
-        required: true,
+        default: function () {
+            getString(200); //! check it working properly or not
+        },
         maxlength: 2000
     },
-    price: {
-        type: Number,
-        required: true,
-        maxlength: 32,
-        trim: true
-    },
+
     category: {
         type: mongoose.ObjectId, // https://mongoosejs.com/docs/api/schematype.html#schematype_SchemaType-ref
         //always mention from where the object id has come from
         ref: "Category",
-        required: true
+        required: true //_ required
     },
-    stockAvailable: Number,
-    soldOut: {
-        type: Boolean,
-        default: true,
-    },
-    photo: {
+    photos: [{
         data: Buffer,
         contentType: String
-    },
-    size: String
+    }],
+    imageLinks: [String],
+    sizes: [{
+        size: {
+           type: String,
+            default: getSize, //! check
+        },
+        price: {
+            type: Number, default: 1000,
+        },
+        stockCount: {
+            type: Number, default: 2, //TODO: make a method to increase and decrease the stockCount values using api calls.
+        },
+        soldOut: {
+            type: Boolean,
+            default: true,
+        }
+    }],
+    reviews: [{
+        user: {
+            // type: mongoose.ObjectId,
+            // ref: "User",
+            // required: true, //_ required
+            //*TESTING
+            type: String,
+            default: function () {
+                getString(64); //! check it working properly or not
+            }, // for testing we are just taking a random username of 10 words
+        },
+        description: {
+            type: String,
+            maxlength: 200,
+            default: function () {
+                getString(200); //! check it working properly or not
+            },
+        }
+    }],
+
 }, {
     timestamps: true
 });
+
+//! schema methods
+productSchema.virtual("price").get(function () {
+    const priceArr = Array.from(this.sizes, function (x) { return x.price; }); //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+    return Math.min(...priceArr); //https://www.codespeedy.com/get-maximum-and-minimum-value-from-a-javascript-array/
+}).set(function (pr) {
+    this.sizes.forEach(function (val, index) { val.price = !!val.price ? val.price : pr });
+});
+
+// it will increase or decrease the count of the product
+productSchema.methods.improveStockCount = function (s, count) {
+    const size = this.sizes.find(function (x) { return s.localeCompare(x.size) === 0; });
+    size.stockCount = size.stockCount < 0 ? 0 : size.stockCount;
+    size.stockCount += count;
+    size.soldOut = size.stockCount <= 0 ? true : false;
+ }
 
 module.exports = mongoose.model("Product", productSchema);
 
