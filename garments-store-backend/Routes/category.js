@@ -9,7 +9,7 @@ router.param("categoryId", getCategoryById);
 
 // get categories
 router.get("/:categoryId", getCategory); //testing done
-router.get("/allCategories", getAllCategories); //! BITCH
+router.get("/allCategories", getAllCategories); //! NOT WORKING
 
 //create
 router.post("/:userId/createCategory", isSignedIn, isAuthenticated, isAdmin, createCategory); // testing done

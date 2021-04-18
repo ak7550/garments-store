@@ -76,6 +76,3 @@ exports.deleteCategory = (req, res) => {
         });
     });
 }
-exports.getProductsFromSameCategory = (req, res) => {
-    
-}

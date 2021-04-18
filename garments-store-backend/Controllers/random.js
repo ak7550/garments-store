@@ -10,3 +10,5 @@ exports.getString = (length, characters = (smallletters + capitalLetters + numbe
     }
     return result;
 }
+
+exports.getSize = (arr = ["M", "S", "L", "XL", "XXL"]) => arr[Math.floor(Math.random() * arr.length)];
