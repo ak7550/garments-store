@@ -120,7 +120,7 @@ exports.getAllUser = (req, res) => {
 exports.uploadProfilePic = (req, res) => {
     const form = formidable({
         keepExtensions: true,
-        maxFileSize: 200*1024, //200 kb
+        maxFileSize: 200 * 1024, //200 kb
     });
     form.parse(req, (err, field, file) => {
         if (err) return res.status(400).json(err);
@@ -142,4 +142,86 @@ exports.deleteProfilePic = (req, res) => {
     const { userProfileInfo } = req;
     userProfileInfo.profilePicture = undefined; // delete
     userProfileInfo.save(err => err ? res.status(400).json(err) : res.status(200).json(userProfileInfo));
+}
+
+//_ working fine
+exports.addFollowing = (req, res) => {
+    const follower = req.userProfileInfo, personToBeFollwedId = req.body.id;
+    let personToBeFollwed = undefined;
+    User.findById(personToBeFollwedId, (err, user) => {
+        if (err) return res.status(400).json(err);
+        else {
+            personToBeFollwed = user;
+            console.log(`\n\n\npersontobefollowed: ${JSON.stringify(personToBeFollwed)}\n\n\n`);
+            const followingArr = follower.followings;
+            // if followingArr already contains the id of personToBeFollowed, that means he's already following the person, in that case we don't need to follow him again.
+
+            console.log(`followingArr is: ${followingArr}\npersonToBeFollowedId is: ${personToBeFollwedId}\nThe personTobeFollowed object is: ${JSON.stringify(personToBeFollwed)}`);
+            const check = followingArr.find(x => x == personToBeFollwedId);
+            console.log(`check: ${check}`);
+            if (check)
+                return res.status(400).json({
+                    msg: `${follower.firstName} is already following ${personToBeFollwed.firstName}`
+                });
+            else {
+                console.log(`\n\n\npersontobefollowed: ${JSON.stringify(personToBeFollwed)}\n\n\n`);
+                followingArr.push(personToBeFollwedId);
+                const followerArr = personToBeFollwed.followers;
+                console.log(`\n\n\nfollower arr is: ${followerArr}`);
+                followerArr.push(follower);
+                follower.save(err => {
+                    if (err)
+                        return res.status(400).json(err);
+                });
+                personToBeFollwed.save(err => {
+                    if (err)
+                        return res.status(400).json(err);
+                });
+                return res.status(200).json({
+                    msg: `${follower.firstName} is now a follower of ${personToBeFollwed.firstName}`
+                });
+            }
+        }
+    });
+}
+
+//_ working fine
+exports.removeFollowing = (req, res) => {
+    const follower = req.userProfileInfo, personToRemoveFollowId = req.body.id;
+    let personToRemoveFollow = undefined;
+    User.findById(personToRemoveFollowId, (err, user) => {
+        if (err) return res.status(400).json(err);
+        else {
+            personToRemoveFollow = user;
+
+
+            let followingArr = follower.followings;
+
+            //considering only those elements which are not equals to personToBeFollowedId
+            followingArr = followingArr.filter(x => x != personToRemoveFollowId); //shallow copy
+            follower.followings = followingArr; //update
+
+            let followerArr = personToRemoveFollow.followers;
+
+            //considering only those elements which are not equals to follower._id
+            followerArr = followerArr.filter(x => x != follower._id); //shallow copy
+            personToRemoveFollow.followers = follower; //update
+
+            //finally save into db
+            follower.save(err => {
+                if (err)
+                    return res.status(400).json(err);
+            });
+
+            personToRemoveFollow.save(err => {
+                if (err)
+                    return res.status(400).json(err);
+            });
+
+            return res.status(200).json({
+                msg: `${follower.firstName} is not following to ${personToRemoveFollow.firstName}`
+            });
+
+        }
+    });
 }

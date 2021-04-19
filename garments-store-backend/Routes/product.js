@@ -1,9 +1,10 @@
 const express = require('express');
 const { isSignedIn, isAdmin, isAuthenticated } = require('../Controllers/auth');
-const { getProductById, getProduct, updateProduct, deleteProduct, getAllProducts, createProduct, updateStockCount, getProductsFromSameCategory } = require('../Controllers/product');
+const { getProductById, getProduct, updateProduct, deleteProduct, getAllProducts, createProduct, updateStockCount, getProductsFromSameCategory, addToWatchList, removeFromWatchList } = require('../Controllers/product');
 const { getUserById } = require('../Controllers/user');
 const router = express.Router();
 
+//middlewares
 router.param("productId", getProductById); // code written
 router.param("userId", getUserById); // code written
 
@@ -18,5 +19,7 @@ router.post("/:userId/createProduct", isSignedIn, isAuthenticated, isAdmin, crea
 router.put("/:userId/:productId", isSignedIn, isAuthenticated, isAdmin, updateProduct); // code written
 router.delete("/:userId/:productId", isSignedIn, isAuthenticated, isAdmin, deleteProduct); // code written
 router.post("/:userId/:productId/updateStockCount", isSignedIn, isAuthenticated, updateStockCount); // code written
+router.put("/:userId/:productId/addToWatchList", isSignedIn, isAuthenticated, addToWatchList);
+router.put("/:userId/:productId/removeFromWatchList", isSignedIn, isAuthenticated, removeFromWatchList);
 
 module.exports = router;

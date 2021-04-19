@@ -91,3 +91,31 @@ exports.getProductsFromSameCategory = (req, res) => {
         else res.status(200).json(allProducts);
     });
 }
+
+
+// _working fine
+exports.addToWatchList = (req, res) => {
+    const { userProfileInfo: user, product } = req; // object destructing
+    const searchedProduct = user.watchList.find(x => x == product._id);
+    // if searchedProduct is undefined then,
+    if (!searchedProduct) {
+        user.watchList.push(product._id); // added to watchList
+        user.save(err => {
+            if (err) return res.status(400).json({ msg: `not possible to add new product` });
+        });
+        return res.status(200).json({ msg: `${product.name} is added into ${user.fullName}'s watchList` });
+    }
+    else
+        return res.status(400).json({ msg: `${searchedProduct} is already present in ${user.fullName}'s watchList` });
+}
+
+// _working fine
+exports.removeFromWatchList = (req, res) => {
+    const { userProfileInfo: user, product } = req; // object destructing
+    const remainingWatchList = user.watchList.filter(x => x != product._id);
+    user.watchList = remainingWatchList; // update
+    user.save(err => {
+        if (err) return res.status(400).json({ msg: `not possible to remove new product` });
+    });
+    return res.status(200).json({ msg: `${product.name} has been removed from ${user.fullName}'s watchList` });
+}
