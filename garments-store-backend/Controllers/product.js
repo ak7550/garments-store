@@ -1,6 +1,5 @@
 const Product = require("../models/product");
 const Category = require("../models/category");
-const { populate } = require("../models/product");
 
 // _working fine
 exports.createProduct = (req, res) => {
@@ -90,4 +89,36 @@ exports.getProductsFromSameCategory = (req, res) => {
         if (err) return res.status(400).json(err);
         else res.status(200).json(allProducts);
     });
+}
+
+//!check
+exports.addReview = (req, res) => {
+    const { userProfileInfo: user, product } = req;
+    const userIndex = product.reviews.findIndex(obj =>
+        obj.user._id == user._id);
+    userIndex ? product.reviews[userIndex] = {
+        user, description: req.body.description,
+    } : product.reviews.push({
+        user,
+        description: req.body.description,
+    });
+    // review updated.
+    product.save(err => {
+        if (err) return res.status(400).json(err);
+    });
+    return res.status(200).json({
+        msg: `${req.body.description} review is added`
+    });
+}
+//!check
+exports.deleteReview = (req, res) => {
+    const { userProfileInfo: user, product } = req;
+    const remainingReviews = product.reviews.filter(obj => obj.user._id != user._id);
+    product.reviews = remainingReviews; //update
+    product.save(err => {
+        if (err) return res.status(400).json(err);
+    });
+    return res.status(200).json({
+        msg: `review is deleted`
+    })
 }

@@ -47,14 +47,9 @@ const productSchema = new mongoose.Schema({
     }],
     reviews: [{
         user: {
-            // type: mongoose.ObjectId,
-            // ref: "User",
-            // required: true, //_ required
-            //*TESTING
-            type: String,
-            default: function () {
-                getString(64); //! check it working properly or not
-            }, // for testing we are just taking a random username of 10 words
+            type: mongoose.ObjectId,
+            ref: "User",
+            required: true, //_ required
         },
         description: {
             type: String,
