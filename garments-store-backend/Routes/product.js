@@ -4,6 +4,7 @@ const { getProductById, getProduct, updateProduct, deleteProduct, getAllProducts
 const { getUserById } = require('../Controllers/user');
 const router = express.Router();
 
+//middlewares
 router.param("productId", getProductById); // code written
 router.param("userId", getUserById); // code written
 
@@ -20,5 +21,7 @@ router.delete("/:userId/:productId", isSignedIn, isAuthenticated, isAdmin, delet
 router.post("/:userId/:productId/updateStockCount", isSignedIn, isAuthenticated, updateStockCount); // code written
 router.put("/:userId/:productId/review", isSignedIn, isAuthenticated, addReview);
 router.delete("/:userId/:productId/review", isSignedIn, isAuthenticated, deleteReview);
+router.put("/:userId/:productId/addToWatchList", isSignedIn, isAuthenticated, addToWatchList);
+router.put("/:userId/:productId/removeFromWatchList", isSignedIn, isAuthenticated, removeFromWatchList);
 
 module.exports = router;
