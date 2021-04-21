@@ -51,7 +51,7 @@ exports.updateProduct = (req, res) => {
     });
 }
 
-//! not working
+//! bug
 exports.getAllProducts = (req, res) => Product.find((err, allProducts) => err ? res.status(400).json(err) : res.status(200).json(allProducts));
 
 
@@ -102,7 +102,6 @@ exports.addReview = (req, res) => {
     const { userProfileInfo, product } = req;
     //search into the reviews.
     const userIndex = product.reviews.findIndex(obj => obj.user._id == userProfileInfo._id); //! not working
-
     console.log(`userIndex: ${userIndex}`);
     if (userIndex == -1)
         product.reviews.push({
