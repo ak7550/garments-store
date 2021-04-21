@@ -1,6 +1,6 @@
 const express = require('express');
 const { isSignedIn, isAuthenticated, isAdmin } = require('../Controllers/auth');
-const { getUserById, getUser, updateUser, deleteUser, deleteAllUser, getAllUser, uploadProfilePic, getProfilePic, deleteProfilePic, addFollowing } = require('../Controllers/user');
+const { getUserById, getUser, updateUser, deleteUser, deleteAllUser, getAllUser, uploadProfilePic, getProfilePic, deleteProfilePic, addFollowing, removeFollowing } = require('../Controllers/user');
 const router = express.Router();
 
 // http://expressjs.com/en/5x/api.html#app.param
@@ -13,6 +13,7 @@ router.post("/:userId/profilePic", isSignedIn, isAuthenticated, uploadProfilePic
 router.get("/:userId/profilePic", isSignedIn, isAuthenticated, getProfilePic);
 router.delete("/:userId/profilePic", isSignedIn, isAuthenticated, deleteProfilePic);
 router.post("/:userId/addFollowing", isSignedIn, isAuthenticated, addFollowing);
+router.post("/:userId/removeFollowing", isSignedIn, isAuthenticated, removeFollowing);
 
 //testing route
 router.get("/:userId/checkSignedIn", isSignedIn, isAuthenticated, (req, res) => res.status(200).json({

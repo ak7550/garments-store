@@ -22,7 +22,7 @@ router.put("/:userId/:productId/stockCount", isSignedIn, isAuthenticated, isAdmi
 router.delete("/:userId/:productId/stockCount", isSignedIn, isAuthenticated, isAdmin, makeCountNegative, updateStockCount);
 
 //public routes
-router.put("/:userId/:productId/review", isSignedIn, isAuthenticated, addReview);
+router.put("/:userId/:productId/review", isSignedIn, isAuthenticated, addReview);  //!problem
 router.delete("/:userId/:productId/review", isSignedIn, isAuthenticated, deleteReview);
 router.put("/:userId/:productId/watchList", isSignedIn, isAuthenticated, addToWatchList);
 router.delete("/:userId/:productId/watchList", isSignedIn, isAuthenticated, removeFromWatchList);

@@ -27,7 +27,7 @@ const productSchema = new mongoose.Schema({
     imageLinks: [String],
     sizes: [{
         size: {
-           type: String,
+            type: String,
             default: "S",
             enum: ["S", "M", "L", "XL", "XXL"],
         },
@@ -42,16 +42,18 @@ const productSchema = new mongoose.Schema({
             default: true,
         }
     }],
+
     reviews: [{
         user: {
             type: mongoose.ObjectId,
             ref: "User",
-            required: true, //_ required
+            required: true,
         },
         description: {
             type: String,
             maxlength: 200,
             default: () => getString(200),
+
         }
     }],
 
@@ -73,7 +75,7 @@ productSchema.methods.improveStockCount = function (s, count) {
     size.stockCount = size.stockCount < 0 ? 0 : size.stockCount;
     size.stockCount += count;
     size.soldOut = size.stockCount <= 0 ? true : false;
- }
+}
 
 module.exports = mongoose.model("Product", productSchema);
 

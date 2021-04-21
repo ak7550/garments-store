@@ -58,7 +58,7 @@ exports.getAllProducts = (req, res) => Product.find((err, allProducts) => err ? 
 // https://mongoosejs.com/docs/populate.html ==> docs mongoose populate, a method to populate the ref of other schemma
 // _working fine
 exports.getProductById = (req, res, next, id) => {
-    Product.findById(id).populate('category').populate('user').exec((err, pro) => {
+    Product.findById(id).populate('category').exec((err, pro) => {
         if (err) return res.status(400).json(err);
         else {
             req.product = pro;
@@ -91,32 +91,36 @@ exports.getProductsFromSameCategory = (req, res) => {
     });
 }
 
-//!check
+//!check ==> small bug
 exports.addReview = (req, res) => {
-    const { userProfileInfo: user, product } = req;
-    const userIndex = product.reviews.findIndex(obj =>
-        obj.user == user._id);
-    console.log(`userIndex is: ${userIndex}`);
-    userIndex >= 0 ? product.reviews[userIndex] = {
-        user,
-        description: req.body.description,
-    } : product.reviews.push({
-        user,
-        description: req.body.description,
-    });
-    // review updated.
-    console.log(`newArr: ${JSON.stringify(product.reviews)}`);
+    const { userProfileInfo, product } = req;
+    //search into the reviews.
+    const userIndex = product.reviews.findIndex(obj => obj.user == userProfileInfo._id); //! not working
+
+    console.log(`userIndex: ${userIndex}`); 
+    if (userIndex == -1)
+        product.reviews.push({
+            user: userProfileInfo._id,
+            description: req.body.description,
+        });
+    else
+        product.reviews[userIndex].description = req.body.description;
+
     product.save(err => {
         if (err) return res.status(400).json(err);
     });
     return res.status(200).json({
-        msg: `${req.body.description} review is added`
+        msg: `${req.body.description} review is added`,
+        product
     });
 }
-//!check
+
+//_ so basiclly anyone can add as many reviews as he wants but can't delete them. ==> bug
+
+//!check ==> not working
 exports.deleteReview = (req, res) => {
     const { userProfileInfo: user, product } = req;
-    const remainingReviews = product.reviews.filter(obj => obj.user._id != user._id);
+    const remainingReviews = product.reviews.filter(obj => obj.user != user._id); //! not wroking
     product.reviews = remainingReviews; //update
     product.save(err => {
         if (err) return res.status(400).json(err);
@@ -153,7 +157,6 @@ exports.removeFromWatchList = (req, res) => {
 }
 
 
-//!check
 exports.makeCountNegative = (req, res, next) => {
     req.body.count = req.body.count > 0 ? req.body.count * -1 : req.body.count;
     next();
@@ -161,7 +164,7 @@ exports.makeCountNegative = (req, res, next) => {
 
 exports.addToCart = (req, res) => {
     const { userProfileInfo: user, product } = req;
-
+    
 }
 exports.removeFromCart = (req, res) => {
 
