@@ -1,6 +1,6 @@
 const express = require('express');
 const { isSignedIn, isAdmin, isAuthenticated } = require('../Controllers/auth');
-const { getProductById, getProduct, updateProduct, deleteProduct, getAllProducts, createProduct, updateStockCount, getProductsFromSameCategory, addReview, deleteReview } = require('../Controllers/product');
+const { getProductById, getProduct, updateProduct, deleteProduct, getAllProducts, createProduct, updateStockCount, getProductsFromSameCategory, addReview, deleteReview, addToWatchList, removeFromWatchList } = require('../Controllers/product');
 const { getUserById } = require('../Controllers/user');
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.delete("/:userId/:productId", isSignedIn, isAuthenticated, isAdmin, delet
 router.post("/:userId/:productId/updateStockCount", isSignedIn, isAuthenticated, updateStockCount); // code written
 router.put("/:userId/:productId/review", isSignedIn, isAuthenticated, addReview);
 router.delete("/:userId/:productId/review", isSignedIn, isAuthenticated, deleteReview);
-router.put("/:userId/:productId/addToWatchList", isSignedIn, isAuthenticated, addToWatchList);
-router.put("/:userId/:productId/removeFromWatchList", isSignedIn, isAuthenticated, removeFromWatchList);
+router.put("/:userId/:productId/watchList", isSignedIn, isAuthenticated, addToWatchList);
+router.delete("/:userId/:productId/watchList", isSignedIn, isAuthenticated, removeFromWatchList);
 
 module.exports = router;
