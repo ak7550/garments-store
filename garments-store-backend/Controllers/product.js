@@ -58,13 +58,19 @@ exports.getAllProducts = (req, res) => Product.find((err, allProducts) => err ? 
 // https://mongoosejs.com/docs/populate.html ==> docs mongoose populate, a method to populate the ref of other schemma
 // _working fine
 exports.getProductById = (req, res, next, id) => {
-    Product.findById(id).populate('category').exec((err, pro) => {
-        if (err) return res.status(400).json(err);
-        else {
-            req.product = pro;
-            next();
-        }
-    });
+    Product.findById(id)
+        .populate('category')
+        .populate({
+            path: "reviews",
+            select: "user",
+        })
+        .exec((err, pro) => {
+            if (err) return res.status(400).json(err);
+            else {
+                req.product = pro;
+                next();
+            }
+        });
 }
 
 // _working fine
@@ -95,9 +101,9 @@ exports.getProductsFromSameCategory = (req, res) => {
 exports.addReview = (req, res) => {
     const { userProfileInfo, product } = req;
     //search into the reviews.
-    const userIndex = product.reviews.findIndex(obj => obj.user == userProfileInfo._id); //! not working
+    const userIndex = product.reviews.findIndex(obj => obj.user._id == userProfileInfo._id); //! not working
 
-    console.log(`userIndex: ${userIndex}`); 
+    console.log(`userIndex: ${userIndex}`);
     if (userIndex == -1)
         product.reviews.push({
             user: userProfileInfo._id,
@@ -127,7 +133,7 @@ exports.deleteReview = (req, res) => {
     });
     return res.status(200).json({
         msg: `review is deleted`
-    })
+    });
 }
 
 exports.addToWatchList = (req, res) => {
@@ -164,7 +170,7 @@ exports.makeCountNegative = (req, res, next) => {
 
 exports.addToCart = (req, res) => {
     const { userProfileInfo: user, product } = req;
-    
+
 }
 exports.removeFromCart = (req, res) => {
 

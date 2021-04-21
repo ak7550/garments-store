@@ -24,13 +24,13 @@ exports.getUserById = (req, res, next, id) => {
 }
 
 // testing done
-exports.getUser = (req, res) => {
+exports.getUser = (req, res) =>
     // TODO: remove the passwords and other necessry details.
-    return res.status(200).json({
+    res.status(200).json({
         userProfileInfo: req.userProfileInfo,
         msg: `user is sent`
     });
-}
+
 
 
 // https://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate
