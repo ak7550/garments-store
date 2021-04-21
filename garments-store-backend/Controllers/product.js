@@ -97,7 +97,7 @@ exports.getProductsFromSameCategory = (req, res) => {
     });
 }
 
-//!check ==> small bug
+//!bug
 exports.addReview = (req, res) => {
     const { userProfileInfo, product } = req;
     //search into the reviews.
@@ -121,9 +121,7 @@ exports.addReview = (req, res) => {
     });
 }
 
-//_ so basiclly anyone can add as many reviews as he wants but can't delete them. ==> bug
-
-//!check ==> not working
+//! bug
 exports.deleteReview = (req, res) => {
     const { userProfileInfo: user, product } = req;
     const remainingReviews = product.reviews.filter(obj => obj.user != user._id); //! not wroking
@@ -136,9 +134,10 @@ exports.deleteReview = (req, res) => {
     });
 }
 
+//! bug
 exports.addToWatchList = (req, res) => {
     const { userProfileInfo: user, product } = req; // object destructing
-    const searchedProduct = user.watchList.find(x => x == product._id);
+    const searchedProduct = user.watchList.find(x => x == product._id); //! same problem
     // if searchedProduct is undefined then,
     if (!searchedProduct) {
         user.watchList.push(product._id); // added to watchList
@@ -151,10 +150,10 @@ exports.addToWatchList = (req, res) => {
         return res.status(400).json({ msg: `${searchedProduct} is already present in ${user.fullName}'s watchList` });
 }
 
-// _working fine
+//! bug
 exports.removeFromWatchList = (req, res) => {
     const { userProfileInfo: user, product } = req; // object destructing
-    const remainingWatchList = user.watchList.filter(x => x != product._id);
+    const remainingWatchList = user.watchList.filter(x => x != product._id); //! not working
     user.watchList = remainingWatchList; // update
     user.save(err => {
         if (err) return res.status(400).json({ msg: `not possible to remove new product` });
@@ -168,10 +167,14 @@ exports.makeCountNegative = (req, res, next) => {
     next();
 }
 
+
+//todo: haven't writen the code yet.
 exports.addToCart = (req, res) => {
     const { userProfileInfo: user, product } = req;
 
 }
+
+//todo: haven't writen the code yet.
 exports.removeFromCart = (req, res) => {
 
 }
