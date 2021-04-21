@@ -36,7 +36,7 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         default: 0 // specifies the normal buyer
     },
-    purchaseList: {
+    shoppingCart: {
         type: Array,
         default: []
     },

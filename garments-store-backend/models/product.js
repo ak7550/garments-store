@@ -5,16 +5,12 @@ const productSchema = new mongoose.Schema({
         type: String,
         trim: true,
         maxlength: 32,
-        default: function () {
-            getString(32); //! check it working properly or not
-        },
+        default: () => getString(32),
     },
     description: {
         type: String,
         trim: true,
-        default: function () {
-            getString(200); //! check it working properly or not
-        },
+        default: () => getString(2000),
         maxlength: 2000
     },
 
@@ -32,7 +28,8 @@ const productSchema = new mongoose.Schema({
     sizes: [{
         size: {
            type: String,
-            default: getSize, //! check
+            default: "S",
+            enum: ["S", "M", "L", "XL", "XXL"],
         },
         price: {
             type: Number, default: 1000,
@@ -54,9 +51,7 @@ const productSchema = new mongoose.Schema({
         description: {
             type: String,
             maxlength: 200,
-            default: function () {
-                getString(200); //! check it working properly or not
-            },
+            default: () => getString(200),
         }
     }],
 

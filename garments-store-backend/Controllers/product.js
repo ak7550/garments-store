@@ -58,7 +58,7 @@ exports.getAllProducts = (req, res) => Product.find((err, allProducts) => err ? 
 // https://mongoosejs.com/docs/populate.html ==> docs mongoose populate, a method to populate the ref of other schemma
 // _working fine
 exports.getProductById = (req, res, next, id) => {
-    Product.findById(id).populate('category').exec((err, pro) => {
+    Product.findById(id).populate('category').populate('user').exec((err, pro) => {
         if (err) return res.status(400).json(err);
         else {
             req.product = pro;
@@ -95,14 +95,17 @@ exports.getProductsFromSameCategory = (req, res) => {
 exports.addReview = (req, res) => {
     const { userProfileInfo: user, product } = req;
     const userIndex = product.reviews.findIndex(obj =>
-        obj.user._id == user._id);
-    userIndex ? product.reviews[userIndex] = {
-        user, description: req.body.description,
+        obj.user == user._id);
+    console.log(`userIndex is: ${userIndex}`);
+    userIndex >= 0 ? product.reviews[userIndex] = {
+        user,
+        description: req.body.description,
     } : product.reviews.push({
         user,
         description: req.body.description,
     });
     // review updated.
+    console.log(`newArr: ${JSON.stringify(product.reviews)}`);
     product.save(err => {
         if (err) return res.status(400).json(err);
     });
@@ -147,4 +150,19 @@ exports.removeFromWatchList = (req, res) => {
         if (err) return res.status(400).json({ msg: `not possible to remove new product` });
     });
     return res.status(200).json({ msg: `${product.name} has been removed from ${user.fullName}'s watchList` });
+}
+
+
+//!check
+exports.makeCountNegative = (req, res, next) => {
+    req.body.count = req.body.count > 0 ? req.body.count * -1 : req.body.count;
+    next();
+}
+
+exports.addToCart = (req, res) => {
+    const { userProfileInfo: user, product } = req;
+
+}
+exports.removeFromCart = (req, res) => {
+
 }
