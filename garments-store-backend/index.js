@@ -24,6 +24,7 @@ const userRoute = require('./Routes/user');
 const categoryRoute = require('./Routes/category');
 const productRoute = require('./Routes/product');
 const orderRoute = require('./Routes/order');
+const cartRoute = require('./Routes/cart');
 
 //routes
 app.use("/auth", authRoute);
@@ -31,6 +32,7 @@ app.use("/user", userRoute);
 app.use("/category", categoryRoute);
 app.use("/product/", productRoute);
 app.use("/order/", orderRoute);
+app.use("/cart/", cartRoute);
 
 
 // declaration of mongodb and create connection

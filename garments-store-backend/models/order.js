@@ -1,31 +1,16 @@
 const mongoose = require('mongoose');
-const ProductCartSchemma = mongoose.Schema({
-    productDetail: {
+const { getString } = require('../Controllers/random');
+const OrderSchema = new mongoose.Schema({
+    products: [{
         type: mongoose.ObjectId,
-        ref: "Product"
-    },
-    size: {
+        ref: "ProductCart",
+    }],
+    transactionId: mongoose.Mixed,
+    address: {
         type: String,
-        default: "S",
+        default: () => getString(20),
         required: true,
     },
-    quantity: {
-        type: Number,
-        default: 1,
-    },
-    costOfEachItem: {
-        type: Number,
-        default: 1000,
-    },
-    totalCost: () => this.costOfEachItem * this.quantity,
-});
-
-const ProductCart = mongoose.model("ProductCart", ProductCartSchemma);
-
-const OrderSchema = new mongoose.Schema({
-    products: [ProductCartSchemma],
-    transactionId: mongoose.Mixed,
-    address: String,
     user: {
         type: mongoose.ObjectId,
         ref: "User",
@@ -41,7 +26,7 @@ const OrderSchema = new mongoose.Schema({
     status: {
         type: String,
         default: "Processing",
-        enum: ["Processing", "Shipped", "Delivered", "Canceled"],
+        enum: ["Processing", "Shipped", "Delivered", "Cancelled"],
     }
 }, {
     timestamps: true
@@ -49,4 +34,4 @@ const OrderSchema = new mongoose.Schema({
 
 const Order = mongoose.model("Order", OrderSchema);
 
-module.exports = { ProductCart, Order };
+module.exports = Order;

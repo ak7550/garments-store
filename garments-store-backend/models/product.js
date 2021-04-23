@@ -29,10 +29,12 @@ const productSchema = new mongoose.Schema({
         size: {
             type: String,
             default: "S",
-            enum: ["S", "M", "L", "XL", "XXL"],
+            enum: ["S", "M", "L", "XL", "XXL"], //! not considering about any footwears at this point
+            unique: true,
         },
         price: {
-            type: Number, default: 1000,
+            type: Number,
+            default: 1000,
         },
         stockCount: {
             type: Number, default: 2, //TODO: make a method to increase and decrease the stockCount values using api calls.
@@ -40,7 +42,8 @@ const productSchema = new mongoose.Schema({
         soldOut: {
             type: Boolean,
             default: true,
-        }
+        },
+        // _id: false, // so it doesn't make any other object id for this internal object.
     }],
 
     reviews: [{
@@ -54,7 +57,8 @@ const productSchema = new mongoose.Schema({
             maxlength: 200,
             default: () => getString(200),
 
-        }
+        },
+        _id: false, // so it doesn't make any other object id for this internal object.
     }],
 
 }, {
@@ -70,12 +74,15 @@ productSchema.virtual("price").get(function () {
 });
 
 // it will increase or decrease the count of the product
-productSchema.methods.improveStockCount = function (s, count) {
+productSchema.methods.improveStockCount = function (s) {
     const size = this.sizes.find(function (x) { return s.localeCompare(x.size) === 0; });
     size.stockCount = size.stockCount < 0 ? 0 : size.stockCount;
     size.stockCount += count;
     size.soldOut = size.stockCount <= 0 ? true : false;
 }
-
+productSchema.methods.getQuantity = function (s) {
+    const sizeIndex = this.sizes.findIndex(function (x) { return s.localeCompare(x.size) === 0; });
+    return this.sizes[sizeIndex].stockCount;
+}
 module.exports = mongoose.model("Product", productSchema);
 

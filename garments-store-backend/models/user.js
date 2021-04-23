@@ -36,14 +36,14 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         default: 0 // specifies the normal buyer
     },
-    shoppingCart: {
-        type: Array,
-        default: []
-    },
-    watchList: {
-        type: Array,
-        default: []
-    },
+    shoppingCart: [{
+        type: mongoose.ObjectId,
+        ref: "ProductCart"
+    }],
+    watchList: [{
+        type: mongoose.ObjectId,
+        ref: "Product"
+    }],
     accountCreated: {
         type: Date,
         default: Date.now
@@ -70,6 +70,10 @@ const UserSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String,
     },
+    orders: [{
+        type: mongoose.ObjectId,
+        ref: "Order"
+    }]
 }, {
     // The timestamps option tells mongoose to assign createdAt and updatedAt fields to your schema.The type assigned is Date. (docs)
     timestamps: true,
