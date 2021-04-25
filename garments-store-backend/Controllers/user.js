@@ -8,7 +8,9 @@ const formidable = require("formidable"); // formidable is a npm package used to
 // testing done
 // http://expressjs.com/en/api.html#app.param
 exports.getUserById = (req, res, next, id) => {
-    User.findById(id).exec((err, user) => {
+    User.findById(id)
+        .populate("shoppingCart")
+        .exec((err, user) => {
         if (err || !user) {
             console.log(`User not found in db\n Error is: ${err}`);
             // return so i don't want to proceed further the api call as an error has already occured.

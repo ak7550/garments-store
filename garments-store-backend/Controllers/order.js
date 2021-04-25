@@ -21,21 +21,36 @@ exports.createOrder = (req, res) => {
         user,
         // rest will taken with default values.
     });
+    // method to update the stock count and save it
+    user.shoppingCart.forEach(cartItem => {
+        // check if the stock quantity is available
+        if (cartItem.productDetail.getQuantity() < cartItem.quantity)
+            return res.status(400).json({
+                msg: `${cartItem.quantity} is not available for ${cartItem}.\n Please decrease your order qunatity or delete the product.`
+            });
+        else {
+            cartItem.productDetail.improveStockCount(cartItem.size, cartItem.quantity * -1);
+            cartItem.productDetail.save(err => {
+                if (err)
+                    return res.status(400).json(err);
+            });
+        }
+    }
+    );
+
+
     order.save(err => {
         if (err) return res.status(400).json(err);
     });
 
-    // method to update the stock count
-    user.shoppingCart.forEach(cartItem =>
-        cartItem.productDetail.improveStockCount(cartItem.size, cartItem.quantity * -1)
-    );
+
     //empty the shopping cart
     user.shoppingCart = [];
     user.save(err => {
         if (err) return res.status(400).json(err);
     });
 
-    return res.status(200).json(order);
+    return res.status(200).json({ order, user });
 }
 
 exports.getOrder = (req, res) => res.status(200).json(req.order);

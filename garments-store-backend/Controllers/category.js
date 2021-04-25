@@ -1,7 +1,7 @@
 // http://expressjs.com/en/api.html#app.param
 const Category = require("../models/category");
 exports.getCategoryById = (req, res, next, id) => {
-    console.log(`FUCKED UP`);
+    console.log(`CONTROLL COMES HERE`); //! <== SEE THIS
     Category.findById(id).exec((err, cate) => {
         if (err) {
             console.log("I am executing");
@@ -16,6 +16,7 @@ exports.getCategoryById = (req, res, next, id) => {
 }
 // https://mongoosejs.com/docs/api/query.html#query_Query-find
 // [filter]«Object | ObjectId» mongodb selector.If not specified, returns all documents. (docs)
+//! bug
 exports.getAllCategories = (req, res) => {
     console.log("reached into the method");
     Category.find((err, allCate) => {

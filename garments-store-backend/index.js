@@ -30,9 +30,9 @@ const cartRoute = require('./Routes/cart');
 app.use("/auth", authRoute);
 app.use("/user", userRoute);
 app.use("/category", categoryRoute);
-app.use("/product/", productRoute);
-app.use("/order/", orderRoute);
-app.use("/cart/", cartRoute);
+app.use("/product", productRoute);
+app.use("/order", orderRoute);
+app.use("/cart", cartRoute);
 
 
 // declaration of mongodb and create connection

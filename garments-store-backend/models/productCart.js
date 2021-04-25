@@ -18,10 +18,6 @@ const ProductCartSchemma = mongoose.Schema({
         type: Number,
         default: 1000,
     },
-    user: {
-        type: mongoose.ObjectId,
-        ref: "User",
-    },
 });
 
 ProductCartSchemma.virtual("totalCost").set(function () {

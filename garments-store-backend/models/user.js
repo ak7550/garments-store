@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid'); // https://www.npmjs.com/package/uuid
 const crypto = require('crypto');
+const { getString } = require('../Controllers/random');
 
 const UserSchema = new mongoose.Schema({
     //! delete this shit
@@ -55,8 +56,8 @@ const UserSchema = new mongoose.Schema({
     description: {
         type: String,
         trim: true,
-        maxLength: 100,
-        default: ""
+        maxLength: 200,
+        default: () => getString(200)
     },
     followers: [{
         type: mongoose.ObjectId, // this will accept or store the ids of user schema documents

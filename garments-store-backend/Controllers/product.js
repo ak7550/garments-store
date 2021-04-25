@@ -52,7 +52,10 @@ exports.updateProduct = (req, res) => {
 }
 
 //! bug
-exports.getAllProducts = (req, res) => Product.find((err, allProducts) => err ? res.status(400).json(err) : res.status(200).json(allProducts));
+exports.getAllProducts = (req, res) => Product.find({},
+    function (err, allProducts) {
+        return err ? res.status(400).json(err) : res.status(200).json(allProducts);
+    });
 
 
 // https://mongoosejs.com/docs/populate.html ==> docs mongoose populate, a method to populate the ref of other schemma
@@ -97,11 +100,11 @@ exports.getProductsFromSameCategory = (req, res) => {
     });
 }
 
-//!bug
+// _working fine
 exports.addReview = (req, res) => {
     const { userProfileInfo, product } = req;
     //search into the reviews.
-    const userIndex = product.reviews.findIndex(obj => obj.user._id == userProfileInfo._id); //! not working
+    const userIndex = product.reviews.findIndex(obj => obj.user._id.equals(userProfileInfo._id));
     console.log(`userIndex: ${userIndex}`);
     if (userIndex == -1)
         product.reviews.push({
@@ -120,10 +123,10 @@ exports.addReview = (req, res) => {
     });
 }
 
-//! bug
+// _working fine
 exports.deleteReview = (req, res) => {
     const { userProfileInfo: user, product } = req;
-    const remainingReviews = product.reviews.filter(obj => obj.user != user._id); //! not wroking
+    const remainingReviews = product.reviews.filter(obj => !obj.user._id.equals(user._id));
     product.reviews = remainingReviews; //update
     product.save(err => {
         if (err) return res.status(400).json(err);
@@ -133,11 +136,12 @@ exports.deleteReview = (req, res) => {
     });
 }
 
-//! bug
+// _working fine
 exports.addToWatchList = (req, res) => {
     const { userProfileInfo: user, product } = req; // object destructing
-    const searchedProduct = user.watchList.find(x => x == product._id); //! same problem
+    const searchedProduct = user.watchList.find(x => x.equals(product._id));
     // if searchedProduct is undefined then,
+    console.log(`searchedProduct: ${JSON.stringify(searchedProduct)}`);
     if (!searchedProduct) {
         user.watchList.push(product._id); // added to watchList
         user.save(err => {
@@ -149,10 +153,10 @@ exports.addToWatchList = (req, res) => {
         return res.status(400).json({ msg: `${searchedProduct} is already present in ${user.fullName}'s watchList` });
 }
 
-//! bug
+// _working fine
 exports.removeFromWatchList = (req, res) => {
     const { userProfileInfo: user, product } = req; // object destructing
-    const remainingWatchList = user.watchList.filter(x => x != product._id); //! not working
+    const remainingWatchList = user.watchList.filter(x => !x.equals(product._id));
     user.watchList = remainingWatchList; // update
     user.save(err => {
         if (err) return res.status(400).json({ msg: `not possible to remove new product` });
@@ -166,14 +170,3 @@ exports.makeCountNegative = (req, res, next) => {
     next();
 }
 
-
-//todo: haven't writen the code yet.
-exports.addToCart = (req, res) => {
-    const { userProfileInfo: user, product } = req;
-
-}
-
-//todo: haven't writen the code yet.
-exports.removeFromCart = (req, res) => {
-
-}

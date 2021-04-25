@@ -65,7 +65,7 @@ const productSchema = new mongoose.Schema({
     timestamps: true
 });
 
-//! schema methods
+// schema methods
 productSchema.virtual("price").get(function () {
     const priceArr = Array.from(this.sizes, function (x) { return x.price; }); //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
     return Math.min(...priceArr); //https://www.codespeedy.com/get-maximum-and-minimum-value-from-a-javascript-array/
@@ -81,7 +81,10 @@ productSchema.methods.improveStockCount = function (s) {
     size.soldOut = size.stockCount <= 0 ? true : false;
 }
 productSchema.methods.getQuantity = function (s) {
-    const sizeIndex = this.sizes.findIndex(function (x) { return s.localeCompare(x.size) === 0; });
+    const sizeIndex = this.sizes.findIndex(
+        function (x) {
+            return s.localeCompare(x.size) === 0;
+        });
     return this.sizes[sizeIndex].stockCount;
 }
 module.exports = mongoose.model("Product", productSchema);
