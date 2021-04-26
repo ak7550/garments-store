@@ -1,10 +1,8 @@
 import React from 'react'
 
-export const Routes = () => {
-  return (
-    <div>
-      in routes
-    </div>
-  )
-}
+const Routes = () =>
+    <>
+        hi
+    </>
 
+export default Routes
