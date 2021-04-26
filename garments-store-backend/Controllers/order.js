@@ -19,6 +19,7 @@ exports.createOrder = (req, res) => {
     const order = new Order({
         products: user.shoppingCart,
         user,
+        address: req.body.address,
         // rest will taken with default values.
     });
     // method to update the stock count and save it
@@ -46,6 +47,7 @@ exports.createOrder = (req, res) => {
 
     //empty the shopping cart
     user.shoppingCart = [];
+    user.orders.push(order);
     user.save(err => {
         if (err) return res.status(400).json(err);
     });
@@ -65,9 +67,3 @@ exports.updateOrderStatus = (req, res) => {
     });
     return res.status(200).json(req.order);
 }
-
-
-
-
-
-

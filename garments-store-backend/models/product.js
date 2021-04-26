@@ -74,7 +74,7 @@ productSchema.virtual("price").get(function () {
 });
 
 // it will increase or decrease the count of the product
-productSchema.methods.improveStockCount = function (s) {
+productSchema.methods.improveStockCount = function (s, count) {
     const size = this.sizes.find(function (x) { return s.localeCompare(x.size) === 0; });
     size.stockCount = size.stockCount < 0 ? 0 : size.stockCount;
     size.stockCount += count;

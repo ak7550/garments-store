@@ -18,7 +18,6 @@ exports.addToCart = (req, res) => {
             size: req.body.size,
             quantity: req.body.quantity,
             costOfEachItem: req.body.cost,
-            user
         });
         cartItem.save(err => {
             if (err) return res.status(400).json(err);
@@ -63,6 +62,9 @@ exports.updateQuantity = (req, res) => {
         });
         else {
             user.shoppingCart[cartItemIndex].quantity += req.body.quantity;
+            user.shoppingCart[cartItemIndex].save(err => {
+                if (err) return res.status(400).json(err);
+            });
             user.save(err => {
                 if (err) return res.status(400).json(err);
             });
