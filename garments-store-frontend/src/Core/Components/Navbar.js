@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search'
 // codes taken from docs ==> https://material-ui.com/components/app-bar/#app-bar
 
 const modifiedTheme = makeStyles(theme => ({
+
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -38,7 +39,7 @@ const modifiedTheme = makeStyles(theme => ({
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
-        width: '100%',
+        width: '100% !important',
         [theme.breakpoints.up('md')]: {
             width: '20ch',
         },
@@ -83,6 +84,7 @@ const AkSearchBar = () => {
 
 const Navbar = props => {
     const newStyles = useStyles();
+    const updatedTheme = modifiedTheme();
     return (
         <AppBar
             style={{ flexGrow: 1 }}
@@ -111,6 +113,7 @@ const Navbar = props => {
                         <AkSearchBar  />
                     </Grid>
                     <Grid item container justify="flex-end" md={4} className={newStyles.makeBorder} >
+                        <div className={updatedTheme.grow} >da </div>
                         notification, messages, user icon
                     </Grid>
                 </Grid>
