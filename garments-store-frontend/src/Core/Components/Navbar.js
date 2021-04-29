@@ -1,12 +1,27 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { AppBar, fade, Grid, InputBase, makeStyles, Toolbar } from '@material-ui/core'
+import { AppBar, Badge, fade, Grid, IconButton, InputBase, makeStyles, Toolbar } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
+import ChatIcon from '@material-ui/icons/Chat';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MoreIcon from '@material-ui/icons/MoreVert';
 
 // codes taken from docs ==> https://material-ui.com/components/app-bar/#app-bar
 
 const modifiedTheme = makeStyles(theme => ({
-
+    grow: {
+        flexGrow: 1,
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    title: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+            display: 'block',
+        },
+    },
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -42,6 +57,18 @@ const modifiedTheme = makeStyles(theme => ({
         width: '100% !important',
         [theme.breakpoints.up('md')]: {
             width: '20ch',
+        },
+    },
+    sectionDesktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
+    },
+    sectionMobile: {
+        display: 'flex',
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
         },
     },
 }));
@@ -85,40 +112,170 @@ const AkSearchBar = () => {
 const Navbar = props => {
     const newStyles = useStyles();
     const updatedTheme = modifiedTheme();
-    return (
-        <AppBar
-            style={{ flexGrow: 1 }}
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+    const isMenuOpen = Boolean(anchorEl);
+    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const handleProfileMenuOpen = event => setAnchorEl(event.currentTarget);
+
+    const handleMobileMenuClose = () => setMobileMoreAnchorEl(null);
+
+    const handleMobileMenuOpen = event => setMobileMoreAnchorEl(event.currentTarget);
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+        handleMobileMenuClose();
+    };
+
+    //! write code
+    const handleClickOnChatIcon = event => {
+
+    }
+
+    //! write code
+    const handleClickOnNotification = event => {
+
+    }
+
+    const menuId = 'primary-search-account-menu';
+    const renderMenu = (
+        <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            id={menuId}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
         >
-            <Toolbar>
-                <Grid container direction="row" alignItems="center">
-                    <Grid item container
-                        justify="center"
-                        md={2}
-                        className={newStyles.makeBorder}
-                    >
-                        Logo section
+            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        </Menu>
+    );
+
+    const mobileMenuId = 'primary-search-account-menu-mobile';
+    const renderMobileMenu = (
+        <Menu
+            anchorEl={mobileMoreAnchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            id={mobileMenuId}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMobileMenuOpen}
+            onClose={handleMobileMenuClose}
+        >
+            <MenuItem>
+                <IconButton aria-label="show 4 new mails" color="inherit">
+                    <Badge badgeContent={4} color="secondary">
+                        <MailIcon />
+                    </Badge>
+                </IconButton>
+                <p>Messages</p>
+            </MenuItem>
+            <MenuItem>
+                <IconButton aria-label="show 11 new notifications" color="inherit">
+                    <Badge badgeContent={11} color="secondary">
+                        <NotificationsIcon />
+                    </Badge>
+                </IconButton>
+                <p>Notifications</p>
+            </MenuItem>
+            <MenuItem onClick={handleProfileMenuOpen}>
+                <IconButton
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <AccountCircle />
+                </IconButton>
+                <p>Profile</p>
+            </MenuItem>
+        </Menu>
+    );
+
+
+
+    return (
+        <div>
+            <AppBar
+                style={{ flexGrow: 1 }}
+            >
+                <Toolbar>
+                    <Grid container direction="row" alignItems="center">
+                        <Grid item container
+                            justify="center"
+                            md={2}
+                            className={newStyles.makeBorders}
+                        >
+                            Logo section
                     </Grid>
-                    <Grid
-                        item
-                        container
-                        justify="flex-start"
-                        md={6}
-                        className={`${newStyles.makeBorderl} `}
-                        style={{
-                            display: 'flex',
-                            alignItems: "center",
-                            justifyContent: "flex-start",
-                        }}
-                    >
-                        <AkSearchBar  />
+                        <Grid
+                            item
+                            container
+                            justify="flex-start"
+                            md={6}
+                            className={`${newStyles.makeBorderl} `}
+                            style={{
+                                display: 'flex',
+                                alignItems: "center",
+                                justifyContent: "flex-start",
+                            }}
+                        >
+                            <AkSearchBar />
+                        </Grid>
+                        <Grid item container
+                            justify="flex-end" md={4}
+                            className={newStyles.makeBorders}
+                            style={{
+                                paddingRight: '2em',
+                            }}
+                        >
+                            {/* <div className={updatedTheme.grow} /> */}
+                            <div className={updatedTheme.sectionDesktop}>
+                                <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleClickOnChatIcon}
+                                >
+                                    <Badge badgeContent={4} color="secondary">
+                                        < ChatIcon />
+                                    </Badge>
+                                </IconButton>
+                                <IconButton aria-label="show 17 new notifications" color="inherit"
+                                    onClick={handleClickOnNotification}
+                                >
+                                    <Badge badgeContent={17} color="secondary">
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
+                                    aria-haspopup="true"
+                                    onClick={handleProfileMenuOpen}
+                                    color="inherit"
+                                >
+                                    <AccountCircle />
+                                </IconButton>
+                            </div>
+                            <div className={updatedTheme.sectionMobile}>
+                                <IconButton
+                                    aria-label="show more"
+                                    aria-controls={mobileMenuId}
+                                    aria-haspopup="true"
+                                    onClick={handleMobileMenuOpen}
+                                    color="inherit"
+                                >
+                                    <MoreIcon />
+                                </IconButton>
+                            </div>
+                        </Grid>
                     </Grid>
-                    <Grid item container justify="flex-end" md={4} className={newStyles.makeBorder} >
-                        <div className={updatedTheme.grow} >da </div>
-                        notification, messages, user icon
-                    </Grid>
-                </Grid>
-            </Toolbar>
-        </AppBar>
+                </Toolbar>
+            </AppBar>
+
+        </div>
     )
 }
 
