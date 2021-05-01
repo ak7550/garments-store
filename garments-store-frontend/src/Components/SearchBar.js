@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         },
         marginRight: theme.spacing(2),
         marginLeft: 0,
-        width: '100%',
+        width: '100% !important',
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing(3),
             width: 'auto',
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
-        width: '100%',
+        width: '100% !important',
         [theme.breakpoints.up('md')]: {
             width: '20ch',
         },
@@ -60,15 +60,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+//todo: add onSubmit button or pressing enter event listener
 const SearchBar = () => {
     const classes = useStyles();
     return (
         <>
-            <div className={classes.search}
-                style={{
-                    maxWidth: '100%',
-                    border: '1px solid red',
-                }}
+            <div
+                className={classes.search}
+
             >
                 <div className={classes.searchIcon}>
                     <SearchIcon />
@@ -80,9 +80,12 @@ const SearchBar = () => {
                         input: classes.inputInput,
                     }}
                     inputProps={{ 'aria-label': 'search' }}
+                    style={{
+                        width: '100% ',
+                    }}
                 />
             </div>
-            {/* <div className={classes.grow} /> */}
+            <div className={classes.grow} />
         </>
     )
 }

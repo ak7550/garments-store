@@ -68,9 +68,6 @@ export const Navbar = () => {
                         </Grid>
                         <Grid container
                             xs={6}
-                            style={{
-                                border: '1px solid red',
-                            }}
                         >
                             <SearchBar />
                         </Grid>
