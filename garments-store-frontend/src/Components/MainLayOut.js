@@ -8,7 +8,7 @@ const MainLayOut = ({
     return (
         <>
             <CssBaseline />
-            <Navbar />
+            <Navbar user={undefined} />
             main layout
             {children}
         </>

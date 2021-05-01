@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+    Avatar,
     Divider,
     Drawer,
     IconButton,
@@ -7,11 +8,14 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    makeStyles
+    makeStyles,
+    Typography
 } from '@material-ui/core';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import PersonIcon from '@material-ui/icons/Person';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import SideBarOptionsForLoggedInUser from './SideBarOptionsForLoggedInUser';
 
 const drawerWidth = 240;
 
@@ -35,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
     },
     content: {
         flexGrow: 1,
@@ -46,12 +50,18 @@ const useStyles = makeStyles((theme) => ({
         }),
         marginLeft: -drawerWidth,
     },
+    large: {
+        width: theme.spacing(10),
+        height: theme.spacing(10),
+    },
 
 }));
 
 const SideBar = ({
     toggleSideBar,
-    sideBarStatus }) => {
+    sideBarStatus,
+    user
+}) => {
     const classes = useStyles();
     return (
         <Drawer
@@ -65,33 +75,56 @@ const SideBar = ({
         >
             <div
                 className={classes.drawerHeader}
+                style={{
+                    marginTop: '2em',
+                    marginBottom: '2em'
+                }}
             >
                 <IconButton
                     onClick={toggleSideBar}
+                    disableFocusRipple
+                    disableRipple
                 >
-                    <ChevronLeftIcon />
+                    {
+                        user ?
+                            <Avatar alt={user.name} src={user.profilePic}
+                                className={classes.large}
+                            />
+                            :
+                            <Avatar className={classes.large}>
+                                <Typography variant="h3" align="justify">U</Typography>
+                            </Avatar>
+                    }
                 </IconButton>
             </div>
             <Divider />
             <List>
+                {
+                    user ?
+                        <>
+                            {/*// todo: lot of things to add */}
+                            <SideBarOptionsForLoggedInUser user={user} />
+                        </>
+                        :
+                        <>
+                            {/* //! add onClick event */}
+                            <ListItem button onClick>
+                                <ListItemIcon>
+                                    <PersonIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Login" />
+                            </ListItem>
+                            <ListItem button onClick>
+                                <ListItemIcon>
+                                    <PersonAddIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="SignUp" />
+                            </ListItem>
+                        </>
 
-                //todo: add the lists accordingly
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
+                }
             </List>
             <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
         </Drawer>
     )
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import clsx from 'clsx';
 import {
     AppBar,
+    Avatar,
     Button,
     Grid,
     IconButton,
@@ -12,6 +13,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchBar from './SearchBar';
 import SideBar from './SideBar';
+import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
 
 // -> extra stylings are being provided like this, others are already being given by the material ui
 // docs: https://material-ui.com/components/app-bar/#app-bar
@@ -45,9 +47,10 @@ const useStyles = makeStyles((theme) => ({
     hide: {
         display: 'none',
     },
+
 }));
 
-export const Navbar = () => {
+export const Navbar = ({ user }) => {
     const classes = useStyles();
     const [sideBar, setSideBar] = useState(false);
     const toggleSideBar = () => setSideBar(!sideBar); //! experimental
@@ -55,9 +58,10 @@ export const Navbar = () => {
     return (
         <div className={classes.root}>
             <AppBar position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: sideBar,
-                })}
+                className={
+                    clsx(classes.appBar, {
+                        [classes.appBarShift]: sideBar,
+                    })}
             >
                 {/* //docs: https://stackoverflow.com/questions/57557271/how-to-use-clsx-in-react */}
                 <Toolbar>
@@ -75,7 +79,7 @@ export const Navbar = () => {
                             <IconButton
                                 edge="start"
                                 className={clsx(classes.menuButton, {
-                                    [classes.hide] : sideBar
+                                    [classes.hide]: sideBar
                                 })}
                                 color="inherit"
                                 aria-label="menu"
@@ -102,12 +106,29 @@ export const Navbar = () => {
                             alignItems="center"
                             direction="row"
                         >
-                            <Button color="inherit">Login</Button>
+                            <IconButton onClick={toggleSideBar}>
+                                {
+                                    user ?
+                                        <Avatar
+                                            alt={user.name}
+                                            src={user.profilePic}
+                                        />
+                                        :
+                                        <Avatar>
+                                            <FaceOutlinedIcon fontSize="medium"
+                                                style={{
+                                                    height: '2em',
+                                                    width: '2em',
+                                                }}
+                                            />
+                                        </Avatar>
+                                }
+                            </IconButton>
                         </Grid>
                     </Grid>
                 </Toolbar>
             </AppBar>
-            <SideBar toggleSideBar={toggleSideBar} sideBarStatus={ sideBar } />
+            <SideBar toggleSideBar={toggleSideBar} sideBarStatus={sideBar} user={user} />
         </div>
     )
 }

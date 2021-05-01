@@ -3,6 +3,7 @@ import {
     InputBase,
     makeStyles,
     fade,
+    Grid,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search'
 
@@ -66,9 +67,10 @@ const SearchBar = () => {
     const classes = useStyles();
     return (
         <>
-            <div
+            <Grid
                 className={classes.search}
-
+                container
+                alignItems="center"
             >
                 <div className={classes.searchIcon}>
                     <SearchIcon />
@@ -84,7 +86,7 @@ const SearchBar = () => {
                         width: '100% ',
                     }}
                 />
-            </div>
+            </Grid>
             <div className={classes.grow} />
         </>
     )

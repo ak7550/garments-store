@@ -7,4 +7,8 @@ clear concepts are very important to make the app fast.
 
 apply navbar from a different component ==> done
 add searchBar ==> done
-apply sidebar from a different component
+apply sidebar from a different component ==> done
+
+
+
+add the actual links and buttons in the form array oof object into the list
