@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react'
-import Navbar from './Components/Navbar';
+import React from 'react'
 
 const Home = () => {
-    useEffect(() => {
-        console.log("hi");
-    }, [])
     return (
-        // we need to pass some props here. (wo bad mein dekha jayega)
-        <Navbar />
-    );
+        <div>
+            home page
+        </div>
+    )
 }
+
+
 
 export default Home
