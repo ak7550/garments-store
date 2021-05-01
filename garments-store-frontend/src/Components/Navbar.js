@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import clsx from 'clsx';
 import {
     AppBar,
     Button,
@@ -10,10 +11,12 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchBar from './SearchBar';
+import SideBar from './SideBar';
 
 // -> extra stylings are being provided like this, others are already being given by the material ui
 // docs: https://material-ui.com/components/app-bar/#app-bar
 
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,20 +28,38 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
     },
+    appBar: {
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    appBarShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    hide: {
+        display: 'none',
+    },
 }));
 
 export const Navbar = () => {
     const classes = useStyles();
+    const [sideBar, setSideBar] = useState(false);
+    const toggleSideBar = () => setSideBar(!sideBar); //! experimental
+
     return (
-        <div className={classes.root}
-            style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100vw',
-            }}
-        >
-            <AppBar position="static" className={classes.root}>
+        <div className={classes.root}>
+            <AppBar position="fixed"
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: sideBar,
+                })}
+            >
+                {/* //docs: https://stackoverflow.com/questions/57557271/how-to-use-clsx-in-react */}
                 <Toolbar>
                     <Grid container
                         direction="row"
@@ -53,9 +74,12 @@ export const Navbar = () => {
                         >
                             <IconButton
                                 edge="start"
-                                className={classes.menuButton}
+                                className={clsx(classes.menuButton, {
+                                    [classes.hide] : sideBar
+                                })}
                                 color="inherit"
                                 aria-label="menu"
+                                onClick={toggleSideBar}
                             >
                                 <MenuIcon />
                             </IconButton>
@@ -83,6 +107,7 @@ export const Navbar = () => {
                     </Grid>
                 </Toolbar>
             </AppBar>
+            <SideBar toggleSideBar={toggleSideBar} sideBarStatus={ sideBar } />
         </div>
     )
 }

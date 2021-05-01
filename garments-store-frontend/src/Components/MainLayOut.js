@@ -1,3 +1,4 @@
+import { CssBaseline } from '@material-ui/core'
 import React from 'react'
 import { Navbar } from './Navbar'
 
@@ -6,6 +7,7 @@ const MainLayOut = ({
 }) => {
     return (
         <>
+            <CssBaseline />
             <Navbar />
             main layout
             {children}

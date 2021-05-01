@@ -6,5 +6,5 @@ Everything is wrapped inside it. So this plays an important role from ui perspec
 clear concepts are very important to make the app fast.
 
 apply navbar from a different component ==> done
-add searchBar
+add searchBar ==> done
 apply sidebar from a different component
