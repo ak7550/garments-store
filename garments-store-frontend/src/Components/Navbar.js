@@ -2,6 +2,7 @@ import React from 'react'
 import {
     AppBar,
     Button,
+    Grid,
     IconButton,
     makeStyles,
     Toolbar,
@@ -39,22 +40,50 @@ export const Navbar = () => {
         >
             <AppBar position="static" className={classes.root}>
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="menu"
+                    <Grid container
+                        direction="row"
+                        alignItems="center"
                     >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography
-                        variant="h6"
-                        className={classes.title}
-                    >
-                        OurAppLogo
-                    </Typography>
-                    <SearchBar />
-                    <Button color="inherit">Login</Button>
+                        <Grid
+                            container
+                            direction="row"
+                            alignItems="center"
+                            xs={2}
+                            justify="flex-start"
+                        >
+                            <IconButton
+                                edge="start"
+                                className={classes.menuButton}
+                                color="inherit"
+                                aria-label="menu"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography
+                                variant="h6"
+                                className={classes.title}
+                            >
+                                OurAppLogo
+                            </Typography>
+                        </Grid>
+                        <Grid container
+                            xs={6}
+                            style={{
+                                border: '1px solid red',
+                            }}
+                        >
+                            <SearchBar />
+                        </Grid>
+                        <Grid
+                            container
+                            xs={4}
+                            justify="flex-end"
+                            alignItems="center"
+                            direction="row"
+                        >
+                            <Button color="inherit">Login</Button>
+                        </Grid>
+                    </Grid>
                 </Toolbar>
             </AppBar>
         </div>
