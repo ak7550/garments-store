@@ -5,6 +5,6 @@ Everything is wrapped inside it. So this plays an important role from ui perspec
 
 clear concepts are very important to make the app fast.
 
-first, wrapp it around a muitheme
-apply navbar from a different component
+apply navbar from a different component ==> done
+add searchBar
 apply sidebar from a different component

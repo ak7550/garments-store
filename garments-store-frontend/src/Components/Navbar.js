@@ -8,6 +8,7 @@ import {
     Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import SearchBar from './SearchBar';
 
 // -> extra stylings are being provided like this, others are already being given by the material ui
 // docs: https://material-ui.com/components/app-bar/#app-bar
@@ -28,8 +29,15 @@ const useStyles = makeStyles((theme) => ({
 export const Navbar = () => {
     const classes = useStyles();
     return (
-        <div className={classes.root}>
-            <AppBar position="static">
+        <div className={classes.root}
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100vw',
+            }}
+        >
+            <AppBar position="static" className={classes.root}>
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -43,9 +51,9 @@ export const Navbar = () => {
                         variant="h6"
                         className={classes.title}
                     >
-                        News
+                        OurAppLogo
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <SearchBar />
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
