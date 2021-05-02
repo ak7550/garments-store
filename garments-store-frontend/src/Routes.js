@@ -1,10 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Route, Switch } from 'react-router'
 import Home from './Core/Home'
 import MainLayOut from './Components/MainLayOut'
 
-const Routes = props => {
+const Routes = () => {
     return (
         <Switch>
             <MainLayOut>
@@ -14,8 +13,5 @@ const Routes = props => {
     )
 }
 
-Routes.propTypes = {
-
-}
 
 export default Routes

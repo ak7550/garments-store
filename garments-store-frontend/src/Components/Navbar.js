@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import clsx from 'clsx';
 import {
     AppBar,
@@ -12,8 +12,9 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchBar from './SearchBar';
-import SideBar from './SideBar';
 import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 
 // -> extra stylings are being provided like this, others are already being given by the material ui
 // docs: https://material-ui.com/components/app-bar/#app-bar
@@ -111,11 +112,12 @@ const Navbar = ({ user, toggleSideBar, sideBar }) => {
                                         />
                                         :
                                         <Avatar>
-                                            <FaceOutlinedIcon fontSize="medium"
+                                            <AccountCircle fontSize="medium"
                                                 style={{
                                                     height: '2em',
                                                     width: '2em',
                                                 }}
+                                                color="inherit"
                                             />
                                         </Avatar>
                                 }

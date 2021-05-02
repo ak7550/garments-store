@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import {
     Avatar,
     Divider,
@@ -16,6 +16,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SideBarOptionsForLoggedInUser from './SideBarOptionsForLoggedInUser';
 import AkBackDrop from './AkBackDrop';
 
+import LogInForm from './LogInForm';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: 'center',
+        backgroundColor: theme.palette.primary.dark,
     },
     content: {
         flexGrow: 1,
@@ -58,14 +60,14 @@ const useStyles = makeStyles((theme) => ({
 
 const SideBar = ({
     toggleSideBar,
-    sideBarStatus,
+    sideBar,
     user
 }) => {
     const classes = useStyles();
     const [logInDialogueBox, setLogInDialogueBox] = useState(false);
     const [signUpDialogueBox, setSignUpDialogueBox] = useState(false);
 
-    //! experimental
+    //! experimental ==> working fine
     const handleLogInButtonClicked = event => setLogInDialogueBox(!logInDialogueBox);
 
     const handleSignUpButtonClicked = event => {
@@ -75,72 +77,79 @@ const SideBar = ({
 
     return (
         <>
-        <Drawer
-            className={classes.drawer}
-            anchor="left"
-            open={sideBarStatus}
-            classes={{
-                paper: classes.drawerPaper,
-            }}
-            onClose={toggleSideBar}
-        >
-            <div
-                className={classes.drawerHeader}
-                style={{
-                    marginTop: '2em',
-                    marginBottom: '2em'
+            <Drawer
+                className={classes.drawer}
+                anchor="left"
+                open={sideBar}
+                classes={{
+                    paper: classes.drawerPaper,
                 }}
+                onClose={toggleSideBar}
             >
-                <IconButton
-                    onClick={toggleSideBar}
-                    disableFocusRipple={true}
-                    disableRipple={true}
+                <div
+                    className={classes.drawerHeader}
+                    style={{
+                        paddingTop: '2em',
+                        paddingBottom: '2em'
+                    }}
                 >
+                    <IconButton
+                        onClick={toggleSideBar}
+                        disableFocusRipple={true}
+                        disableRipple={true}
+                    >
+                        {
+                            user ?
+                                <Avatar alt={user.name} src={user.profilePic}
+                                    className={classes.large}
+                                />
+                                :
+                                <Avatar className={classes.large}>
+                                    <Typography variant="h3" align="justify">U</Typography>
+                                </Avatar>
+                        }
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
                     {
                         user ?
-                            <Avatar alt={user.name} src={user.profilePic}
-                                className={classes.large}
-                            />
+                            <>
+                                {/*// todo: lot of things to add */}
+                                <SideBarOptionsForLoggedInUser user={user} />
+                            </>
                             :
-                            <Avatar className={classes.large}>
-                                <Typography variant="h3" align="justify">U</Typography>
-                            </Avatar>
-                    }
-                </IconButton>
-            </div>
-            <Divider />
-            <List>
-                {
-                    user ?
-                        <>
-                            {/*// todo: lot of things to add */}
-                            <SideBarOptionsForLoggedInUser user={user} />
-                        </>
-                        :
-                        <>
-                            {/* //! add onClick event */}
-                            <ListItem button onClick={handleLogInButtonClicked}>
-                                <ListItemIcon>
-                                    <PersonIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Login" />
-                            </ListItem>
-                            <ListItem button onClick={handleSignUpButtonClicked}>
-                                <ListItemIcon>
-                                    <PersonAddIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="SignUp" />
-                            </ListItem>
-                        </>
+                            <>
+                                {/* //! add onClick event */}
+                                <ListItem button onClick={handleLogInButtonClicked}>
+                                    <ListItemIcon>
+                                        <PersonIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Login" />
+                                </ListItem>
+                                <ListItem button onClick={handleSignUpButtonClicked}>
+                                    <ListItemIcon>
+                                        <PersonAddIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="SignUp" />
+                                </ListItem>
+                            </>
 
-                }
-            </List>
-            <Divider />
+                    }
+                </List>
+                <Divider />
             </Drawer>
             {
-                logInDialogueBox && <AkBackDrop open={logInDialogueBox} onClose={() => setLogInDialogueBox(!logInDialogueBox)} />
+                logInDialogueBox
+                &&
+                <AkBackDrop
+                    open={logInDialogueBox}
+                    onClose={() => setLogInDialogueBox(!logInDialogueBox)}
+                >
+                    <LogInForm />
+                </AkBackDrop>
             }
-            </>
+        </>
     )
 }
 
