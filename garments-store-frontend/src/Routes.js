@@ -7,9 +7,7 @@ import MainLayOut from './Components/MainLayOut'
 const Routes = props => {
     return (
         <Switch>
-            
             <MainLayOut>
-
                 <Route to="/" exact><Home /></Route>
             </MainLayOut>
         </Switch>

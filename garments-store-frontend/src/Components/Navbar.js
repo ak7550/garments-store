@@ -47,13 +47,12 @@ const useStyles = makeStyles((theme) => ({
     hide: {
         display: 'none',
     },
-
 }));
 
 export const Navbar = ({ user }) => {
     const classes = useStyles();
     const [sideBar, setSideBar] = useState(false);
-    const toggleSideBar = () => setSideBar(!sideBar); //! experimental
+    const toggleSideBar = () => setSideBar(!sideBar); 
 
     return (
         <div className={classes.root}>

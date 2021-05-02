@@ -12,3 +12,8 @@ apply sidebar from a different component ==> done
 
 
 add the actual links and buttons in the form array oof object into the list
+
+
+put the sidebar into mainLayOut component and handle it's events from navbar
+
+modal should be on the mainLayOut component

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import {
     Avatar,
     Divider,
@@ -11,11 +11,10 @@ import {
     makeStyles,
     Typography
 } from '@material-ui/core';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import PersonIcon from '@material-ui/icons/Person';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SideBarOptionsForLoggedInUser from './SideBarOptionsForLoggedInUser';
+import AkBackDrop from './AkBackDrop';
 
 const drawerWidth = 240;
 
@@ -63,7 +62,19 @@ const SideBar = ({
     user
 }) => {
     const classes = useStyles();
+    const [logInDialogueBox, setLogInDialogueBox] = useState(false);
+    const [signUpDialogueBox, setSignUpDialogueBox] = useState(false);
+
+    //! experimental
+    const handleLogInButtonClicked = event => setLogInDialogueBox(!logInDialogueBox);
+
+    const handleSignUpButtonClicked = event => {
+        console.log(`signup button clicked`);
+    };
+
+
     return (
+        <>
         <Drawer
             className={classes.drawer}
             anchor="left"
@@ -82,8 +93,8 @@ const SideBar = ({
             >
                 <IconButton
                     onClick={toggleSideBar}
-                    disableFocusRipple
-                    disableRipple
+                    disableFocusRipple={true}
+                    disableRipple={true}
                 >
                     {
                         user ?
@@ -108,13 +119,13 @@ const SideBar = ({
                         :
                         <>
                             {/* //! add onClick event */}
-                            <ListItem button onClick>
+                            <ListItem button onClick={handleLogInButtonClicked}>
                                 <ListItemIcon>
                                     <PersonIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="Login" />
                             </ListItem>
-                            <ListItem button onClick>
+                            <ListItem button onClick={handleSignUpButtonClicked}>
                                 <ListItemIcon>
                                     <PersonAddIcon />
                                 </ListItemIcon>
@@ -125,7 +136,11 @@ const SideBar = ({
                 }
             </List>
             <Divider />
-        </Drawer>
+            </Drawer>
+            {
+                logInDialogueBox && <AkBackDrop open={logInDialogueBox} onClose={() => setLogInDialogueBox(!logInDialogueBox)} />
+            }
+            </>
     )
 }
 
