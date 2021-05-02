@@ -49,11 +49,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const Navbar = ({ user }) => {
+const Navbar = ({ user, toggleSideBar, sideBar }) => {
     const classes = useStyles();
-    const [sideBar, setSideBar] = useState(false);
-    const toggleSideBar = () => setSideBar(!sideBar); 
-
     return (
         <div className={classes.root}>
             <AppBar position="fixed"
@@ -127,7 +124,7 @@ export const Navbar = ({ user }) => {
                     </Grid>
                 </Toolbar>
             </AppBar>
-            <SideBar toggleSideBar={toggleSideBar} sideBarStatus={sideBar} user={user} />
         </div>
     )
 }
+export default Navbar;
