@@ -99,6 +99,7 @@ const LogInForm = () => {
                                 // value={values.email}
                                 // onChange={handleChange("email")}
                                 />
+                                {/* //! not showing */}
                                 {
                                     errors.name
                                     &&
@@ -141,6 +142,7 @@ const LogInForm = () => {
                                 // value={values.password}
                                 // onChange={handleChange("password")}
                                 />
+                                {/* //! not showing */}
                                 {
                                     errors.name
                                     &&
