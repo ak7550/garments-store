@@ -11,12 +11,20 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import { useForm } from 'react-hook-form';
 import { logInApiCall } from '../Utils/Auth';
+
 //docs: https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
+
+//todo: study bit more about react hook form to use them properly.
+
 
 const useStyles = makeStyles((theme) => ({
     container: {
         padding: theme.spacing(3),
     },
+    error: {
+        backgroundColor: theme.palette.error,
+        display: "block !important",
+    }
 }));
 
 
@@ -29,19 +37,21 @@ const LogInForm = () => {
 
     //! read about setValue method ==> https://react-hook-form.com/api/useform/setvalue
     //docs: https://react-hook-form.com/api/useform/reset (reset)
-    const { register, handleSubmit, setError, formState: { errors } } = useForm();
-    const [values, setValues] = useState({
-        email: "",
+
+
+    const { register, handleSubmit, setError, formState: { errors }, reset } = useForm({
         password: "",
+        email: "",
     });
-    const handleChange = name => event => {
-        setValues({ ...values, [name]: event.target.value });
-    };
+
     const onSubmit = data => {
         console.log(data);
         console.log(`submit button clicked`);
         logInApiCall(data);
-        setValues({ email: "", password: "" });
+        reset({
+            password: "",
+            email: "",
+        });
     }
     console.log(errors);
 
@@ -55,9 +65,9 @@ const LogInForm = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     fullWidth
-                                    label="Email"
-                                    name="email"
-                                    size="small" variant="outlined"
+                                    label="EmailId"
+                                    size="small"
+                                    variant="outlined"
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -67,31 +77,76 @@ const LogInForm = () => {
                                     }}
                                     type="text"
                                     placeholder="Email"
-                                    {...register("email", { required: true, pattern: /^\S+@\S+$/i, maxLength: 50 })}
-                                    value={values.email}
-                                    onChange={handleChange("email")}
+                                    name="email"
+                                    {
+                                    ...register("email",
+                                        {
+                                            required: {
+                                                value: true,
+                                                message: "Email is required...",
+                                            },
+                                            pattern: {
+                                                value: /^\S+@\S+$/i,
+                                                message: "Valid email has to be prvided"
+                                            },
+                                            maxLength: {
+                                                value: 50,
+                                                message: "maximum length has exceeded."
+                                            }
+                                        }
+                                    )
+                                    }
+                                // value={values.email}
+                                // onChange={handleChange("email")}
                                 />
                                 {
-                                    errors.name && errors.name.type === "required" && <span>This is required</span>
+                                    errors.name
+                                    &&
+                                    errors.name.type === "required"
+                                    &&
+                                    <span className={classes.error}>{errors.name.message} </span>
                                 }
                                 {
-                                    errors.name && errors.name.type === "maxLength" && <span>Max length exceeded</span>
+                                    errors.name
+                                    &&
+                                    errors.name.type === "pattern"
+                                    &&
+                                    <span className={classes.error}>{errors.name.message} </span>
+                                }
+                                {
+                                    errors.name
+                                    &&
+                                    errors.name.type === "maxLength"
+                                    &&
+                                    <span className={classes.error}>{errors.name.message} </span>
                                 }
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     fullWidth
                                     label="Password"
-                                    name="password"
                                     size="small"
                                     type="password"
                                     variant="outlined"
-                                    {...register("password", { required: true })}
-                                    value={values.password}
-                                    onChange={handleChange("password")}
+                                    name="password"
+                                    {
+                                    ...register("password", {
+                                        required: {
+                                            value: true,
+                                            message: "Enter your password."
+                                        }
+                                    })
+                                    }
+
+                                // value={values.password}
+                                // onChange={handleChange("password")}
                                 />
                                 {
-                                    errors.name && errors.name.type === "required" && <span>This is required</span>
+                                    errors.name
+                                    &&
+                                    errors.name.type === "required"
+                                    &&
+                                    <span className={classes.error}>{errors.name.message} </span>
                                 }
                             </Grid>
                         </Grid>
@@ -99,7 +154,8 @@ const LogInForm = () => {
                     <Grid item xs={12}>
                         <Button
                             color="secondary"
-                            fullWidth type="submit"
+                            fullWidth
+                            type="submit"
                             variant="contained"
                             onClick={() => {
                                 //creating custom messages.
@@ -123,10 +179,10 @@ const LogInForm = () => {
                                     {
                                         type: "required",
                                         name: "password",
-                                        message: "Enter your password"
+                                        message: "Enter your password."
                                     },
                                 ].forEach(({ name, type, message }) =>
-                                    setError(name, { type, message })
+                                    setError(name, { type, message }, { shouldFocus: true })
                                 );
                             }}
                         >Log in</Button>

@@ -10,10 +10,6 @@ add searchBar ==> done
 apply sidebar from a different component ==> done
 put the sidebar into mainLayOut component and handle it's events from navbar ==> done
 
+add the actual links and buttons in the form array of object into the list
 
-
-add the actual links and buttons in the form array oof object into the list
-
-
-
-modal should be on the mainLayOut component
+//todo: 
