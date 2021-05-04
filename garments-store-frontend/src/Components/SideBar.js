@@ -15,9 +15,9 @@ import PersonIcon from '@material-ui/icons/Person';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SideBarOptionsForLoggedInUser from './SideBarOptionsForLoggedInUser';
 import AkBackDrop from './AkBackDrop';
-import LogInForm from '../Core/Auth/LogInForm';
 import NestedLink from './NestedLink';
-const drawerWidth = 240;
+import LogInForm from '../Core/Auth/LogInForm';
+const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -138,7 +138,7 @@ const SideBar = ({
                     }
                 </List>
                 <Divider />
-                <NestedLink />
+                <NestedLink toggleSideBar={ toggleSideBar }/>
             </Drawer>
             {
                 logInDialogueBox

@@ -15,6 +15,7 @@ import SearchBar from './SearchBar';
 import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import { Link } from 'react-router-dom';
 
 // -> extra stylings are being provided like this, others are already being given by the material ui
 // docs: https://material-ui.com/components/app-bar/#app-bar
@@ -48,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
     hide: {
         display: 'none',
     },
+    link: {
+        display: "inherit",
+        textDecoration: "none",
+        color: "inherit"
+    }
 }));
 
 const Navbar = ({ user, toggleSideBar, sideBar }) => {
@@ -84,12 +90,14 @@ const Navbar = ({ user, toggleSideBar, sideBar }) => {
                             >
                                 <MenuIcon />
                             </IconButton>
-                            <Typography
-                                variant="h6"
-                                className={classes.title}
-                            >
-                                OurAppLogo
-                            </Typography>
+                            <Link to="/" className={classes.link}>
+                                <Typography
+                                    variant="h6"
+                                    className={classes.title}
+                                >
+                                    OurAppLogo
+                                </Typography>
+                            </Link>
                         </Grid>
                         <Grid container
                             xs={6}

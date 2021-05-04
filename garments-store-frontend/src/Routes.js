@@ -1,13 +1,15 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
-import Home from './Core/Home'
 import MainLayOut from './Components/MainLayOut'
+import CategoryComponent from './Core/CategoryComponent'
+import Home from './Core/Home'
 
 const Routes = () => {
     return (
         <Switch>
             <MainLayOut>
-                <Route to="/" exact><Home /></Route>
+                <Route path="/" ><Home /></Route>
+                <Route path="/category/:categoryIndex" exact><CategoryComponent /></Route>
             </MainLayOut>
         </Switch>
     )

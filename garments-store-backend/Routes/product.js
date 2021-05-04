@@ -1,18 +1,22 @@
 const express = require('express');
 const { isSignedIn, isAdmin, isAuthenticated } = require('../Controllers/auth');
-const { getProductById, getProduct, updateProduct, deleteProduct, getAllProducts, createProduct, updateStockCount, getProductsFromSameCategory, addReview, deleteReview, addToWatchList, removeFromWatchList, makeCountNegative } = require('../Controllers/product');
+const { getCategoryById } = require('../Controllers/category');
+const { getProductById, getProduct, updateProduct, deleteProduct, getAllProducts, createProduct, updateStockCount, getProductsFromSameCategory, addReview, deleteReview, addToWatchList, removeFromWatchList, makeCountNegative, getAllCategoryProducts } = require('../Controllers/product');
 const { getUserById } = require('../Controllers/user');
 const router = express.Router();
 
 //middlewares
 router.param("productId", getProductById);
 router.param("userId", getUserById);
+router.param("categoryId", getCategoryById);
 
 
 //product routes
 router.get("/products", getAllProducts);
 router.get("/:productId", getProduct);
 router.get("/:productId/getCategoryProducts", getProductsFromSameCategory);
+router.get("/:categoryId/products", getAllCategoryProducts); //_ new addition
+
 
 //protected routes
 router.post("/:userId/createProduct", isSignedIn, isAuthenticated, isAdmin, createProduct);

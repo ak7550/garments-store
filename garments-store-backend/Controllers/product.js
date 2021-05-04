@@ -170,3 +170,9 @@ exports.makeCountNegative = (req, res, next) => {
     next();
 }
 
+exports.getAllCategoryProducts = (req, res) => {
+    Product.find({ category: req.category }, (err, allProducts) => {
+        if (err) return res.status(400).json(err);
+        else res.status(200).json(allProducts);
+    });
+}

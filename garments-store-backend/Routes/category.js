@@ -8,7 +8,7 @@ router.param("userId", getUserById);
 router.param("categoryId", getCategoryById);
 
 // get categories
-router.get("/allCategories", getAllCategories); 
+router.get("/allCategories", getAllCategories);
 router.get("/:categoryId", getCategory); //testing done
 
 //create
