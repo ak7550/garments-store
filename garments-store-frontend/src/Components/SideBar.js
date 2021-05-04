@@ -16,7 +16,9 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SideBarOptionsForLoggedInUser from './SideBarOptionsForLoggedInUser';
 import AkBackDrop from './AkBackDrop';
 
-import LogInForm from './LogInForm';
+import LogInForm from './Auth/LogInForm';
+import SignUpForm from './Auth/SignUpForm';
+import NestedLink from './NestedLink';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -115,7 +117,7 @@ const SideBar = ({
                     {
                         user ?
                             <>
-                                {/*// todo: lot of things to add */}
+                                {/*// todo: sidebar options for a signed in user*/}
                                 <SideBarOptionsForLoggedInUser user={user} />
                             </>
                             :
@@ -138,6 +140,7 @@ const SideBar = ({
                     }
                 </List>
                 <Divider />
+                <NestedLink />
             </Drawer>
             {
                 logInDialogueBox

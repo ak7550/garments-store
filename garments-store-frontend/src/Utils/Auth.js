@@ -4,12 +4,26 @@ import localforage from 'localforage'
 import axios from 'axios';
 //docs: https://www.npmjs.com/package/axios#example
 
-// object destructuring
+//! need to work a bit
 export const logInApiCall = userInfo => {
-    console.log(`${JSON.stringify(userInfo)}`);
-    console.log(`api is: ${API}`);
     //post request
-    axios.post(`${API}/auth/signIn`, userInfo)
-        .then(res => console.log(`from then: `, res))
-        .catch(err => console.log(err));
+    return axios.post(`${API}/auth/signIn`, userInfo)
+        .then(res => {
+            return res.data.json();
+        })
+        .catch(error => {
+            //docs: https://stackoverflow.com/questions/49967779/axios-handling-errors
+            if (error.response) {
+                // Request made and server responded
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                return error.response.data.errors;
+            }
+        });
+}
+
+
+export const logInMethodCall = userInfo => {
+
 }

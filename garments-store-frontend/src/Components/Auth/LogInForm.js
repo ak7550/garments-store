@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
     Button,
     Container,
     Grid,
-    InputAdornment,
     makeStyles,
     TextField,
 } from '@material-ui/core'
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import { useForm } from 'react-hook-form';
-import { logInApiCall } from '../Utils/Auth';
+import { logInApiCall, logInMethodCall } from '../../Utils/Auth';
 
 //docs: https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
 
@@ -26,10 +23,6 @@ const useStyles = makeStyles((theme) => ({
         display: "block !important",
     }
 }));
-
-const formValue = {
-
-}
 
 const LogInForm = () => {
     const classes = useStyles();
@@ -50,10 +43,17 @@ const LogInForm = () => {
     });
     //docs: https://react-hook-form.com/api/useform
 
-    const onSubmit = (data, e) => {
-        console.log(data);
+    const onSubmit = (unserInfo, e) => {
+        console.log(unserInfo);
         console.log(`submit button clicked`);
-        logInApiCall(data);
+        const responseObj = logInMethodCall(unserInfo); //todo: handle this situation
+        console.log(`responseObject: `, responseObj);
+
+
+
+        //_ after getting an error
+
+
         reset();
 
     }
@@ -64,7 +64,7 @@ const LogInForm = () => {
         clearErrors();
     }
 
-    console.log(errors);
+    // console.log(errors);
     // console.log(watch());
 
     return (

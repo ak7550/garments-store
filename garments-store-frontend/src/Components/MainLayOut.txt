@@ -12,4 +12,4 @@ put the sidebar into mainLayOut component and handle it's events from navbar ==>
 
 add the actual links and buttons in the form array of object into the list
 
-//todo: 
+add categories to the sidebar.
