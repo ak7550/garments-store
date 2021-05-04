@@ -9,7 +9,6 @@ apply navbar from a different component ==> done
 add searchBar ==> done
 apply sidebar from a different component ==> done
 put the sidebar into mainLayOut component and handle it's events from navbar ==> done
+add categories to the sidebar. ==> done
 
 add the actual links and buttons in the form array of object into the list
-
-add categories to the sidebar.
