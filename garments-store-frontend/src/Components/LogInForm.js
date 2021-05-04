@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const formValue = {
+
+}
 
 const LogInForm = () => {
     const classes = useStyles();
@@ -39,26 +42,41 @@ const LogInForm = () => {
     //docs: https://react-hook-form.com/api/useform/reset (reset)
 
 
-    const { register, handleSubmit, setError, formState: { errors }, reset } = useForm({
-        password: "",
-        email: "",
+    const { register, handleSubmit, formState: { errors }, reset, clearErrors, watch } = useForm({
+        mode: "onBlur",
+        reValidateMode: "onBlur",
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+        criteriaMode: "all",
+        // shouldFocusError: true,
     });
+    //docs: https://react-hook-form.com/api/useform
 
-    const onSubmit = data => {
+    const onSubmit = (data, e) => {
         console.log(data);
         console.log(`submit button clicked`);
         logInApiCall(data);
-        reset({
-            password: "",
-            email: "",
-        });
+        reset();
+
     }
+
+    const onError = (errors, e) => {
+        console.log("error is: ", errors);
+        reset();
+        clearErrors();
+    }
+
     console.log(errors);
+    // console.log(watch());
 
     return (
         <Container className={classes.container} maxWidth="xs">
             {logInHeader()}
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form
+                onSubmit={handleSubmit(onSubmit, onError)}
+            >
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Grid container spacing={2}>
@@ -68,59 +86,24 @@ const LogInForm = () => {
                                     label="EmailId"
                                     size="small"
                                     variant="outlined"
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <AccountCircleOutlinedIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
                                     type="text"
                                     placeholder="Email"
-                                    name="email"
                                     {
-                                    ...register("email",
-                                        {
-                                            required: {
-                                                value: true,
-                                                message: "Email is required...",
-                                            },
+                                        ...register("email ", {
                                             pattern: {
-                                                value: /^\S+@\S+$/i,
-                                                message: "Valid email has to be prvided"
+                                                value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                                message: "Provide a valid email"
                                             },
                                             maxLength: {
                                                 value: 50,
-                                                message: "maximum length has exceeded."
+                                                message: "Invalid mail id"
                                             }
-                                        }
-                                    )
+                                        })
                                     }
-                                // value={values.email}
-                                // onChange={handleChange("email")}
+                                    required
+                                    error={Boolean(errors.email)}
+                                    helperText={errors.email?.message}
                                 />
-                                {/* //! not showing */}
-                                {
-                                    errors.name
-                                    &&
-                                    errors.name.type === "required"
-                                    &&
-                                    <span className={classes.error}>{errors.name.message} </span>
-                                }
-                                {
-                                    errors.name
-                                    &&
-                                    errors.name.type === "pattern"
-                                    &&
-                                    <span className={classes.error}>{errors.name.message} </span>
-                                }
-                                {
-                                    errors.name
-                                    &&
-                                    errors.name.type === "maxLength"
-                                    &&
-                                    <span className={classes.error}>{errors.name.message} </span>
-                                }
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -129,27 +112,12 @@ const LogInForm = () => {
                                     size="small"
                                     type="password"
                                     variant="outlined"
-                                    name="password"
-                                    {
-                                    ...register("password", {
-                                        required: {
-                                            value: true,
-                                            message: "Enter your password."
-                                        }
-                                    })
-                                    }
-
-                                // value={values.password}
-                                // onChange={handleChange("password")}
+                                    required
+                                    placeholder="password"
+                                    error={Boolean(errors.password)}
+                                    helperText={errors.password?.message}
                                 />
-                                {/* //! not showing */}
-                                {
-                                    errors.name
-                                    &&
-                                    errors.name.type === "required"
-                                    &&
-                                    <span className={classes.error}>{errors.name.message} </span>
-                                }
+
                             </Grid>
                         </Grid>
                     </Grid>
@@ -159,34 +127,6 @@ const LogInForm = () => {
                             fullWidth
                             type="submit"
                             variant="contained"
-                            onClick={() => {
-                                //creating custom messages.
-                                //docs: https://react-hook-form.com/api/useform/seterror
-                                [
-                                    {
-                                        type: "required",
-                                        name: "email",
-                                        message: "Email Id is required"
-                                    },
-                                    {
-                                        type: "pattern",
-                                        name: "email",
-                                        message: "Valid Email Id is required"
-                                    },
-                                    {
-                                        type: "maxLength",
-                                        name: "email",
-                                        message: "Email can't be longer than 200 symbols."
-                                    },
-                                    {
-                                        type: "required",
-                                        name: "password",
-                                        message: "Enter your password."
-                                    },
-                                ].forEach(({ name, type, message }) =>
-                                    setError(name, { type, message }, { shouldFocus: true })
-                                );
-                            }}
                         >Log in</Button>
                     </Grid>
                 </Grid>
