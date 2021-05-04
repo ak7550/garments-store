@@ -30,6 +30,7 @@ exports.getAllCategories = (req, res) => {
         return res.status(200).json(allCate);
     });
 }
+
 exports.getCategory = (req, res) => res.status(200).json(req.category);
 
 exports.createCategory = (req, res) => {

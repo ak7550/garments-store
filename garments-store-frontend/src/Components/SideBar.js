@@ -15,9 +15,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import SideBarOptionsForLoggedInUser from './SideBarOptionsForLoggedInUser';
 import AkBackDrop from './AkBackDrop';
-
-import LogInForm from './Auth/LogInForm';
-import SignUpForm from './Auth/SignUpForm';
+import LogInForm from '../Core/Auth/LogInForm';
 import NestedLink from './NestedLink';
 const drawerWidth = 240;
 
@@ -146,7 +144,7 @@ const SideBar = ({
                 logInDialogueBox
                 &&
                 <AkBackDrop
-                    open={logInDialogueBox}
+                        open={logInDialogueBox}
                     onClose={() => setLogInDialogueBox(!logInDialogueBox)}
                 >
                     <LogInForm />
