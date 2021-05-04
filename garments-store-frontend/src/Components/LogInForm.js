@@ -45,10 +45,6 @@ const LogInForm = () => {
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, watch } = useForm({
         mode: "onBlur",
         reValidateMode: "onBlur",
-        defaultValues: {
-            email: "",
-            password: "",
-        },
         criteriaMode: "all",
         // shouldFocusError: true,
     });
@@ -89,16 +85,16 @@ const LogInForm = () => {
                                     type="text"
                                     placeholder="Email"
                                     {
-                                        ...register("email ", {
-                                            pattern: {
-                                                value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                                message: "Provide a valid email"
-                                            },
-                                            maxLength: {
-                                                value: 50,
-                                                message: "Invalid mail id"
-                                            }
-                                        })
+                                    ...register("email ", {
+                                        pattern: {
+                                            value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                            message: "Provide a valid email"
+                                        },
+                                        maxLength: {
+                                            value: 50,
+                                            message: "Invalid mail id"
+                                        }
+                                    })
                                     }
                                     required
                                     error={Boolean(errors.email)}
@@ -114,6 +110,9 @@ const LogInForm = () => {
                                     variant="outlined"
                                     required
                                     placeholder="password"
+                                    {
+                                        ...register("password")
+                                    }
                                     error={Boolean(errors.password)}
                                     helperText={errors.password?.message}
                                 />

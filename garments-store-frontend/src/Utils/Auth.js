@@ -9,6 +9,7 @@ export const logInApiCall = userInfo => {
     console.log(`${JSON.stringify(userInfo)}`);
     console.log(`api is: ${API}`);
     //post request
-    axios.post(`${API}/auth/signIn`, userInfo).then(res => console.log(res))
+    axios.post(`${API}/auth/signIn`, userInfo)
+        .then(res => console.log(`from then: `, res))
         .catch(err => console.log(err));
 }

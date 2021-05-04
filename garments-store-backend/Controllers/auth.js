@@ -18,7 +18,7 @@ exports.signUp = (req, res) => {
         });
     } else {
         // now we need to assign the user info into our database as a new user entry, he/she might be our customer or a seller (admin).
-        console.log(`req.body: ${JSON.stringify(req.body)}`);
+        console.log(`req.body: ${req.body}`);
         // TODO: add buyer / seller option and other descriptions as well
         const { name, email, password, role, description = " ", userInfo } = req.body; // object destructing
 
@@ -45,11 +45,11 @@ exports.signUp = (req, res) => {
             if (err) return res.status(400).json({
                 msg: `Error Occured!!`
             });
-            
+
             else {
                 const token = jwt.sign({
                     _id: user._id
-                }, process.env.secret, { expiresIn: '100h' }); // creates the token (ticket), 
+                }, process.env.secret, { expiresIn: '100h' }); // creates the token (ticket),
                 res.status(200).cookie("token", token,
                     {
                         expires: new Date(Date.now() + 100 * 3600000) // cookie will be removed after 8 hours
@@ -72,8 +72,11 @@ exports.signUp = (req, res) => {
 // signIn testing done
 exports.signIn = (req, res) => {
     // res.send("building");
+    // console.log(`complete req is: `);
+    console.log(`req.body: `, req.body);
     const errs = validationResult(req);
     if (!errs.isEmpty()) {
+        console.log(`errs: `, errs);
         return res.status(400).json({
             errors: errs.array()
         });
@@ -102,7 +105,7 @@ exports.signIn = (req, res) => {
                 // https://www.npmjs.com/package/jsonwebtoken
                 const token = jwt.sign({
                     _id: user._id
-                }, process.env.secret, { expiresIn: '100h' }); // creates the token (ticket), 
+                }, process.env.secret, { expiresIn: '100h' }); // creates the token (ticket),
                 res.status(200).cookie("token", token,
                     {
                         expires: new Date(Date.now() + 100 * 3600000) // cookie will be removed after 8 hours
@@ -181,9 +184,3 @@ exports.isAuthenticated = (req, res, next) => {
         next();
     }
 }
-
-
-
-
-
-
