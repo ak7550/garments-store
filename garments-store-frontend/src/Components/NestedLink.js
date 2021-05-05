@@ -37,10 +37,9 @@ const NestedLink = ({ toggleSideBar }) => {
     const [categoryList, setCategoryList] = useState([]);
 
     useEffect(() => {
-        loadAllCategories(data => {
-            // console.log(`data is: `, data);
-            setCategoryList(data);
-        });
+        loadAllCategories(data =>
+            setCategoryList(data)
+        );
         //docs: https://stackoverflow.com/questions/45620694/how-to-return-response-of-axios-in-return (idea copied)
     }, []);
 

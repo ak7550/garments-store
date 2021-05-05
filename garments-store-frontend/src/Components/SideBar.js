@@ -17,8 +17,7 @@ import SideBarOptionsForLoggedInUser from './SideBarOptionsForLoggedInUser';
 import AkBackDrop from './AkBackDrop';
 import NestedLink from './NestedLink';
 import LogInForm from '../Core/Auth/LogInForm';
-const drawerWidth = 260;
-
+import { drawerWidth } from '../backEnd'
 const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
@@ -138,13 +137,13 @@ const SideBar = ({
                     }
                 </List>
                 <Divider />
-                <NestedLink toggleSideBar={ toggleSideBar }/>
+                <NestedLink toggleSideBar={toggleSideBar} />
             </Drawer>
             {
                 logInDialogueBox
                 &&
                 <AkBackDrop
-                        open={logInDialogueBox}
+                    open={logInDialogueBox}
                     onClose={() => setLogInDialogueBox(!logInDialogueBox)}
                 >
                     <LogInForm />

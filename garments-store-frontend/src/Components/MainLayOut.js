@@ -1,7 +1,10 @@
 import { CssBaseline } from '@material-ui/core'
-import React, { useCallback, useState } from 'react'
+import React, { createContext, useCallback, useState } from 'react'
 import Navbar from './Navbar'
 import SideBar from './SideBar';
+
+
+const SideBarContext = createContext();
 
 const MainLayOut = ({
     children,
@@ -12,6 +15,7 @@ const MainLayOut = ({
     const toggleSideBar = useCallback(() => setSideBar(!sideBar), [sideBar]);
     return (
         <>
+            <SideBarContext.Provider value={{sideBar, toggleSideBar}} >
             <CssBaseline />
             <Navbar user={undefined} toggleSideBar={toggleSideBar} sideBar={sideBar} />
             {
@@ -19,9 +23,10 @@ const MainLayOut = ({
             }
             main layout
             {children}
+            </SideBarContext.Provider>
         </>
     )
 }
 
 
-export default MainLayOut
+export { MainLayOut, SideBarContext };

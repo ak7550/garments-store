@@ -2,15 +2,15 @@ import axios from "axios";
 import { API } from "../backEnd";
 import localforage from 'localforage'
 
-export const getAllCategoryAPI = async () => {
+export const getAllCategoryAPI = next => {
     console.log(`hi from getAllCategoryAPI method`);
-    return axios.get(`${API}/category/allCategories`)
+    axios.get(`${API}/category/allCategories`)
         .then(response => {
             console.log(`categories:`, response.data);
             localforage.setItem("categoryList", response.data);
-            return response.data;
+            next(response.data);
         })
-        .catch(err => {
-            console.log(err);
-        });
+        .catch(err =>
+            console.log(err)
+        );
 }
