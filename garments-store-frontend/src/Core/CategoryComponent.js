@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import ProductCart from '../Components/ProductCart';
 import { loadAllProducts } from '../Utils/Product';
 import { drawerWidth } from '../backEnd'
-import { SideBarContext } from '../Components/MainLayOut';
+import { MainLayOutContext } from '../Components/MainLayOut';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -46,12 +46,15 @@ const CategoryComponent = () => {
     const classes = useStyle();
     console.log(`into category, index is: `, categoryIndex, "\n", useParams());
     const [productArr, setProductArr] = useState([]);
+    const { sideBar } = useContext(MainLayOutContext);
+
     useEffect(() => {
+        console.log(`hi from useEffect of categorycomponent`);
         loadAllProducts(categoryIndex, data => setProductArr(data));
-    }, []);
+    });
+
     console.log(`product arr: `, productArr);
 
-    const { sideBar } = useContext(SideBarContext);
     return (
         <>
             <div
@@ -66,7 +69,7 @@ const CategoryComponent = () => {
                         {
                             productArr.length &&
                             productArr.map((product, index) => (
-                                <ListItem button>
+                                <ListItem button key={index}>
                                     <Link
                                         to={`/category/${categoryIndex}/product/${index}`}
                                         className={classes.link}

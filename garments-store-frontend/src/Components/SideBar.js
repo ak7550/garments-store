@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
     Avatar,
     Divider,
@@ -18,6 +18,7 @@ import AkBackDrop from './AkBackDrop';
 import NestedLink from './NestedLink';
 import LogInForm from '../Core/Auth/LogInForm';
 import { drawerWidth } from '../backEnd'
+import { MainLayOutContext } from './MainLayOut';
 const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
@@ -57,14 +58,11 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const SideBar = ({
-    toggleSideBar,
-    sideBar,
-    user
-}) => {
+const SideBar = () => {
     const classes = useStyles();
     const [logInDialogueBox, setLogInDialogueBox] = useState(false);
     const [signUpDialogueBox, setSignUpDialogueBox] = useState(false);
+    const { user, sideBar, toggleSideBar } = useContext(MainLayOutContext);
 
     //! experimental ==> working fine
     const handleLogInButtonClicked = event => setLogInDialogueBox(!logInDialogueBox);

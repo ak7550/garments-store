@@ -37,6 +37,7 @@ const NestedLink = ({ toggleSideBar }) => {
     const [categoryList, setCategoryList] = useState([]);
 
     useEffect(() => {
+        console.log(`hi from useEffct of nested links`);
         loadAllCategories(data =>
             setCategoryList(data)
         );
@@ -67,6 +68,7 @@ const NestedLink = ({ toggleSideBar }) => {
                     categoryList.length &&
                     <List component="div" disablePadding>
                         {
+                            //todo: https://material-ui.com/components/timeline/
                             categoryList.map((category, index) => (
                                 <ListItem
                                     button

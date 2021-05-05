@@ -4,13 +4,13 @@ import Navbar from './Navbar'
 import SideBar from './SideBar';
 
 
-const SideBarContext = createContext();
+const MainLayOutContext = createContext();
 
 const MainLayOut = ({
     children,
 }) => {
     const [sideBar, setSideBar] = useState(true); //todo: make it false
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState();
 
     //todo: method to fetch user information
     useEffect(() => {
@@ -21,18 +21,18 @@ const MainLayOut = ({
     const toggleSideBar = useCallback(() => setSideBar(!sideBar), [sideBar]);
     return (
         <>
-            <SideBarContext.Provider value={{sideBar, toggleSideBar}} >
+            <MainLayOutContext.Provider value={{sideBar, toggleSideBar, user, setUser}} >
             <CssBaseline />
-            <Navbar user={undefined} toggleSideBar={toggleSideBar} sideBar={sideBar} />
+            <Navbar />
             {
-                sideBar && <SideBar toggleSideBar={toggleSideBar} sideBar={sideBar} user={user} />
+                sideBar && <SideBar />
             }
             main layout
             {children}
-            </SideBarContext.Provider>
+            </MainLayOutContext.Provider>
         </>
     )
 }
 
 
-export { MainLayOut, SideBarContext };
+export { MainLayOut, MainLayOutContext };

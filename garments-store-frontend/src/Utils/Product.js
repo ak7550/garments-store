@@ -1,12 +1,12 @@
 import localforage from 'localforage';
-import { getAllProductAPI } from '../API/Product';
+import { getAllCategoryProductAPI } from '../API/Product';
 
 
 export const loadAllProducts = (index, next) => {
-    localforage.getItem("categoryList", (err, value) => {
-        console.log("category is: ", value[index]);
-        localforage.getItem(`Products${value[index]._id}`, (err, val) => {
-            val ? next(val) : getAllProductAPI(value[index]._id, next);
+    localforage.getItem("categoryList", (err, categoryList) => {
+        console.log("category is: ", categoryList[index]);
+        localforage.getItem(`Category${categoryList[index]._id}`, (err, productList) => {
+            productList ? next(productList) : getAllCategoryProductAPI(categoryList[index]._id, next);
         });
     });
 }
