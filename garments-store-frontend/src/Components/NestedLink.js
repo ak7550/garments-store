@@ -15,9 +15,8 @@ import {
 } from '@material-ui/icons';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import { loadAllCategories } from '../Utils/Category';
-import { Route, Switch, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
-import CategoryComponent from '../Core/CategoryComponent';
 
 const useStyles = makeStyles(theme => ({
     nested: {
@@ -74,6 +73,7 @@ const NestedLink = ({ toggleSideBar }) => {
                                     button
                                     className={classes.nested}
                                     onClick={toggleSideBar}
+                                    key={index}
                                 >
                                     <Link to={`/category/${index}`}
                                         className={classes.link}

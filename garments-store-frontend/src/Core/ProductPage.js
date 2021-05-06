@@ -1,8 +1,12 @@
 import React from 'react'
 import { useParams } from 'react-router'
 
-const ProductPage = () => {
+const ProductPage = ({
+    reload,
+    toggleReload
+}) => {
     const { categoryIndex, productIndex } = useParams();
+
     return (
         <div>
             ProductPage
