@@ -9,7 +9,7 @@ const MainLayOutContext = createContext();
 const MainLayOut = ({
     children,
 }) => {
-    const [sideBar, setSideBar] = useState(true); //todo: make it false
+    const [sideBar, setSideBar] = useState(false); 
     const [user, setUser] = useState();
 
     //todo: method to fetch user information

@@ -1,6 +1,6 @@
-import { Grid, List, ListItem, makeStyles } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { loadAllProducts } from '../Utils/Product';
@@ -41,8 +41,6 @@ const useStyle = makeStyles(theme => ({
 }));
 
 
-//! component is redering too many times
-
 const CategoryComponent = () => {
     const { categoryIndex } = useParams();
     const classes = useStyle();
@@ -79,6 +77,9 @@ const CategoryComponent = () => {
                 className={clsx(classes.content, {
                     [classes.contentShift]: sideBar,
                 })}
+                style={{
+                    maxWidth: "100%"
+                }}
             >
                 <div className={classes.drawerHeader} />
                 {
