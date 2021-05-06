@@ -1,12 +1,12 @@
-import { List, ListItem, makeStyles } from '@material-ui/core';
+import { Grid, List, ListItem, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import ProductCart from '../Components/ProductCart';
 import { loadAllProducts } from '../Utils/Product';
 import { drawerWidth } from '../backEnd'
 import { MainLayOutContext } from '../Components/MainLayOut';
+import ProductCard from '../Components/ProductCard';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -58,9 +58,9 @@ const CategoryComponent = () => {
     useEffect(() => {
         // will get inside it, only when the condition is true
         console.log(`length: ${productArr.arr.length} \n categoryIndex: ${categoryIndex}`);
-        console.log(`condition is: ${productArr.arr.length == 0 || productArr.cateIndex != categoryIndex}`);
+        console.log(`condition is: ${productArr.arr.length === 0 || productArr.cateIndex !== categoryIndex}`);
 
-        if (productArr.arr.length == 0 || productArr.cateIndex != categoryIndex) {
+        if (productArr.arr.length === 0 || productArr.cateIndex !== categoryIndex) {
             loadAllProducts(categoryIndex, data => {
                 console.log("fixing the shit");
                 setProductArr({
@@ -82,33 +82,37 @@ const CategoryComponent = () => {
             >
                 <div className={classes.drawerHeader} />
                 {
-                    <List component="div" disablePadding>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="flex-start"
+                        alignItems="center"
+                        wrap
+                        style={{
+                            marginLeft: "20em"
+                        }}
+                    >
                         {
                             productArr.arr.length &&
                             productArr.arr.map((product, index) => (
-                                <ListItem button key={index}>
+                                <Grid item >
                                     <Link
                                         to={`/category/${categoryIndex}/product/${index}`}
                                         className={classes.link}
                                         style={{
-                                            border: "1px solid black",
-                                            display: "inline",
-                                            width: "40em",
-                                            height: "10em",
-                                            background: "red",
-                                            marginLeft: "20em"
+                                            paddingLeft: '1em',
                                         }}
                                     >
-                                        <ProductCart
+                                        <ProductCard
                                             product={product}
                                         />
                                     </Link>
-                                </ListItem>
+                                </Grid>
                             ))
 
                         }
 
-                    </List>
+                    </Grid>
                 }
             </div>
         </>
