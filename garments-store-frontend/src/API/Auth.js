@@ -1,7 +1,7 @@
 import { API } from '../backEnd';
 import localforage from 'localforage'
+import axios from '../Utils/axios';
 //docs: https://localforage.github.io/localForage/#installation
-import axios from 'axios';
 
 export const logInApiCall = (userInfo, next, errorLog) => {
     console.log(userInfo);

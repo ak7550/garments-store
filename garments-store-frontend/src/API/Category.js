@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from '../Utils/axios';
 import { API } from "../backEnd";
 import localforage from 'localforage'
 

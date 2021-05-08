@@ -21,6 +21,8 @@ import {
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { Redirect } from 'react-router';
+import { handleError } from '../../Components/handleError';
+import { createFormHeader } from '../../Components/formHeader';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,15 +58,7 @@ const SignUpForm = () => {
     const [date, setDate] = useState(new Date());
     const classes = useStyles();
 
-    const signUpHeader = () => {
 
-    }
-
-    //todo: set the alert message with error, field to get the age
-    const handleError = err => {
-        console.log(`error is: `, err);
-        //todo: idea is to put an alert an let the user know about the error.
-    }
 
 
     const { setUser } = useContext(MainLayOutContext);
@@ -101,7 +95,7 @@ const SignUpForm = () => {
 
     return (
         <Container className={classes.container} maxWidth="xs">
-            {signUpHeader()}
+            {createFormHeader("Sign Up Form")}
             <form
                 onSubmit={handleSubmit(onSubmit, onError)}
             >

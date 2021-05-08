@@ -9,11 +9,10 @@ import {
 import { useForm } from 'react-hook-form';
 import { logInApiCall } from '../../API/Auth';
 import { MainLayOutContext } from '../../Components/MainLayOut';
+import { handleError } from '../../Components/handleError';
+import { createFormHeader } from '../../Components/formHeader';
 
 //docs: https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
-
-
-//*Express-validator is rejecting the request
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -28,9 +27,7 @@ const useStyles = makeStyles((theme) => ({
 const LogInForm = () => {
     const classes = useStyles();
 
-    const logInHeader = () => {
 
-    }
 
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, watch } = useForm({
         mode: "onBlur",
@@ -41,10 +38,7 @@ const LogInForm = () => {
 
     const { setUser } = useContext(MainLayOutContext);
 
-    const handleError = err => {
-        console.log(`error is: `, err);
-        //todo: idea is to put an alert an let the user know about the error.
-    }
+
 
 
     const onSubmit = (unserInfo, event) => {
@@ -75,7 +69,7 @@ const LogInForm = () => {
 
     return (
         <Container className={classes.container} maxWidth="xs">
-            {logInHeader()}
+            {createFormHeader("Log In Form")}
             <form
                 onSubmit={handleSubmit(onSubmit, onError)}
             >
