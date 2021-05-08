@@ -23,10 +23,12 @@ export const logInApiCall = (userInfo, next, errorLog) => {
 }
 
 export const signUpApiCall = (userData, next, errorLog) => {
-    console.log(userData);
     userData.role = userData.role === "1" ? 1 : 0;
-    userData.userInfo.sex = userData.gender;
-    userData.userInfo.age = new Date(userData.dob).getFullYear - new Date().getFullYear;
+    const sex = userData.gender;
+    const age = userData.dob.getFullYear() - new Date().getFullYear();
+    const userInfo = { sex, age };
+    userData.userInfo = userInfo;
+    console.log("userDate to pass: ",userData);
     axios.post(`${API}/auth/signUp`, userData)
         .then(res => {
             localforage.setItem("user", res.data);

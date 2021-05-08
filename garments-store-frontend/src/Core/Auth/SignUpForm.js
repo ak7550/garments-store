@@ -20,6 +20,7 @@ import {
 } from '@material-ui/pickers';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
+import { Redirect } from 'react-router';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,12 +48,12 @@ const SignUpForm = () => {
         reValidateMode: "onBlur",
         criteriaMode: "all",
         defaultValues: {
-            dob: new Date(),
             gender: "female",
             role: "0"
         }
     });
 
+    const [date, setDate] = useState(new Date());
     const classes = useStyles();
 
     const signUpHeader = () => {
@@ -68,13 +69,17 @@ const SignUpForm = () => {
 
     const { setUser } = useContext(MainLayOutContext);
 
-    const onSubmit = (unserInfo, event) => {
-        console.log(unserInfo);
+    const onSubmit = (userInfo, event) => {
+        console.log(userInfo);
         console.log(`submit button clicked`);
-        signUpApiCall(unserInfo,
+        userInfo.dob = date;
+
+
+        signUpApiCall(userInfo,
             data => {
                 setUser(data); // setting the user
                 console.log(`user information from the login from after setting user state: ${data}`);
+                <Redirect to="/" />
             },
             resErr => {
                 handleError(resErr);
@@ -169,21 +174,18 @@ const SignUpForm = () => {
                                         id="date-picker-inline"
                                         inputVariant="outlined"
                                         variant="inline"
-                                        label="dob"
                                         name="dob"
-                                        value={new Date()}
+                                        value={date}
                                         minDate={new Date('1400-01-01')}
                                         minDateMessage="Date must be after 1400"
                                         maxDateMessage="Future dates are not allowed"
                                         autoOk
                                         disableFuture
-                                        onChange={(e, date) => setValue("dob", date)}
+                                        onChange={(e, d) => setDate(d)}
                                         KeyboardButtonProps={{
                                             'aria-label': 'change date',
                                         }}
-                                        {
-                                        ...register("dob")
-                                        }
+
                                         className={classes.radiogroup}
                                         style={{
                                             marginTop: '0.1em'
