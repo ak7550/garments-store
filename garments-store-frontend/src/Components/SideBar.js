@@ -19,6 +19,7 @@ import NestedLink from './NestedLink';
 import LogInForm from '../Core/Auth/LogInForm';
 import { drawerWidth } from '../backEnd'
 import { MainLayOutContext } from './MainLayOut';
+import SignUpForm from '../Core/Auth/SignUpForm';
 const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
@@ -61,15 +62,13 @@ const useStyles = makeStyles((theme) => ({
 const SideBar = () => {
     const classes = useStyles();
     const [logInDialogueBox, setLogInDialogueBox] = useState(false);
-    const [signUpDialogueBox, setSignUpDialogueBox] = useState(false);
+    const [signUpDialogueBox, setSignUpDialogueBox] = useState(true);
     const { user, sideBar, toggleSideBar } = useContext(MainLayOutContext);
 
     //! experimental ==> working fine
     const handleLogInButtonClicked = event => setLogInDialogueBox(!logInDialogueBox);
 
-    const handleSignUpButtonClicked = event => {
-        console.log(`signup button clicked`);
-    };
+    const handleSignUpButtonClicked = event => setSignUpDialogueBox(!signUpDialogueBox);
 
 
     return (
@@ -125,10 +124,10 @@ const SideBar = () => {
                                     <ListItemText primary="Login" />
                                 </ListItem>
                                 <ListItem button onClick={handleSignUpButtonClicked}>
-                                    <ListItemIcon>
-                                        <PersonAddIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="SignUp" />
+                                        <ListItemIcon>
+                                            <PersonAddIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary="SignUp" />
                                 </ListItem>
                             </>
 
@@ -145,6 +144,16 @@ const SideBar = () => {
                     onClose={() => setLogInDialogueBox(!logInDialogueBox)}
                 >
                     <LogInForm />
+                </AkBackDrop>
+            }
+            {
+                signUpDialogueBox
+                &&
+                <AkBackDrop
+                    open={signUpDialogueBox}
+                    onClose={() => setSignUpDialogueBox(!signUpDialogueBox)}
+                >
+                    <SignUpForm />
                 </AkBackDrop>
             }
         </>

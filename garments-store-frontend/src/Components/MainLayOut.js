@@ -9,8 +9,8 @@ const MainLayOutContext = createContext();
 const MainLayOut = ({
     children,
 }) => {
-    const [sideBar, setSideBar] = useState(false); 
-    const [user, setUser] = useState();
+    const [sideBar, setSideBar] = useState(false);
+    const [user, setUser] = useState("");
 
     //todo: method to fetch user information
     useEffect(() => {

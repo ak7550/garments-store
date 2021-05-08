@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
     Button,
     Container,
@@ -7,12 +7,13 @@ import {
     TextField,
 } from '@material-ui/core'
 import { useForm } from 'react-hook-form';
-import { logInApiCall, logInMethodCall } from '../../Utils/Auth';
+import { logInApiCall } from '../../API/Auth';
+import { MainLayOutContext } from '../../Components/MainLayOut';
 
 //docs: https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
 
-//todo: study bit more about react hook form to use them properly.
 
+//*Express-validator is rejecting the request
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -31,35 +32,40 @@ const LogInForm = () => {
 
     }
 
-    //! read about setValue method ==> https://react-hook-form.com/api/useform/setvalue
-    //docs: https://react-hook-form.com/api/useform/reset (reset)
-
-
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, watch } = useForm({
         mode: "onBlur",
         reValidateMode: "onBlur",
         criteriaMode: "all",
         // shouldFocusError: true,
     });
-    //docs: https://react-hook-form.com/api/useform
 
-    const onSubmit = (unserInfo, e) => {
-        console.log(unserInfo);
-        console.log(`submit button clicked`);
-        const responseObj = logInMethodCall(unserInfo); //todo: handle this situation
-        console.log(`responseObject: `, responseObj);
+    const { setUser } = useContext(MainLayOutContext);
 
-
-
-        //_ after getting an error
-
-
-        reset();
-
+    const handleError = err => {
+        console.log(`error is: `, err);
+        //todo: idea is to put an alert an let the user know about the error.
     }
 
-    const onError = (errors, e) => {
+
+    const onSubmit = (unserInfo, event) => {
+        console.log(unserInfo);
+        console.log(`submit button clicked`);
+        logInApiCall(unserInfo,
+            data => {
+                setUser(data); // setting the user
+                console.log(`user information from the login form after setting user state: ${data}`);
+            },
+            resErr => {
+                handleError(resErr);
+                console.log(`error information from the login from after the try of getting an user from the server: ${resErr}`);
+            });
+        //_ after getting an error
+        reset();
+    }
+
+    const onError = (errors, event) => {
         console.log("error is: ", errors);
+        handleError(errors);
         reset();
         clearErrors();
     }
@@ -85,7 +91,7 @@ const LogInForm = () => {
                                     type="text"
                                     placeholder="Email"
                                     {
-                                    ...register("email ", {
+                                    ...register("email", {
                                         pattern: {
                                             value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                                             message: "Provide a valid email"
