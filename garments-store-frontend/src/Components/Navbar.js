@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import clsx from 'clsx';
 import {
     AppBar,
     Avatar,
-    Button,
     Grid,
     IconButton,
     makeStyles,
@@ -16,6 +15,7 @@ import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import { Link } from 'react-router-dom';
+import { MainLayOutContext } from './MainLayOut';
 
 // -> extra stylings are being provided like this, others are already being given by the material ui
 // docs: https://material-ui.com/components/app-bar/#app-bar
@@ -56,8 +56,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Navbar = ({ user, toggleSideBar, sideBar }) => {
+const Navbar = () => {
     const classes = useStyles();
+    const { user ,sideBar, toggleSideBar } = useContext(MainLayOutContext);
     return (
         <div className={classes.root}>
             <AppBar position="fixed"

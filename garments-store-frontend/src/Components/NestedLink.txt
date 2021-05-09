@@ -1,0 +1,3 @@
+will add timeline styling in nested category list
+
+with the help of useHistory hook we will add selected effect into the nested sidebar

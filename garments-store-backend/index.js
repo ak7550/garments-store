@@ -10,9 +10,8 @@ app.use(morgan('dev', {
 //middlewares ==> 3rd party library
 const cors = require('cors') // to call apis from postman or other restricted domains https://auth0.com/blog/cors-tutorial-a-guide-to-cross-origin-resource-sharing/
 app.use(cors());
-const bodyParser = require('body-parser'); // ==> to parse the information in req.body in json format
-app.use(bodyParser.json()); // parse data in json format within req.body ==> https://www.npmjs.com/package/body-parser
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
 var cookieParser = require('cookie-parser');
 // load the cookie-parsing middleware
 app.use(cookieParser());

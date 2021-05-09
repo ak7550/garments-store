@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
     Avatar,
     Divider,
@@ -17,7 +17,9 @@ import SideBarOptionsForLoggedInUser from './SideBarOptionsForLoggedInUser';
 import AkBackDrop from './AkBackDrop';
 import NestedLink from './NestedLink';
 import LogInForm from '../Core/Auth/LogInForm';
-const drawerWidth = 260;
+import { drawerWidth } from '../Utils/backEnd'
+import { MainLayOutContext } from './MainLayOut';
+import SignUpForm from '../Core/Auth/SignUpForm';
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -58,21 +60,16 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const SideBar = ({
-    toggleSideBar,
-    sideBar,
-    user
-}) => {
+const SideBar = () => {
     const classes = useStyles();
     const [logInDialogueBox, setLogInDialogueBox] = useState(false);
     const [signUpDialogueBox, setSignUpDialogueBox] = useState(false);
+    const { user, sideBar, toggleSideBar } = useContext(MainLayOutContext);
 
     //! experimental ==> working fine
     const handleLogInButtonClicked = event => setLogInDialogueBox(!logInDialogueBox);
 
-    const handleSignUpButtonClicked = event => {
-        console.log(`signup button clicked`);
-    };
+    const handleSignUpButtonClicked = event => setSignUpDialogueBox(!signUpDialogueBox);
 
 
     return (
@@ -128,26 +125,36 @@ const SideBar = ({
                                     <ListItemText primary="Login" />
                                 </ListItem>
                                 <ListItem button onClick={handleSignUpButtonClicked}>
-                                    <ListItemIcon>
-                                        <PersonAddIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="SignUp" />
+                                        <ListItemIcon>
+                                            <PersonAddIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary="SignUp" />
                                 </ListItem>
                             </>
 
                     }
                 </List>
                 <Divider />
-                <NestedLink toggleSideBar={ toggleSideBar }/>
+                <NestedLink toggleSideBar={toggleSideBar} />
             </Drawer>
             {
                 logInDialogueBox
                 &&
                 <AkBackDrop
-                        open={logInDialogueBox}
+                    open={logInDialogueBox}
                     onClose={() => setLogInDialogueBox(!logInDialogueBox)}
                 >
-                    <LogInForm />
+                    <LogInForm close={handleLogInButtonClicked} />
+                </AkBackDrop>
+            }
+            {
+                signUpDialogueBox
+                &&
+                <AkBackDrop
+                    open={signUpDialogueBox}
+                    onClose={() => setSignUpDialogueBox(!signUpDialogueBox)}
+                >
+                    <SignUpForm close={handleSignUpButtonClicked}/>
                 </AkBackDrop>
             }
         </>

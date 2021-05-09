@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
     Button,
     Container,
@@ -7,12 +7,13 @@ import {
     TextField,
 } from '@material-ui/core'
 import { useForm } from 'react-hook-form';
-import { logInApiCall, logInMethodCall } from '../../Utils/Auth';
+import { logInApiCall } from '../../API/Auth';
+import { MainLayOutContext } from '../../Components/MainLayOut';
+import { handleError } from '../../Components/handleError';
+import { createFormHeader } from '../../Components/formHeader';
+import { Redirect } from 'react-router';
 
 //docs: https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
-
-//todo: study bit more about react hook form to use them properly.
-
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -24,42 +25,38 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const LogInForm = () => {
+const LogInForm = ({ close }) => {
     const classes = useStyles();
-
-    const logInHeader = () => {
-
-    }
-
-    //! read about setValue method ==> https://react-hook-form.com/api/useform/setvalue
-    //docs: https://react-hook-form.com/api/useform/reset (reset)
-
-
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, watch } = useForm({
         mode: "onBlur",
         reValidateMode: "onBlur",
         criteriaMode: "all",
         // shouldFocusError: true,
     });
-    //docs: https://react-hook-form.com/api/useform
+    const { setUser, toggleSideBar } = useContext(MainLayOutContext);
 
-    const onSubmit = (unserInfo, e) => {
+    const onSubmit = (unserInfo, event) => {
         console.log(unserInfo);
         console.log(`submit button clicked`);
-        const responseObj = logInMethodCall(unserInfo); //todo: handle this situation
-        console.log(`responseObject: `, responseObj);
-
-
-
+        logInApiCall(unserInfo,
+            data => {
+                setUser(data); // setting the user
+                console.log(`user information from the login form after setting user state: ${data}`);
+                <Redirect to="/" />
+                close();
+                toggleSideBar();
+            },
+            resErr => {
+                handleError(resErr);
+                console.log(`error information from the login from after the try of getting an user from the server: ${resErr}`);
+            });
         //_ after getting an error
-
-
         reset();
-
     }
 
-    const onError = (errors, e) => {
+    const onError = (errors, event) => {
         console.log("error is: ", errors);
+        handleError(errors);
         reset();
         clearErrors();
     }
@@ -69,7 +66,7 @@ const LogInForm = () => {
 
     return (
         <Container className={classes.container} maxWidth="xs">
-            {logInHeader()}
+            {createFormHeader("Log In Form")}
             <form
                 onSubmit={handleSubmit(onSubmit, onError)}
             >
@@ -85,7 +82,7 @@ const LogInForm = () => {
                                     type="text"
                                     placeholder="Email"
                                     {
-                                    ...register("email ", {
+                                    ...register("email", {
                                         pattern: {
                                             value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                                             message: "Provide a valid email"

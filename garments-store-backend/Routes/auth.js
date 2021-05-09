@@ -10,7 +10,7 @@ router.get("/", (req, res) => res.send("You are in auth route"));
 
 //singin route
 router.post("/signUp",
-    
+
     check("name").isLength({ min: 5, max: 30 }).withMessage("Write your name in between 5 to 30"),
     check("email")
         .isEmail().withMessage('Valid email is required'),
@@ -26,7 +26,6 @@ router.post("/signUp",
 // docs==> https://express-validator.github.io/docs/custom-error-messages.html
 
 router.post("/signIn",
-    
     check("email")
         .isEmail().withMessage('Valid email is required'),
     check("password")
@@ -36,7 +35,7 @@ router.post("/signIn",
         // .matches(/(?=.*[a-z])/).withMessage('Password needs to have at least one small letter ')
         // .matches(/(?=.*[!@#$&*])/).withMessage('Password needs to have a special character ')
         .not().isIn(['abc', 'password', 'god', 'abc',]).withMessage('Do not use a common word as the password'),
-    
+
     signIn);
 
 router.get("/signOut", signOut);

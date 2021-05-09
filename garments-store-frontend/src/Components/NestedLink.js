@@ -15,9 +15,8 @@ import {
 } from '@material-ui/icons';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import { loadAllCategories } from '../Utils/Category';
-import { Route, Switch, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
-import CategoryComponent from '../Core/CategoryComponent';
 
 const useStyles = makeStyles(theme => ({
     nested: {
@@ -37,10 +36,10 @@ const NestedLink = ({ toggleSideBar }) => {
     const [categoryList, setCategoryList] = useState([]);
 
     useEffect(() => {
-        loadAllCategories(data => {
-            // console.log(`data is: `, data);
-            setCategoryList(data);
-        });
+        console.log(`hi from useEffct of nested links`);
+        loadAllCategories(data =>
+            setCategoryList(data)
+        );
         //docs: https://stackoverflow.com/questions/45620694/how-to-return-response-of-axios-in-return (idea copied)
     }, []);
 
@@ -68,11 +67,13 @@ const NestedLink = ({ toggleSideBar }) => {
                     categoryList.length &&
                     <List component="div" disablePadding>
                         {
+                            //todo: https://material-ui.com/components/timeline/
                             categoryList.map((category, index) => (
                                 <ListItem
                                     button
                                     className={classes.nested}
                                     onClick={toggleSideBar}
+                                    key={index}
                                 >
                                     <Link to={`/category/${index}`}
                                         className={classes.link}

@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid'); // https://www.npmjs.com/package/uuid
 const crypto = require('crypto');
 const { getString } = require('../Controllers/random');
 
-const UserSchema = new mongoose.Schema({
+    const UserSchema = new mongoose.Schema({
     //! delete this shit
     _password: String,
     firstName: {

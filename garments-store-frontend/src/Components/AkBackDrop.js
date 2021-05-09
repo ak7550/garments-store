@@ -40,7 +40,6 @@ const AkBackDrop = ({
                 <Fade in={open}>
                     <div className={classes.paper}
                         style={{
-                            backgroundColor: (x = 240) => `rgb(${x},${x},${x})`,
                             backgroundColor: "#f7f7f7"
                         }}
                     >
