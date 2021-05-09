@@ -10,7 +10,7 @@ const MainLayOut = ({
     children,
 }) => {
     const [sideBar, setSideBar] = useState(false);
-    const [user, setUser] = useState("");
+    const [user, setUser] = useState({}); //todo: put null
 
     //todo: method to fetch user information
     useEffect(() => {
@@ -18,6 +18,8 @@ const MainLayOut = ({
     }, [user])
 
     //docs: https://flaviocopes.com/react-hook-usecallback/ ==> only those components will re-render which are somehow dependant on sideBar state.
+
+    console.log(`user is:`, user);
     const toggleSideBar = useCallback(() => setSideBar(!sideBar), [sideBar]);
     return (
         <>

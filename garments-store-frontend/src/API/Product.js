@@ -1,5 +1,5 @@
 import axios from '../Utils/axios';
-import { API } from "../backEnd";
+import { API } from '../Utils/backEnd';
 import localforage from 'localforage'
 
 export const getAllCategoryProductAPI = (categoryId, next) => {

@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import {
     AppBar,
     Avatar,
-    Button,
     Grid,
     IconButton,
     makeStyles,

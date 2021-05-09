@@ -10,6 +10,32 @@ add searchBar ==> done
 apply sidebar from a different component ==> done
 put the sidebar into mainLayOut component and handle it's events from navbar ==> done
 
-add the actual links and buttons in the form array of object into the list
+add the actual links and buttons in the form array of object into the list ==> done
 
-add categories to the sidebar.
+add categories to the sidebar. ==> done
+
+
+add list for the loggedin users
+lists to be:
+my dashboard
+my orders
+my wishlist
+my followers list
+my followings list
+logout button
+
+if the user is a seller then create a different section for him
+lists to be:
+Categories:
+    add, remove, update categories
+products
+    add, remove, update products
+
+
+create the product page
+add an cart button in nav bar
+fix the avatar pannel in the nav bar
+
+
+Question:
+how can i delete the localstorage after a certain amount of time.

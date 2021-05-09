@@ -11,6 +11,7 @@ import { logInApiCall } from '../../API/Auth';
 import { MainLayOutContext } from '../../Components/MainLayOut';
 import { handleError } from '../../Components/handleError';
 import { createFormHeader } from '../../Components/formHeader';
+import { Redirect } from 'react-router';
 
 //docs: https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
 
@@ -24,22 +25,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const LogInForm = () => {
+const LogInForm = ({ close }) => {
     const classes = useStyles();
-
-
-
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, watch } = useForm({
         mode: "onBlur",
         reValidateMode: "onBlur",
         criteriaMode: "all",
         // shouldFocusError: true,
     });
-
-    const { setUser } = useContext(MainLayOutContext);
-
-
-
+    const { setUser, toggleSideBar } = useContext(MainLayOutContext);
 
     const onSubmit = (unserInfo, event) => {
         console.log(unserInfo);
@@ -48,6 +42,9 @@ const LogInForm = () => {
             data => {
                 setUser(data); // setting the user
                 console.log(`user information from the login form after setting user state: ${data}`);
+                <Redirect to="/" />
+                close();
+                toggleSideBar();
             },
             resErr => {
                 handleError(resErr);

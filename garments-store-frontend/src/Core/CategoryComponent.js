@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { loadAllProducts } from '../Utils/Product';
-import { drawerWidth } from '../backEnd'
+import { drawerWidth } from '../Utils/backEnd'
 import { MainLayOutContext } from '../Components/MainLayOut';
 import ProductCard from '../Components/ProductCard';
 
@@ -60,7 +60,7 @@ const CategoryComponent = () => {
 
         if (productArr.arr.length === 0 || productArr.cateIndex !== categoryIndex) {
             loadAllProducts(categoryIndex, data => {
-                console.log("fixing the shit");
+                console.log("fixed issue");
                 setProductArr({
                     arr: data,
                     cateIndex: categoryIndex,
@@ -68,7 +68,7 @@ const CategoryComponent = () => {
             });
         }
 
-    }, [sideBar]);
+    }, [sideBar]); //as i need to call the method useEffect everytime the component updates ==> how do i know that the value needs to be changed ==> at that monet an obvious thing is occuring that the sidebar is changing it's value // don't think about es lint warning. //docs: https://www.akashmittal.com/useeffect-missing-dependency/
 
 
     return (

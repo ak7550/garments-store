@@ -17,9 +17,10 @@ import SideBarOptionsForLoggedInUser from './SideBarOptionsForLoggedInUser';
 import AkBackDrop from './AkBackDrop';
 import NestedLink from './NestedLink';
 import LogInForm from '../Core/Auth/LogInForm';
-import { drawerWidth } from '../backEnd'
+import { drawerWidth } from '../Utils/backEnd'
 import { MainLayOutContext } from './MainLayOut';
 import SignUpForm from '../Core/Auth/SignUpForm';
+
 const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 const SideBar = () => {
     const classes = useStyles();
     const [logInDialogueBox, setLogInDialogueBox] = useState(false);
-    const [signUpDialogueBox, setSignUpDialogueBox] = useState(true);
+    const [signUpDialogueBox, setSignUpDialogueBox] = useState(false);
     const { user, sideBar, toggleSideBar } = useContext(MainLayOutContext);
 
     //! experimental ==> working fine
@@ -143,7 +144,7 @@ const SideBar = () => {
                     open={logInDialogueBox}
                     onClose={() => setLogInDialogueBox(!logInDialogueBox)}
                 >
-                    <LogInForm />
+                    <LogInForm close={handleLogInButtonClicked} />
                 </AkBackDrop>
             }
             {
@@ -153,7 +154,7 @@ const SideBar = () => {
                     open={signUpDialogueBox}
                     onClose={() => setSignUpDialogueBox(!signUpDialogueBox)}
                 >
-                    <SignUpForm />
+                    <SignUpForm close={handleSignUpButtonClicked}/>
                 </AkBackDrop>
             }
         </>

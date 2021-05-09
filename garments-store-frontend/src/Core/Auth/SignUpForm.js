@@ -42,17 +42,17 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const SignUpForm = () => {
+const SignUpForm = ({close}) => {
 
     //docs: https://react-hook-form.com/api/useform
-    const { register, handleSubmit, formState: { errors }, reset, clearErrors, watch, control, setValue } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset, clearErrors, control, setValue } = useForm({
         mode: "onBlur",
         reValidateMode: "onBlur",
         criteriaMode: "all",
-        defaultValues: {
-            gender: "female",
-            role: "0"
-        }
+        // defaultValues: {
+        //     gender: "female",
+        //     role: "0"
+        // }
     });
 
     const [date, setDate] = useState(new Date());
@@ -61,7 +61,7 @@ const SignUpForm = () => {
 
 
 
-    const { setUser } = useContext(MainLayOutContext);
+    const { setUser, toggleSideBar } = useContext(MainLayOutContext);
 
     const onSubmit = (userInfo, event) => {
         console.log(userInfo);
@@ -74,12 +74,13 @@ const SignUpForm = () => {
                 setUser(data); // setting the user
                 console.log(`user information from the login from after setting user state: ${data}`);
                 <Redirect to="/" />
+                close();
+                toggleSideBar();
             },
             resErr => {
                 handleError(resErr);
                 console.log(`error information from the signup form after the try of getting an user from the server: ${resErr}`);
             });
-        //_ after getting an error
         reset();
     }
 

@@ -12,6 +12,7 @@ exports.signUp = (req, res) => {
     // res.send(req.body);
     console.log(`\n\n\n\n\nvalidation result: ${JSON.stringify(errs)}`);
     // https://express-validator.github.io/docs/validation-chain-api.html
+    console.log(`request body: `, req.body);
     if (!errs.isEmpty()) {
         res.status(400).json({
             errors: errs.array()
@@ -19,7 +20,6 @@ exports.signUp = (req, res) => {
     } else {
         // now we need to assign the user info into our database as a new user entry, he/she might be our customer or a seller (admin).
         console.log(`req.body: ${req.body}`);
-        // TODO: add buyer / seller option and other descriptions as well
         const { name, email, password, role, description = " ", userInfo } = req.body; // object destructing
 
         // checking if the email id is already present within our database
@@ -47,6 +47,7 @@ exports.signUp = (req, res) => {
             });
 
             else {
+                console.log(`now it's time to create the jwt token`);
                 const token = jwt.sign({
                     _id: user._id
                 }, process.env.secret, { expiresIn: '100h' }); // creates the token (ticket),
@@ -54,6 +55,7 @@ exports.signUp = (req, res) => {
                     {
                         expires: new Date(Date.now() + 100 * 3600000) // cookie will be removed after 8 hours
                     });
+                console.log(`jwt is parsed inside of the cookie`);
                 return res.status(200).json({
                     token,
                     user,

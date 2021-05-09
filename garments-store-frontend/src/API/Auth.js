@@ -1,4 +1,4 @@
-import { API } from '../backEnd';
+import { API } from '../Utils/backEnd';
 import localforage from 'localforage'
 import axios from '../Utils/axios';
 //docs: https://localforage.github.io/localForage/#installation

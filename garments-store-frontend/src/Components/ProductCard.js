@@ -3,13 +3,11 @@ import {
   Avatar,
   Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   CardHeader,
   CardMedia,
   Divider,
-  Grid,
   IconButton,
   makeStyles,
   Typography
@@ -21,7 +19,6 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import clsx from 'clsx';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import { blue, red, grey, green, orange, pink, purple } from '@material-ui/core/colors';
-import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 
 
 //todo: https://codesandbox.io/s/547b5?file=/demo.js
