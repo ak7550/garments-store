@@ -10,7 +10,8 @@ export const logInApiCall = (userInfo, next, errorLog) => {
         .then(res => {
             localforage.setItem("user", res.data);
             console.log(`logInAPI response is: `, res.data);
-            next(res.data);
+            axios.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
+            next(res.data.user);
         })
         .catch(error => {
             //docs: https://stackoverflow.com/questions/49967779/axios-handling-errors
@@ -28,12 +29,27 @@ export const signUpApiCall = (userData, next, errorLog) => {
     const age = userData.dob.getFullYear() - new Date().getFullYear();
     const userInfo = { sex, age };
     userData.userInfo = userInfo;
-    console.log("userDate to pass: ",userData);
+    console.log("userDate to pass: ", userData);
     axios.post(`${API}/auth/signUp`, userData)
         .then(res => {
             localforage.setItem("user", res.data);
             console.log(`signUpAPI response is: `, res.data);
-            next(res.data);
+            axios.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
+            next(res.data.user);
         })
         .catch(error => errorLog(error.response));
+}
+
+export const logOutApiCall = (next, handleErr) => {
+    axios.get(`${API}/auth/signOut`)
+        .then(res => {
+            console.log(`user signedOut.\n ${JSON.stringify(res.data)}`);
+            axios.defaults.headers['Authorization'] = ``; // making it null
+            next(res.data);
+        })
+        .catch(err => {
+            console.log(`err occured.\n ${JSON.stringify(err)}`);
+            handleErr(err);
+        });
+    //todo: remove token from axios header
 }

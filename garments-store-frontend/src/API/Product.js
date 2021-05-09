@@ -12,3 +12,12 @@ export const getAllCategoryProductAPI = (categoryId, next) => {
         })
         .catch(err => console.log(err));
 }
+
+export const addToWatchListAPI = (productId, userId, next) => {
+    console.log(`hi from addToWatchListAPI`);
+    next();
+}
+export const removeFromWatchListAPI = (productId, userId, next) => {
+    console.log(`hi from removeFromWatchListAPI`);
+    next();
+}

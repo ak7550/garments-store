@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   Avatar,
   Button,
@@ -7,6 +7,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Chip,
   Divider,
   IconButton,
   makeStyles,
@@ -19,7 +20,10 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import clsx from 'clsx';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import { blue, red, grey, green, orange, pink, purple } from '@material-ui/core/colors';
-
+import { Link } from 'react-router-dom';
+import AttachMoneySharpIcon from '@material-ui/icons/AttachMoneySharp';
+import { MainLayOutContext } from './MainLayOut';
+import { addToWatchListAPI, removeFromWatchListAPI } from '../API/Product';
 
 //todo: https://codesandbox.io/s/547b5?file=/demo.js
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       boxShadow: `0 6px 12px 0 ${color}`,
     },
+
   }),
 
   avatar: {
@@ -84,18 +89,26 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(2),
     height: theme.spacing(2),
   },
+  link: {
+    display: "inherit",
+    textDecoration: "none",
+    color: "inherit"
+  }
 }));
 
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, linkTo }) => {
   const classes = useStyles({ color: '#203f52' });
   const { name, description, _id: id, imageLinks, sizes } = product;
   const { price } = sizes[0];
+  const [wishList, setWishList] = useState(false);
+  const { user } = useContext(MainLayOutContext);
 
+  const handleFavouriteButtonPressed = event =>
+    wishList ?
+      removeFromWatchListAPI(product._id, user._id, () => setWishList(false)) :
+      addToWatchListAPI(product._id, user._id, () => setWishList(true));
 
-  const handleFavouriteButtonPressed = event => {
-    console.log(`handleFavouriteButtonPressed button pressed`);
-  }
 
   const handleCartButtonPressed = event => {
     console.log(`handleCartButtonPressed button pressed`);
@@ -123,12 +136,13 @@ const ProductCard = ({ product }) => {
     <Card className={clsx(classes.root, classes.card)}>
       <CardHeader
         title={name}
-        //todo: procive the available sizes in avatar format
         subheader={renderSizes(sizes)}
         action={
-          <Avatar className={classes.avatar}>
-            <CallMadeIcon />
-          </Avatar>
+          <Link to={linkTo} className={classes.link}>
+            <Avatar className={classes.avatar}>
+              <CallMadeIcon />
+            </Avatar>
+          </Link>
         }
       />
       <Divider />
@@ -145,20 +159,25 @@ const ProductCard = ({ product }) => {
       </CardContent>
       <CardActions disableSpacing className={classes.cardAction}>
         <IconButton aria-label="add to favorites" color="secondary" onClick={handleFavouriteButtonPressed}>
-          <FavoriteBorderIcon />
+          {
+            wishList ? <FavoriteIcon /> : <FavoriteBorderIcon />
+          }
         </IconButton>
         <IconButton aria-label="add-to-cart" color="primary" onClick={handleCartButtonPressed}>
-          <AddShoppingCartIcon />
+          <ShareIcon />
         </IconButton>
-        <Button color="secondary" variant="text" size="medium"
+        <Chip
+          icon={<AttachMoneySharpIcon />}
+          color="secondary"
+          label={price}
           style={{
-            position: 'relative',
+            position: "relative",
             fontWeight: 'normal',
-            left: '4.4rem',
+            left: '4.1rem',
+            fontSize: '1rem'
           }}
-        >
-          ${price}
-        </Button>
+          clickable
+        />
       </CardActions>
     </Card>
   );

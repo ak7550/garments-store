@@ -42,9 +42,9 @@ const LogInForm = ({ close }) => {
             data => {
                 setUser(data); // setting the user
                 console.log(`user information from the login form after setting user state: ${data}`);
-                <Redirect to="/" />
                 close();
                 toggleSideBar();
+                <Redirect to="/" />
             },
             resErr => {
                 handleError(resErr);

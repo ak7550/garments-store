@@ -16,15 +16,25 @@ add the actual links and buttons in the form array of object into the list ==> d
 
 add categories to the sidebar. ==> done
 
-
 add list for the loggedin users
-lists to be:
+
+lists to be: (for buyers)
 my dashboard
 my orders
 my wishlist
+My shopping cart
 my followers list
 my followings list
-logout button
+logout button ==> all done
+
+lists to be: (for sellers)
+my dashboard
+categoryRoute
+productRoute
+signout ==> done
+
+
+create the routes
 
 if the user is a seller then create a different section for him
 lists to be:
@@ -41,3 +51,8 @@ fix the avatar pannel in the nav bar
 
 Question:
 how can i delete the localstorage after a certain amount of time.
+
+
+update the link inside the product card
+
+define private routes for sellers.

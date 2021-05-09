@@ -96,18 +96,15 @@ const CategoryComponent = () => {
                         {
                             productArr.arr.length &&
                             productArr.arr.map((product, index) => (
-                                <Grid item >
-                                    <Link
-                                        to={`/category/${categoryIndex}/product/${index}`}
-                                        className={classes.link}
-                                        style={{
-                                            paddingLeft: '1em',
-                                        }}
-                                    >
-                                        <ProductCard
-                                            product={product}
-                                        />
-                                    </Link>
+                                <Grid item
+                                    style={{
+                                        paddingLeft: '1em',
+                                    }}
+                                >
+                                    <ProductCard
+                                        product={product}
+                                        linkTo={`/category/${index}/product/${index}`}
+                                    />
                                 </Grid>
                             ))
 
@@ -120,4 +117,4 @@ const CategoryComponent = () => {
     );
 }
 
-export default CategoryComponent;
+export default CategoryComponent

@@ -73,9 +73,9 @@ const SignUpForm = ({close}) => {
             data => {
                 setUser(data); // setting the user
                 console.log(`user information from the login from after setting user state: ${data}`);
-                <Redirect to="/" />
                 close();
                 toggleSideBar();
+                <Redirect to="/" />
             },
             resErr => {
                 handleError(resErr);

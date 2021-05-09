@@ -11,12 +11,12 @@ import {
 import {
     ExpandLess,
     ExpandMore,
-    StarBorder
 } from '@material-ui/icons';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import { loadAllCategories } from '../Utils/Category';
 import { useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
+import ClassSharpIcon from '@material-ui/icons/ClassSharp';
 
 const useStyles = makeStyles(theme => ({
     nested: {
@@ -49,8 +49,8 @@ const NestedLink = ({ toggleSideBar }) => {
     console.log(`match is: `, match);
     return (
         <>
-            <ListItem button onClick={() => setOpen(!open)}>
-                <ListItemIcon>
+            <ListItem button onClick={() => setOpen(!open)} key={"category"}>
+                <ListItemIcon >
                     <InboxIcon />
                 </ListItemIcon>
                 <ListItemText
@@ -69,21 +69,22 @@ const NestedLink = ({ toggleSideBar }) => {
                         {
                             //todo: https://material-ui.com/components/timeline/
                             categoryList.map((category, index) => (
-                                <ListItem
-                                    button
-                                    className={classes.nested}
-                                    onClick={toggleSideBar}
-                                    key={index}
-                                >
-                                    <Link to={`/category/${index}`}
-                                        className={classes.link}
+
+                                    <ListItem
+                                        button
+                                        className={classes.nested}
+                                        onClick={toggleSideBar}
+                                        key={index}
                                     >
-                                        <ListItemIcon>
-                                            <StarBorder />
-                                        </ListItemIcon>
-                                        <ListItemText primary={category.name} />
-                                    </Link>
-                                </ListItem>
+                                        <Link to={`/category/${index}`}
+                                            className={classes.link}
+                                        >
+                                            <ListItemIcon>
+                                                <ClassSharpIcon />
+                                            </ListItemIcon>
+                                            <ListItemText primary={category.name} />
+                                        </Link>
+                                    </ListItem>
                             ))
                         }
                     </List>
