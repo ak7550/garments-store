@@ -39,9 +39,9 @@ create the routes
 if the user is a seller then create a different section for him
 lists to be:
 Categories:
-    add, remove, update categories
+    add, remove, update categories ==> done
 products
-    add, remove, update products
+    add, remove, update products ==> done
 
 
 create the product page
