@@ -8,7 +8,8 @@ export const logInApiCall = (userInfo, next, errorLog) => {
     //post request
     axios.post(`${API}/auth/signIn`, userInfo)
         .then(res => {
-            localforage.setItem("user", res.data);
+            localforage.setItem("user", res.data.user);
+            localforage.setItem("token", res.data.token);
             console.log(`logInAPI response is: `, res.data);
             axios.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
             next(res.data.user);
@@ -32,7 +33,8 @@ export const signUpApiCall = (userData, next, errorLog) => {
     console.log("userDate to pass: ", userData);
     axios.post(`${API}/auth/signUp`, userData)
         .then(res => {
-            localforage.setItem("user", res.data);
+            localforage.setItem("token", res.data.token);
+            localforage.setItem("user", res.data.user);
             console.log(`signUpAPI response is: `, res.data);
             axios.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
             next(res.data.user);
@@ -45,6 +47,8 @@ export const logOutApiCall = (next, handleErr) => {
         .then(res => {
             console.log(`user signedOut.\n ${JSON.stringify(res.data)}`);
             axios.defaults.headers['Authorization'] = ``; // making it null
+            localforage.removeItem("token");
+            localforage.removeItem("user"); //deleting the local data
             next(res.data);
         })
         .catch(err => {

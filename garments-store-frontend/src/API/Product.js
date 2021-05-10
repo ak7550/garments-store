@@ -15,9 +15,21 @@ export const getAllCategoryProductAPI = (categoryId, next) => {
 
 export const addToWatchListAPI = (productId, userId, next) => {
     console.log(`hi from addToWatchListAPI`);
-    next();
+    axios.put(`${API}/product/${userId}/${productId}/watchList`, {})
+        .then(res => {
+            console.log(`response is: ${res.data}`);
+            localforage.setItem("user", res.data.user); // update it to our localforage
+            next();
+        })
+        .catch(err => console.log(err));
 }
 export const removeFromWatchListAPI = (productId, userId, next) => {
     console.log(`hi from removeFromWatchListAPI`);
-    next();
+    axios.delete(`${API}/product/${userId}/${productId}/watchList`, {})
+        .then(res => {
+            localforage.setItem("user", res.data.user); // update it to our localforage
+            console.log(`response is: ${res.data}`);
+            next();
+        })
+        .catch(err => console.log(err));
 }

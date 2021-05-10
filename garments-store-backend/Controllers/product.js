@@ -147,10 +147,10 @@ exports.addToWatchList = (req, res) => {
         user.save(err => {
             if (err) return res.status(400).json({ msg: `not possible to add new product` });
         });
-        return res.status(200).json({ msg: `${product.name} is added into ${user.fullName}'s watchList` });
+        return res.status(200).json({ msg: `${product.name} is added into ${user.fullName}'s watchList`, user });
     }
     else
-        return res.status(400).json({ msg: `${searchedProduct} is already present in ${user.fullName}'s watchList` });
+        return res.status(400).json({ msg: `${searchedProduct} is already present in ${user.fullName}'s watchList`, user });
 }
 
 // _working fine
@@ -161,7 +161,7 @@ exports.removeFromWatchList = (req, res) => {
     user.save(err => {
         if (err) return res.status(400).json({ msg: `not possible to remove new product` });
     });
-    return res.status(200).json({ msg: `${product.name} has been removed from ${user.fullName}'s watchList` });
+    return res.status(200).json({ msg: `${product.name} has been removed from ${user.fullName}'s watchList` , user});
 }
 
 

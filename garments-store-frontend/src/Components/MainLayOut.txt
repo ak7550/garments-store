@@ -16,7 +16,7 @@ add the actual links and buttons in the form array of object into the list ==> d
 
 add categories to the sidebar. ==> done
 
-add list for the loggedin users
+add list for the loggedin users ==> done
 
 lists to be: (for buyers)
 my dashboard
@@ -33,9 +33,6 @@ categoryRoute
 productRoute
 signout ==> done
 
-
-create the routes
-
 if the user is a seller then create a different section for him
 lists to be:
 Categories:
@@ -43,8 +40,27 @@ Categories:
 products
     add, remove, update products ==> done
 
+create the routes ==> done
+    user dashboard
+    admin user dashboard
+    crud on category
+    crud on product
 
+create the home page ==> pagination, carousoul, parallax effect wiht products and categories.
 create the product page
+create the userdashboard page
+create the orderlist page
+create the wishlist page
+create the userlist page
+create the usercart page
+create the sellerdashboard page
+create the managecategories page
+create the manageproducts page
+
+
+
+
+
 add an cart button in nav bar
 fix the avatar pannel in the nav bar
 

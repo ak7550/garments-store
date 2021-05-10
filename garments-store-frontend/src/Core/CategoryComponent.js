@@ -2,7 +2,6 @@ import { Grid, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { loadAllProducts } from '../Utils/Product';
 import { drawerWidth } from '../Utils/backEnd'
 import { MainLayOutContext } from '../Components/MainLayOut';
@@ -103,7 +102,7 @@ const CategoryComponent = () => {
                                 >
                                     <ProductCard
                                         product={product}
-                                        linkTo={`/category/${index}/product/${index}`}
+                                        linkTo={`/product/${product._id}`}
                                     />
                                 </Grid>
                             ))

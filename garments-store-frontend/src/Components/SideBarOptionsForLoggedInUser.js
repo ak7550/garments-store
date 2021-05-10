@@ -53,33 +53,33 @@ const SideBarOptionsForLoggedInUser = () => {
     const listArrForBuyer = [{
         name: "My Dashboard",
         icon: <DashboardIcon />,
-        linkTo: "/user/dashboard",
+        linkTo: `/user/dashboard/${user._id}`,
         onClick: () => history.push(this.linkTo),
     },
     {
         name: "My Orders",
         icon: <LocalMallIcon />,
-        linkTo: "/user/orderList",
+        linkTo: `/user/orderList/${user._id}`,
         onClick: () => history.push(this.linkTo),
     },
     {
         name: "My WishLists",
         icon: <FavoriteIcon />,
-        linkTo: "/user/wishList",
+        linkTo: `/user/wishList/${user._id}`,
         onClick: () => history.push(this.linkTo),
 
     },
     {
         name: "My Shopping Cart",
         icon: <ShoppingCartIcon />,
-        linkTo: "/user/cart",
+        linkTo: `/user/cart/${user._id}`,
         onClick: () => history.push(this.linkTo),
 
     },
     {
         name: "My Followers",
         icon: <PersonAddIcon />,
-        linkTo: "/user/followerList",
+        linkTo: `/user/followerList/${user._id}`,
         onClick: () => history.push(this.linkTo),
     },
     {
@@ -97,7 +97,7 @@ const SideBarOptionsForLoggedInUser = () => {
         >
             <PersonIcon />
         </Badge>,
-        linkTo: "/user/followingList",
+        linkTo: `/user/followingList/${user._id}`,
         onClick: () => history.push(this.linkTo),
     },
     {
@@ -115,19 +115,19 @@ const SideBarOptionsForLoggedInUser = () => {
         listArrForSeller = [{
             name: "My Dashboard",
             icon: <DashboardIcon />,
-            linkTo: "/user/dashboard",
+            linkTo: `/seller/dashboard/${user._id}`,
             onClick: () => history.push(this.linkTo),
         },
         {
             name: "CRUD Category",
             icon: <CategoryOutlinedIcon />,
-            linkTo: "/seller/category",
+            linkTo: `/seller/category/${user._id}`,
             onClick: () => history.push(this.linkTo),
         },
         {
             name: "CRUD Product",
             icon: <CachedOutlinedIcon />,
-            linkTo: "/seller/product",
+            linkTo: `/seller/product/${user._id}`,
             onClick: () => history.push(this.linkTo),
         },
         {
