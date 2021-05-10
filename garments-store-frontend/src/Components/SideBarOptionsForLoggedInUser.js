@@ -54,33 +54,33 @@ const SideBarOptionsForLoggedInUser = () => {
         name: "My Dashboard",
         icon: <DashboardIcon />,
         linkTo: `/user/dashboard/${user._id}`,
-        onClick: () => history.push(this.linkTo),
+        onClick: link => history.push(link),
     },
     {
         name: "My Orders",
         icon: <LocalMallIcon />,
         linkTo: `/user/orderList/${user._id}`,
-        onClick: () => history.push(this.linkTo),
+        onClick: link => history.push(link),
     },
     {
         name: "My WishLists",
         icon: <FavoriteIcon />,
         linkTo: `/user/wishList/${user._id}`,
-        onClick: () => history.push(this.linkTo),
+        onClick: link => history.push(link),
 
     },
     {
         name: "My Shopping Cart",
         icon: <ShoppingCartIcon />,
         linkTo: `/user/cart/${user._id}`,
-        onClick: () => history.push(this.linkTo),
+        onClick: link => history.push(link),
 
     },
     {
         name: "My Followers",
         icon: <PersonAddIcon />,
         linkTo: `/user/followerList/${user._id}`,
-        onClick: () => history.push(this.linkTo),
+        onClick: link => history.push(link),
     },
     {
         name: "Me Following",
@@ -98,13 +98,13 @@ const SideBarOptionsForLoggedInUser = () => {
             <PersonIcon />
         </Badge>,
         linkTo: `/user/followingList/${user._id}`,
-        onClick: () => history.push(this.linkTo),
+        onClick: link => history.push(link),
     },
     {
         name: "LogOut",
         icon: <ExitToAppIcon />,
         linkTo: "/logOut",
-        onClick: () => {
+        onClick: link => {
             logOutApiCall(data => {
                 setUser(null);
                 <Redirect to="/" />
@@ -116,25 +116,26 @@ const SideBarOptionsForLoggedInUser = () => {
             name: "My Dashboard",
             icon: <DashboardIcon />,
             linkTo: `/seller/dashboard/${user._id}`,
-            onClick: () => history.push(this.linkTo),
+            onClick: link => history.push(link),
         },
         {
             name: "CRUD Category",
             icon: <CategoryOutlinedIcon />,
             linkTo: `/seller/category/${user._id}`,
-            onClick: () => history.push(this.linkTo),
+            onClick: link => history.push(link),
         },
         {
             name: "CRUD Product",
             icon: <CachedOutlinedIcon />,
             linkTo: `/seller/product/${user._id}`,
-            onClick: () => history.push(this.linkTo),
+            onClick: link => history.push(link),
         },
         {
             name: "LogOut",
             icon: <ExitToAppIcon />,
             linkTo: "/logOut",
-            onClick: () => {
+            onClick: link => {
+                console.log(`i have been called`);
                 logOutApiCall(data => {
                     setUser(null);
                     <Redirect to="/" />
@@ -151,7 +152,7 @@ const SideBarOptionsForLoggedInUser = () => {
                         <ListItem
                             button
                             key={index}
-                            onClick={item.onClick}
+                            onClick={() => item.onClick(item.linkTo)}
                         >
                             <ListItemIcon style={item.iconStyle}
                                 className={classes.listItemPrimary}

@@ -1,23 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
-import localforage from 'localforage'
+import React, { useContext } from 'react'
 import { Redirect, Route } from 'react-router';
 import { MainLayOutContext } from '../Components/MainLayOut';
 
 
 const SellerRoute = ({ component: Component, ...rest }) => {
-    const [token, setToken] = useState();
     const { user } = useContext(MainLayOutContext);
-
-    useEffect(() => {
-        console.log(`hi from ueEffct of seller route`);
-        localforage.getItem("token")
-            .then(val => {
-                setToken(val);
-                console.log(`token received`);
-            })
-            .catch(err => console.log(err));
-    }, []); //docs: https://www.akashmittal.com/useeffect-missing-dependency/
-
+    const token = user?.token;
     return (
         <Route
             {...rest}

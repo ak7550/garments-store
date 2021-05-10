@@ -8,10 +8,11 @@ export const logInApiCall = (userInfo, next, errorLog) => {
     //post request
     axios.post(`${API}/auth/signIn`, userInfo)
         .then(res => {
-            localforage.setItem("user", res.data.user);
-            localforage.setItem("token", res.data.token);
+            const { user, token } = res.data;
+            user.token = token;
+            localforage.setItem("user", user);
             console.log(`logInAPI response is: `, res.data);
-            axios.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
+            axios.defaults.headers['Authorization'] = `Bearer ${user.token}`;
             next(res.data.user);
         })
         .catch(error => {

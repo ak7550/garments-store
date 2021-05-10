@@ -10,8 +10,7 @@ const MainLayOut = ({
     children,
 }) => {
     const [sideBar, setSideBar] = useState(true);
-    const [user, setUser] = useState({role: 1}); //todo: put null
-
+    const [user, setUser] = useState(null); //todo: user should have the 
     //todo: method to fetch user information
     useEffect(() => {
 
