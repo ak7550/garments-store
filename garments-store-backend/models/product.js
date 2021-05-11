@@ -20,6 +20,7 @@ const productSchema = new mongoose.Schema({
         ref: "Category",
         required: true //_ required
     },
+    
     photos: [{
         data: Buffer,
         contentType: String
@@ -88,4 +89,3 @@ productSchema.methods.getQuantity = function (s) {
     return this.sizes[sizeIndex].stockCount;
 }
 module.exports = mongoose.model("Product", productSchema);
-

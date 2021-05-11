@@ -98,6 +98,7 @@ const LogInForm = ({ close }) => {
                                     helperText={errors.email?.message}
                                 />
                             </Grid>
+
                             <Grid item xs={12}>
                                 <TextField
                                     fullWidth

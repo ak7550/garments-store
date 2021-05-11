@@ -1,6 +1,18 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import { Grid, makeStyles } from '@material-ui/core';
+import {
+    Button,
+    ButtonGroup,
+    ClickAwayListener,
+    Divider,
+    Grid,
+    Grow,
+    makeStyles,
+    MenuItem,
+    MenuList,
+    Paper,
+    Popper
+} from '@material-ui/core';
 import { MainLayOutContext } from '../Components/MainLayOut';
 import { drawerWidth } from '../Utils/backEnd'
 
@@ -37,16 +49,14 @@ const useStyle = makeStyles(theme => ({
     },
 }));
 
-
-const ManageProducts = () => {
+const UpdateForm = ({ catagory = false, product = false }) => {
+    console.log(`hi from update`);
     const classes = useStyle();
     const { sideBar } = useContext(MainLayOutContext);
 
     return (
         <div
-            className={clsx(classes.content, {
-                [classes.contentShift]: sideBar,
-            })}
+            className={clsx(classes.content, { [classes.contentShift]: sideBar, })}
             style={{
                 maxWidth: "100%"
             }}
@@ -55,7 +65,7 @@ const ManageProducts = () => {
 
             <Grid
                 container
-                direction="row"
+                direction="column"
                 justify="flex-start"
                 alignItems="center"
                 wrap
@@ -63,10 +73,11 @@ const ManageProducts = () => {
                     marginLeft: "20em"
                 }}
             >
-                hello
+                da
+
             </Grid>
-        </div>
+        </div >
     )
 }
 
-export default ManageProducts
+export default UpdateForm

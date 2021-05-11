@@ -110,7 +110,7 @@ const SignUpForm = ({close}) => {
                                     size="small"
                                     variant="outlined"
                                     type="text"
-                                    placeholder="Enter Your Email"
+                                    placeholder="Enter Your Name.."
                                     {
                                     ...register("name", {
                                         minLength: {

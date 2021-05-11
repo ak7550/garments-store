@@ -33,3 +33,10 @@ export const removeFromWatchListAPI = (productId, userId, next) => {
         })
         .catch(err => console.log(err));
 }
+
+export const createProductAPI = () => {
+
+}
+export const deleteProductAPI = () => {
+
+}
