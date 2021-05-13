@@ -34,9 +34,48 @@ export const removeFromWatchListAPI = (productId, userId, next) => {
         .catch(err => console.log(err));
 }
 
-export const createProductAPI = () => {
-
+export const deleteProductAPI = (userId, productInfo, next, handleError) => {
+    axios.delete(`${API}/product/${userId}/${productInfo._id}`)
+        .then(res => {
+            console.log(`response is: ${res.data}`);
+            getAllProductsAPI(next);
+        })
+        .catch(err => handleError(err));
 }
-export const deleteProductAPI = () => {
 
+export const getAllProductsAPI = next => {
+    console.log(`hi from getAllProducts api`);
+    axios.get(`${API}/product/products`)
+        .then(res => {
+            console.log(`all products received from server: ${res.data}`);
+            next(res.data);
+            localforage.setItem("allProductsArr", res.data);
+        })
+        .catch(err => console.log(err));
+}
+
+//*write
+export const updateProductAPI = (userId, productId, info, next, error) => {
+    axios.put(`${API}/product/${userId}/${productId}`, info)
+        .then(res => {
+            console.log(`res is:`, res.data);
+            next(res.data);
+            localforage.clear()
+                .then(() => console.log(`localforage is cleared`));
+            getAllProductsAPI(data => { });
+        })
+        .then(err => error(err));
+}
+
+//*write
+export const createProductAPI = (userId, info, next, error) => {
+    axios.post(`${API}/product/${userId}/createProduct`, info)
+        .then(res => {
+            console.log(`res is:`, res.data);
+            next(res.data);
+            localforage.clear()
+                .then(() => console.log(`localforage is cleared`));
+            getAllProductsAPI(data => { });
+        })
+        .then(err => error(err));
 }

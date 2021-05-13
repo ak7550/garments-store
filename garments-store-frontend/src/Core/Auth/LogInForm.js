@@ -9,7 +9,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { logInApiCall } from '../../API/Auth';
 import { MainLayOutContext } from '../../Components/MainLayOut';
-import { handleError } from '../../Components/handleError';
+import { handleError } from '../../Helper/handleError';
 import { createFormHeader } from '../../Components/formHeader';
 import { Redirect } from 'react-router';
 

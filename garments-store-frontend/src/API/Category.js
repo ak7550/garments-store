@@ -26,4 +26,17 @@ export const createCategoryAPI = (userId, cateInfo, next, handleError) => {
 }
 
 export const deleteCategoryAPI = (userId, cateInfo, next, handleError) => {
+    console.log(cateInfo);
+    axios.delete(`${API}/category/${userId}/${cateInfo._id}`)
+        .then(res => {
+            console.log(`response is: ${res.data}`);
+            getAllCategoryAPI(next);
+        })
+        .catch(err => handleError(err));
+}
+
+
+//*write
+export const updateCategoryAPI = (userId, cateInfo, next, handleError) => {
+
 }

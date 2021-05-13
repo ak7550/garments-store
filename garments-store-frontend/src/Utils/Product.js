@@ -1,5 +1,5 @@
 import localforage from 'localforage';
-import { getAllCategoryProductAPI } from '../API/Product';
+import { getAllCategoryProductAPI, getAllProductsAPI } from '../API/Product';
 
 
 export const loadAllProducts = (index, next) => {
@@ -8,5 +8,12 @@ export const loadAllProducts = (index, next) => {
         localforage.getItem(`Category${categoryList[index]._id}`, (err, productList) => {
             productList ? next(productList) : getAllCategoryProductAPI(categoryList[index]._id, next);
         });
+    });
+}
+
+export const getAllProducts = (next) => {
+    localforage.getItem("allProductsArr", (err, productArr) => {
+        console.log(`products list is: ${productArr}`);
+        productArr ? next(productArr) : getAllProductsAPI(next);
     });
 }

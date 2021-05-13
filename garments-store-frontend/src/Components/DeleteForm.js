@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import {
     Button,
@@ -12,15 +12,18 @@ import {
     MenuItem,
     MenuList,
     Paper,
-    Popper
+    Popper,
+    Select
 } from '@material-ui/core';
 import { MainLayOutContext } from '../Components/MainLayOut';
 import { drawerWidth } from '../Utils/backEnd'
 import { deleteCategoryAPI } from '../API/Category'
 import { deleteProductAPI } from '../API/Product'
-import { handleError } from './handleError';
+import { handleError } from '../Helper/handleError';
 import { useForm } from 'react-hook-form';
-
+import { getAllProducts } from '../Utils/Product';
+import { loadAllCategories } from '../Utils/Category';
+import { Redirect } from 'react-router';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -55,17 +58,44 @@ const useStyle = makeStyles(theme => ({
 }));
 
 const DeleteForm = ({ category = false, product = false }) => {
-    console.log(`hi from delete`);
+    console.log(`hi from delete\n cate is: ${category}`);
     const classes = useStyle();
     const { user } = useContext(MainLayOutContext);
     const { reset, register, handleSubmit, formState: { errors }, clearErrors } = useForm();
+
+
+    const [arr, setArr] = useState([]);
+    const [selection, setSelection] = useState({});
+    const [open, setOpen] = useState(false);
+
+    const handleChange = (event) => setSelection(event.target.value);
+
+    const handleClose = () => setOpen(false);
+
+    const handleOpen = () => setOpen(true);
+
+    useEffect(() => {
+        console.log(`call from useEffect of DeleteForm\n this should be one time only`);
+        category && loadAllCategories(data => {
+            console.log(`data is: ${data}`);
+            setArr(data);
+        });
+        product && getAllProducts(data => {
+            console.log(`data is: ${data}`);
+            setArr(data);
+        });
+    }, []); // only run, when the component mounts
+
+
     const onSubmit = (info, event) => {
         console.log(info);
-        category && deleteCategoryAPI(user._id, info, data => { }, err => handleError(err));
-        product && deleteProductAPI(user._id, info, data => { }, err => handleError(err));
+        console.log(selection);
+        category && deleteCategoryAPI(user._id, info, data => setArr(data), err => handleError(err));
+        product && deleteProductAPI(user._id, info, data => setArr(data), err => handleError(err));
         console.log(`submit button clicked`);
-
+        setSelection({});
         reset();
+        <Redirect to="/" />
     }
     const onError = (errors, event) => {
         console.log("error is: ", errors);
@@ -100,9 +130,38 @@ const DeleteForm = ({ category = false, product = false }) => {
                                     component="legend"
                                     className={classes.formlabel}
                                 >
-                                    New {category ? "category" : "product"} Name
+                                    {category ? "Category" : "Product"} Name
                                 </FormLabel>
-                                //!chnage to make
+                                <Select
+                                    labelId="demo-controlled-open-select-label"
+                                    id="demo-controlled-open-select"
+                                    open={open}
+                                    onClose={handleClose}
+                                    onOpen={handleOpen}
+                                    value={selection.name}
+                                    onChange={handleChange}
+                                    style={{
+                                        width: "100%"
+                                    }}
+                                    {
+                                    ...register("name")
+                                    }
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    {
+                                        arr.map((ele, ind) => (
+                                            <MenuItem value={ele} key={ind}>
+                                                {ele.name}
+                                            </MenuItem>
+                                        ))
+                                    }
+                                </Select>
+
+
+
+
                             </Grid>
                             <Grid item xs={12}>
                                 <Button
@@ -111,12 +170,10 @@ const DeleteForm = ({ category = false, product = false }) => {
                                     type="submit"
                                     variant="contained"
                                 >
-                                    Delete{category ? "category" : "product"}
+                                    Delete {category ? "Category" : "Product"}
                                 </Button>
                             </Grid>
-
                         </Grid>
-
                     </Grid>
                 </form>
             </Grid>

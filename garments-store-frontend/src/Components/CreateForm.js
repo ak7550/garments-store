@@ -1,26 +1,35 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import {
     Button,
     ButtonGroup,
     ClickAwayListener,
     Divider,
+    FormControl,
     FormLabel,
     Grid,
     Grow,
+    InputAdornment,
+    InputLabel,
     makeStyles,
     MenuItem,
     MenuList,
+    OutlinedInput,
     Paper,
     Popper,
+    Select,
     TextField
 } from '@material-ui/core';
 import { MainLayOutContext } from '../Components/MainLayOut';
 import { drawerWidth } from '../Utils/backEnd'
 import { useForm } from 'react-hook-form';
-import { handleError } from './handleError';
+import { handleError } from '../Helper/handleError';
 import { createCategoryAPI } from '../API/Category';
 import { createProductAPI } from '../API/Product';
+import { loadAllCategories } from '../Utils/Category';
+import produce from 'immer';
+import { formatProductInfo } from '../Helper/format';
+import { Redirect } from 'react-router';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -68,17 +77,77 @@ const useStyle = makeStyles(theme => ({
 }));
 
 const CreateForm = ({ category = false, product = false }) => {
-    console.log(`hi from create`);
+    console.log(`hi from create of ${product ? `product` : `category`}`);
     const classes = useStyle();
     const { user } = useContext(MainLayOutContext);
     const { reset, register, handleSubmit, formState: { errors }, clearErrors } = useForm();
+    const [categoryList, setCategoryList] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState({});
+    const [open, setOpen] = useState(false);
+
+    const [sizesArr, setSizesArr] = useState([
+        {
+            name: "S",
+            quantity: 0,
+            price: 0,
+        },
+        {
+            name: "M",
+            quantity: 0,
+            price: 0,
+        },
+        {
+            name: "L",
+            quantity: 0,
+            price: 0,
+        },
+        {
+            name: "XL",
+            quantity: 0,
+            price: 0,
+        },
+        {
+            name: "XXL",
+            quantity: 0,
+            price: 0,
+        },
+    ]);
+
+    const handleQuantityPriceChange = (index, str) => event => {
+        console.log(`value is: ${event.target.value}`);
+        const newSizeArr = produce(sizesArr, draft => {
+            if (str === 'price')
+                draft[index].price = event.target.value;
+            else
+                draft[index].quantity = event.target.value;
+        });
+        setSizesArr(newSizeArr);
+    }
+
+    const handleChange = (event) => setSelectedCategory(event.target.value);
+
+    const handleClose = () => setOpen(false);
+
+    const handleOpen = () => setOpen(true);
+
+    useEffect(() => {
+        product && loadAllCategories(data => setCategoryList(data));
+    }, []);
+
+
     const onSubmit = (info, event) => {
         console.log(info);
-        category && createCategoryAPI(user._id, info, data => { }, err => handleError(err));
-        product && createProductAPI(user._id, info, data => { }, err => handleError(err));
-        console.log(`submit button clicked`);
+        console.log(sizesArr);
+        if (category) {
+            const name = info.cateName;
+            createCategoryAPI(user._id, { name }, data => { }, err => handleError(err));
+        }
+        else
+            createProductAPI(user._id, formatProductInfo(info, sizesArr), data => { }, err => handleError(err));
 
+        console.log(`submit button clicked`);
         reset();
+        <Redirect to="/" />
     }
     const onError = (errors, event) => {
         console.log("error is: ", errors);
@@ -88,7 +157,15 @@ const CreateForm = ({ category = false, product = false }) => {
     }
 
     return (
-       <>
+        <div style={{
+            maxWidth: '90%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            left: '5em',
+            marginTop:'10em'
+        }}>
             <div className={classes.drawerHeader} />
 
             <Grid
@@ -98,9 +175,8 @@ const CreateForm = ({ category = false, product = false }) => {
                 alignItems="center"
                 wrap
                 style={{
-                    marginTop: "5em"
+                    maxWidth: '100vw',
                 }}
-                // spacing={3}
             >
                 <form
                     onSubmit={handleSubmit(onSubmit, onError)}
@@ -136,22 +212,218 @@ const CreateForm = ({ category = false, product = false }) => {
                             </Grid>
                             {
                                 // *form for product decription
-                                product &&
-                                <Grid item xs={12}>
-                                    <FormLabel component="legend" className={classes.formlabel}>Description</FormLabel>
-                                    <TextField
-                                        fullWidth
-                                        size="small"
-                                        variant="outlined"
-                                        type="text"
-                                        placeholder="Tell us something about you....."
-                                        {
-                                        ...register("description")
-                                        }
-                                        multiline
-                                        rows={4}
-                                    />
-                                </Grid>
+                                product && (
+                                    <>
+                                        < Grid item xs={12}>
+                                            <FormLabel component="legend" className={classes.formlabel}>Description</FormLabel>
+                                            <TextField
+                                                fullWidth
+                                                size="small"
+                                                variant="outlined"
+                                                type="text"
+                                                placeholder="Tell us something about you....."
+                                                {
+                                                ...register("description")
+                                                }
+                                                multiline
+                                                rows={4}
+                                            />
+                                        </Grid>
+
+
+                                //* to select category
+                                        <Grid item xs={12}>
+                                            <FormLabel
+                                                component="legend"
+                                                className={classes.formlabel}
+                                            >
+                                                Select Category
+                                            </FormLabel>
+                                            <Select
+                                                labelId="demo-controlled-open-select-label"
+                                                id="demo-controlled-open-select"
+                                                open={open}
+                                                onClose={handleClose}
+                                                onOpen={handleOpen}
+                                                value={selectedCategory.name}
+                                                onChange={handleChange}
+                                                style={{
+                                                    width: "100%"
+                                                }}
+                                                {
+                                                ...register("category")
+                                                }
+                                            >
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                {
+                                                    categoryList.map((ele, ind) => (
+                                                        <MenuItem value={ele} key={ind}>
+                                                            {ele.name}
+                                                        </MenuItem>
+                                                    ))
+                                                }
+                                            </Select>
+
+
+
+
+                                        </Grid>
+
+                                //* to add images
+                                        < Grid item xs={12}>
+                                            <FormLabel component="legend" className={classes.formlabel}>Image Links</FormLabel>
+                                            <TextField
+                                                fullWidth
+                                                size="small"
+                                                variant="outlined"
+                                                type="text"
+                                                placeholder="Enter the image links onr by one..."
+                                                {
+                                                ...register("imageLinks")
+                                                }
+                                                multiline
+                                                rows={6}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <Grid container direction="column">
+                                                <Grid item xs={12}>
+                                                    <Grid
+                                                        container
+                                                        direction="row"
+                                                        alignItems="center"
+                                                        justify="center"
+                                                        style={{
+                                                            border: `1px solid red`
+                                                        }}
+                                                    >
+                                                        {
+                                                            sizesArr.map((item, index) => (
+                                                                <Grid
+                                                                    container
+                                                                    item
+                                                                    xs={12}
+                                                                    alignItems="center"
+                                                                    justify="center"
+                                                                >
+
+                                                                </Grid>
+                                                            ))
+                                                        }
+
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <Grid container direction="column">
+                                                <Grid item xs={12}>
+                                                    <Grid
+                                                        container
+                                                        direction="column"
+                                                        alignItems="center"
+                                                        justify="center"
+                                                        style={{
+                                                            // border: `1px solid red`
+                                                        }}
+                                                    >
+                                                        {
+                                                            sizesArr.map((item, index) => (
+                                                                <Grid
+                                                                    container
+                                                                    item
+                                                                    xs={12}
+                                                                    alignItems="center"
+                                                                    justify="center"
+                                                                    direction="row"
+                                                                    style={{
+                                                                        width: '70%',
+                                                                        marginTop: '1em',
+                                                                        boxSizing: "border-box",
+                                                                    }}
+                                                                    spacing={-1}
+                                                                >
+                                                                    <Grid item xs>
+                                                                        <FormControl fullWidth className={classes.margin} variant="standard">
+                                                                            <InputLabel
+                                                                                htmlFor="outlined-adornment-amount"
+                                                                            >
+                                                                                Size
+                                                                            </InputLabel>
+                                                                            <OutlinedInput
+                                                                                id="outlined-adornment-amount"
+                                                                                value={item.name}
+                                                                                readOnly
+                                                                                disabled
+                                                                                style={{
+                                                                                    maxWidth: '3em'
+                                                                                }}
+                                                                            />
+                                                                        </FormControl>
+                                                                    </Grid>
+                                                                    <Grid item xs>
+                                                                        <FormControl
+                                                                            fullWidth
+                                                                            className={classes.margin}
+                                                                            variant="outlined"
+                                                                        >
+                                                                            <InputLabel
+                                                                                htmlFor="outlined-adornment-amount"
+                                                                            >
+                                                                                Quantities
+                                                                            </InputLabel>
+                                                                            <OutlinedInput
+                                                                                id="outlined-adornment-quantity"
+                                                                                value={item.quantity}
+                                                                                onChange={handleQuantityPriceChange(index, 'quantity')}
+                                                                                labelWidth={2}
+                                                                                type="number"
+                                                                                color="primary"
+                                                                                style={{
+                                                                                    maxWidth: '8em'
+                                                                                }}
+                                                                            />
+                                                                        </FormControl>
+                                                                    </Grid>
+                                                                    <Grid item xs >
+                                                                        <FormControl
+                                                                            fullWidth
+                                                                            className={classes.margin}
+                                                                            variant="outlined"
+                                                                        >
+                                                                            <InputLabel htmlFor="outlined-adornment-amount">
+                                                                                Amount
+                                                                            </InputLabel>
+                                                                            <OutlinedInput
+                                                                                id="outlined-adornment-amount"
+                                                                                value={item.price}
+                                                                                onChange={handleQuantityPriceChange(index, 'price')}
+                                                                                labelWidth={2}
+                                                                                type="number"
+                                                                                color="primary"
+                                                                                style={{
+                                                                                    maxWidth: '8em'
+                                                                                }}
+                                                                            />
+                                                                        </FormControl>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            ))
+                                                        }
+
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+
+
+                                    </>
+                                )
+
                             }
                             <Grid item xs={12}>
                                 <Button
@@ -168,7 +440,7 @@ const CreateForm = ({ category = false, product = false }) => {
                     </Grid>
                 </form>
             </Grid>
-        </>
+        </div>
     )
 }
 

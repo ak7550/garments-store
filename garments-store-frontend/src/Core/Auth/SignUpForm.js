@@ -21,7 +21,7 @@ import {
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { Redirect } from 'react-router';
-import { handleError } from '../../Components/handleError';
+import { handleError } from '../../Helper/handleError';
 import { createFormHeader } from '../../Components/formHeader';
 
 

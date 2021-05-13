@@ -19,7 +19,7 @@ import RssFeedIcon from '@material-ui/icons/RssFeed';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { logOutApiCall } from '../API/Auth';
 import { MainLayOutContext } from './MainLayOut';
-import { handleError } from './handleError';
+import { handleError } from '../Helper/handleError';
 import CategoryOutlinedIcon from '@material-ui/icons/CategoryOutlined';
 import CachedOutlinedIcon from '@material-ui/icons/CachedOutlined';
 import clsx from 'clsx';
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SideBarOptionsForLoggedInUser = () => {
     //* user to check either buyer or seller
-    const { user, setUser } = useContext(MainLayOutContext);
+    const { user, setUser, toggleSideBar } = useContext(MainLayOutContext);
     const classes = useStyles();
     const history = useHistory();
     const listArrForBuyer = [{
@@ -152,7 +152,10 @@ const SideBarOptionsForLoggedInUser = () => {
                         <ListItem
                             button
                             key={index}
-                            onClick={() => item.onClick(item.linkTo)}
+                            onClick={() => {
+                                item.onClick(item.linkTo);
+                                toggleSideBar();
+                            }}
                         >
                             <ListItemIcon style={item.iconStyle}
                                 className={classes.listItemPrimary}

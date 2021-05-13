@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import clsx from 'clsx'
 import {
     Button,
@@ -76,6 +76,7 @@ const ManageCategories = () => {
         handleClick();
     };
 
+
     const handleToggle = () =>
         setOpen((prevOpen) => !prevOpen);
 
@@ -144,13 +145,13 @@ const ManageCategories = () => {
             </Grid>
             <Divider style={{ marginTop: '2em', width: "100%" }} className={classes.root} />
             {
-                selectedIndex === 1 && <CreateForm catagory />
+                selectedIndex === 1 && <CreateForm category  />
             }
             {
-                selectedIndex === 2 && <UpdateForm catagory />
+                selectedIndex === 2 && <UpdateForm category/>
             }
             {
-                selectedIndex === 3 && <DeleteForm catagory />
+                selectedIndex === 3 && <DeleteForm category />
             }
 
     </>

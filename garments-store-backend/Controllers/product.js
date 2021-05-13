@@ -53,9 +53,8 @@ exports.updateProduct = (req, res) => {
 
 //! bug
 exports.getAllProducts = (req, res) => Product.find({},
-    function (err, allProducts) {
-        return err ? res.status(400).json(err) : res.status(200).json(allProducts);
-    });
+    (err, allProducts) =>
+        err ? res.tatus(400).json(err) : res.status(200).json(allProducts));
 
 
 // https://mongoosejs.com/docs/populate.html ==> docs mongoose populate, a method to populate the ref of other schemma
@@ -161,7 +160,7 @@ exports.removeFromWatchList = (req, res) => {
     user.save(err => {
         if (err) return res.status(400).json({ msg: `not possible to remove new product` });
     });
-    return res.status(200).json({ msg: `${product.name} has been removed from ${user.fullName}'s watchList` , user});
+    return res.status(200).json({ msg: `${product.name} has been removed from ${user.fullName}'s watchList`, user });
 }
 
 
