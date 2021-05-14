@@ -12,6 +12,8 @@ import { MainLayOutContext } from '../../Components/MainLayOut';
 import { handleError } from '../../Helper/handleError';
 import { createFormHeader } from '../../Components/formHeader';
 import { Redirect } from 'react-router';
+import { handleSuccess } from '../../Helper/handleSuccess';
+import SuccessComponent from '../../Helper/SuccessComponent';
 
 //docs: https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
 
@@ -44,6 +46,9 @@ const LogInForm = ({ close }) => {
                 console.log(`user information from the login form after setting user state: ${data}`);
                 close();
                 toggleSideBar();
+                {
+                    <SuccessComponent success={data.name} />
+                }
                 <Redirect to="/" />
             },
             resErr => {

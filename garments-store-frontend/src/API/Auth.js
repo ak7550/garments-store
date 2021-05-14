@@ -28,16 +28,17 @@ export const logInApiCall = (userInfo, next, errorLog) => {
 export const signUpApiCall = (userData, next, errorLog) => {
     userData.role = userData.role === "1" ? 1 : 0;
     const sex = userData.gender;
-    const age = userData.dob.getFullYear() - new Date().getFullYear();
+    const age = new Date(userData.dob).getFullYear() - new Date().getFullYear();
     const userInfo = { sex, age };
     userData.userInfo = userInfo;
     console.log("userDate to pass: ", userData);
     axios.post(`${API}/auth/signUp`, userData)
         .then(res => {
-            localforage.setItem("token", res.data.token);
-            localforage.setItem("user", res.data.user);
+            const { user, token } = res.data;
+            user.token = token;
+            localforage.setItem("user", user);
             console.log(`signUpAPI response is: `, res.data);
-            axios.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
+            axios.defaults.headers['Authorization'] = `Bearer ${token}`;
             next(res.data.user);
         })
         .catch(error => errorLog(error.response));

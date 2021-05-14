@@ -30,7 +30,8 @@ import { loadAllCategories } from '../Utils/Category';
 import produce from 'immer';
 import { Redirect } from 'react-router';
 import { getAllProducts } from '../Utils/Product';
-import { formatProductInfo } from '../Helper/format';
+import { formatProductInfo, formatProductUpdateInfo } from '../Helper/format';
+import { handleSuccess } from '../Helper/handleSuccess';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -143,13 +144,19 @@ const UpdateForm = ({ category = false, product = false }) => {
 
         if (product) {
             const productId = info.existingProduct._id;
-            updateProductAPI(user._id, productId, formatProductInfo(info, sizesArr), data => { }, err => handleError(err));
+            updateProductAPI(user._id, productId, formatProductUpdateInfo(info, sizesArr), data => {
+                console.log(`${data.name} is updated`);
+                handleSuccess(data);
+             }, err => handleError(err));
         }
 
         else {
             const categoryId = info.category._id;
             const name = info.newName;
-            updateCategoryAPI(user._id, categoryId, { name }, data => {}, err => handleError(err));
+            updateCategoryAPI(user._id, categoryId, { name }, data => {
+                console.log(`${data.name} is updated`);
+                handleSuccess(data);
+            }, err => handleError(err));
         }
 
         reset();

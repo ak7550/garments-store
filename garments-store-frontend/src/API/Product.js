@@ -7,7 +7,6 @@ export const getAllCategoryProductAPI = (categoryId, next) => {
     axios.get(`${API}/product/${categoryId}/products`)
         .then(response => {
             const { data: arr } = response;
-            localforage.setItem(`Category${categoryId}`, arr);
             next(arr);
         })
         .catch(err => console.log(err));
@@ -60,8 +59,6 @@ export const updateProductAPI = (userId, productId, info, next, error) => {
         .then(res => {
             console.log(`res is:`, res.data);
             next(res.data);
-            localforage.clear()
-                .then(() => console.log(`localforage is cleared`));
             getAllProductsAPI(data => { });
         })
         .then(err => error(err));
@@ -71,11 +68,20 @@ export const updateProductAPI = (userId, productId, info, next, error) => {
 export const createProductAPI = (userId, info, next, error) => {
     axios.post(`${API}/product/${userId}/createProduct`, info)
         .then(res => {
-            console.log(`res is:`, res.data);
-            next(res.data);
-            localforage.clear()
-                .then(() => console.log(`localforage is cleared`));
-            getAllProductsAPI(data => { });
+            console.log(`res is:`, res.data.product);
+            next(res.data.product);
+            getAllProductsAPI(data => {
+                console.log(`localfoarage has done it's job, that i dont know actually`);
+            });
         })
         .then(err => error(err));
+}
+
+export const getWishListItemAPI = (userId, next) => {
+    axios.get(`${API}/product/${userId}/watchList`)
+        .then(res => {
+            console.log(res.data);
+            next(res.data);
+        })
+        .catch(err => console.log(err));
 }

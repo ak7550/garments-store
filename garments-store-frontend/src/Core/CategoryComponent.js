@@ -103,6 +103,7 @@ const CategoryComponent = () => {
                                     <ProductCard
                                         product={product}
                                         linkTo={`/product/${product._id}`}
+                                        toggle={() => { }}
                                     />
                                 </Grid>
                             ))

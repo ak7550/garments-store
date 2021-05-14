@@ -9,6 +9,7 @@ import {
   CardMedia,
   Chip,
   Divider,
+  Grid,
   IconButton,
   makeStyles,
   Typography
@@ -97,12 +98,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ProductCard = ({ product, linkTo }) => {
+const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
   const classes = useStyles({ color: '#203f52' });
   const { name, description, _id: id, imageLinks, sizes } = product;
   const { price } = sizes[0];
-  const [wishList, setWishList] = useState(false);
+  const [wishList, setWishList] = useState(fav);
   const { user } = useContext(MainLayOutContext);
+
+  useEffect(() => {
+    toggle();
+  }, [wishList])
 
   const handleFavouriteButtonPressed = event =>
     wishList ?
@@ -117,18 +122,24 @@ const ProductCard = ({ product, linkTo }) => {
   const renderSizes = (sizeArr = []) => {
     const arr = [classes.red, classes.green, classes.pink, classes.purple, classes.orange];
     return (
-      sizeArr.map((sizeObj, index) =>
-        <Avatar className={arr[index]} >
-          <Typography variant="subtitle2" display="block" align="center"
-            style={{
-              fontSize: "0.6rem",
-              fontWeight: "lighter",
-            }}
-          >
-            {sizeObj.size}
-          </Typography>
-        </Avatar>
-      )
+      <Grid container direction="row" spacing={1}>
+        {
+          sizeArr.map((sizeObj, index) =>
+            <Grid item>
+              <Avatar className={arr[index]} >
+                <Typography variant="subtitle2" display="block" align="center"
+                  style={{
+                    fontSize: "0.6rem",
+                    fontWeight: "lighter",
+                  }}
+                >
+                  {sizeObj.size}
+                </Typography>
+              </Avatar>
+            </Grid>
+          )
+        }
+      </Grid>
     );
   }
 

@@ -18,8 +18,6 @@ export const createCategoryAPI = (userId, cateInfo, next, handleError) => {
         .then(res => {
             localforage.removeItem("categorryList");
             getAllCategoryAPI(data => { });
-            localforage.setItem(`category${res.data.cate}`)
-                .then(data => console.log(`${data} is saved to the database.`));
             next(res.data.cate);
         })
         .catch(err => handleError(err));
@@ -37,6 +35,12 @@ export const deleteCategoryAPI = (userId, cateInfo, next, handleError) => {
 
 
 //*write
-export const updateCategoryAPI = (userId, cateInfo, next, handleError) => {
-
+export const updateCategoryAPI = (userId, cateId, cateInfo, next, handleError) => {
+    axios.put(`${API}/category/${userId}/${cateId}`, cateInfo)
+        .then(res => {
+            console.log(`res: `, res.data.cate);
+            getAllCategoryAPI(data => { });
+            next(res.data.cate);
+        })
+        .catch(err => handleError(err));
 }

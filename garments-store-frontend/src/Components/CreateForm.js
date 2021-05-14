@@ -29,7 +29,8 @@ import { createProductAPI } from '../API/Product';
 import { loadAllCategories } from '../Utils/Category';
 import produce from 'immer';
 import { formatProductInfo } from '../Helper/format';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
+import { handleSuccess } from '../Helper/handleSuccess';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -79,6 +80,7 @@ const useStyle = makeStyles(theme => ({
 const CreateForm = ({ category = false, product = false }) => {
     console.log(`hi from create of ${product ? `product` : `category`}`);
     const classes = useStyle();
+    const history = useHistory();
     const { user } = useContext(MainLayOutContext);
     const { reset, register, handleSubmit, formState: { errors }, clearErrors } = useForm();
     const [categoryList, setCategoryList] = useState([]);
@@ -140,14 +142,25 @@ const CreateForm = ({ category = false, product = false }) => {
         console.log(sizesArr);
         if (category) {
             const name = info.cateName;
-            createCategoryAPI(user._id, { name }, data => { }, err => handleError(err));
+            createCategoryAPI(user._id, { name }, data => {
+                console.log(`${data.name} is created`);
+                handleSuccess(data);
+                history.push("/");
+                // <Redirect to="/" />
+            }, err => handleError(err));
         }
         else
-            createProductAPI(user._id, formatProductInfo(info, sizesArr), data => { }, err => handleError(err));
+            createProductAPI(user._id, formatProductInfo(info, sizesArr), data => {
+                console.log(`${data.name} is created`);
+                handleSuccess(data);
+                history.push("/");
+                // <Redirect to="/" />
+            }, err => handleError(err));
 
         console.log(`submit button clicked`);
         reset();
         <Redirect to="/" />
+        history.push("/");
     }
     const onError = (errors, event) => {
         console.log("error is: ", errors);
@@ -164,7 +177,7 @@ const CreateForm = ({ category = false, product = false }) => {
             justifyContent: 'center',
             position: 'absolute',
             left: '5em',
-            marginTop:'10em'
+            marginTop: '10em'
         }}>
             <div className={classes.drawerHeader} />
 

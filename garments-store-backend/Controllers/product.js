@@ -3,13 +3,13 @@ const Category = require("../models/category");
 
 // _working fine
 exports.createProduct = (req, res) => {
-    const { name, description, category, sizes } = req.body;
+    const { name, description, category, sizes, imageLinks } = req.body;
     Category.findOne({ name: category }, (err, cate) => {
         if (err) return res.status(400).json(err);
         else {
             console.log(`cate id is: ${cate._id}`);
             const product = new Product({
-                name, description, category: cate._id, sizes
+                name, description, category: cate._id, sizes, imageLinks
             });
             product.save(err => {
                 if (err) return res.status(400).json({
@@ -46,6 +46,8 @@ exports.updateProduct = (req, res) => {
         new: true,
         overwrite: false,
     }, (err, product) => {
+        console.log(`err: ${err}`);
+        console.log(`product: ${product}`);
         if (err) return res.status(400).json(err);
         else return res.status(200).json(product);
     });
@@ -149,7 +151,7 @@ exports.addToWatchList = (req, res) => {
         return res.status(200).json({ msg: `${product.name} is added into ${user.fullName}'s watchList`, user });
     }
     else
-        return res.status(400).json({ msg: `${searchedProduct} is already present in ${user.fullName}'s watchList`, user });
+        return res.status(200).json({ msg: `${searchedProduct} is already present in ${user.fullName}'s watchList`, user });
 }
 
 // _working fine

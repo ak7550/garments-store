@@ -46,16 +46,24 @@ create the routes ==> done
     crud on category
     crud on product
 
+
+create the sellerdashboard page ==> done
+create the managecategories page ==> done
+create the manageproducts page ==> done
+update the link inside the product card ==> done
+define private routes for sellers. ==> done
+
 create the home page ==> pagination, carousoul, parallax effect wiht products and categories.
 create the product page
 create the userdashboard page
-create the orderlist page
-create the wishlist page
-create the userlist page
-create the usercart page
-create the sellerdashboard page
-create the managecategories page
-create the manageproducts page
+create the orderlist page ==> use the same product card component
+create the wishlist page ==> use the same product card component
+
+
+create the userlist(follower) page  ==> use the same user card component
+create the userlist(following) page ==> use the same user card component
+
+create the usercart page ==> use the same product card component with checkout button at the end
 
 
 
@@ -67,8 +75,3 @@ fix the avatar pannel in the nav bar
 
 Question:
 how can i delete the localstorage after a certain amount of time.
-
-
-update the link inside the product card
-
-define private routes for sellers.

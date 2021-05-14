@@ -90,8 +90,8 @@ const DeleteForm = ({ category = false, product = false }) => {
     const onSubmit = (info, event) => {
         console.log(info);
         console.log(selection);
-        category && deleteCategoryAPI(user._id, info, data => setArr(data), err => handleError(err));
-        product && deleteProductAPI(user._id, info, data => setArr(data), err => handleError(err));
+        category && deleteCategoryAPI(user._id, info.name, data => setArr(data), err => handleError(err));
+        product && deleteProductAPI(user._id, info.name, data => setArr(data), err => handleError(err));
         console.log(`submit button clicked`);
         setSelection({});
         reset();

@@ -9,7 +9,6 @@ const formidable = require("formidable"); // formidable is a npm package used to
 // http://expressjs.com/en/api.html#app.param
 exports.getUserById = (req, res, next, id) => {
     User.findById(id)
-        .populate("shoppingCart")
         .exec((err, user) => {
         if (err || !user) {
             console.log(`User not found in db\n Error is: ${err}`);
@@ -57,7 +56,7 @@ exports.updateUser = (req, res) => {
             // user.salt=undefined; // as it's now a copied data from db, so it's not gonna change into db, but we dont wanna show crucial information
             // user.encryptedPassword=undefined; // as it's now a copied data from db, so it's not gonna change into db, but we dont wanna show crucial information
             // user.createdAt=undefined; // as it's now a copied data from db, so it's not gonna change into db, but we dont wanna show crucial information
-            // user.updatedAt=undefined; 
+            // user.updatedAt=undefined;
             res.status(200).json({
                 user,
                 msg: ` is the updated info.`
@@ -92,7 +91,7 @@ exports.deleteAllUser = (req, res) => {
             $ne: req.userProfileInfo._id // remove all users except this one
         },
         role: {
-            $ne: 1, // remove all the users except admin 
+            $ne: 1, // remove all the users except admin
         }
     }, (err, data) => {
         if (err) {
@@ -225,5 +224,16 @@ exports.removeFollowing = (req, res) => {
             });
 
         }
+    });
+}
+
+
+exports.getAllWatchListItem = (req, res) => {
+    const { userProfileInfo: user } = req;
+    User.findById(user._id)
+        .populate("watchList")
+        .exec((err, user) => {
+        if (err) return res.status(400).json(err);
+        else return res.status(200).json(user.watchList);
     });
 }

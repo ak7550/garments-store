@@ -85,7 +85,8 @@ exports.signIn = (req, res) => {
     } else {
         console.log(`req.body: ${JSON.stringify(req.body)}`);
         const { email, password } = req.body;
-        User.findOne({ email }, (err, user) => {
+        User.findOne({ email })
+            .exec((err, user) => {
             //TODO: dont send all the user info
             if (!user)
                 return res.status(400).json({

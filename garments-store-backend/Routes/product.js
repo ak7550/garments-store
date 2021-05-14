@@ -2,7 +2,7 @@ const express = require('express');
 const { isSignedIn, isAdmin, isAuthenticated } = require('../Controllers/auth');
 const { getCategoryById } = require('../Controllers/category');
 const { getProductById, getProduct, updateProduct, deleteProduct, getAllProducts, createProduct, updateStockCount, getProductsFromSameCategory, addReview, deleteReview, addToWatchList, removeFromWatchList, makeCountNegative, getAllCategoryProducts } = require('../Controllers/product');
-const { getUserById } = require('../Controllers/user');
+const { getUserById, getAllWatchListItem } = require('../Controllers/user');
 const router = express.Router();
 
 //middlewares
@@ -29,6 +29,7 @@ router.delete("/:userId/:productId/stockCount", isSignedIn, isAuthenticated, isA
 router.put("/:userId/:productId/review", isSignedIn, isAuthenticated, addReview);  //!problem
 router.delete("/:userId/:productId/review", isSignedIn, isAuthenticated, deleteReview);
 router.put("/:userId/:productId/watchList", isSignedIn, isAuthenticated, addToWatchList);
+router.get("/:userId/watchList", isSignedIn, isAuthenticated, getAllWatchListItem);
 router.delete("/:userId/:productId/watchList", isSignedIn, isAuthenticated, removeFromWatchList);
 
 module.exports = router;
