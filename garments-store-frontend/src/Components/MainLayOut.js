@@ -3,6 +3,7 @@ import React, { createContext, useCallback, useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import SideBar from './SideBar';
 import localforage from 'localforage';
+import Footer from './Footer';
 
 
 const MainLayOutContext = createContext();
@@ -30,6 +31,7 @@ const MainLayOut = ({
                 }
             main layout
             {children}
+                <Footer />
             </MainLayOutContext.Provider>
         </>
     )
