@@ -87,10 +87,7 @@ const ManageProducts = () => {
     };
 
     return (
-        <>
-
-            <div className={classes.drawerHeader} />
-
+        <div>
             <Grid
                 container
                 direction="column"
@@ -141,16 +138,16 @@ const ManageProducts = () => {
             </Grid>
             <Divider style={{ marginTop: '2em', width: "100%" }} className={classes.root} />
             {
-                selectedIndex === 1 && <CreateForm product />
+                selectedIndex === 1 && <CreateForm product></CreateForm>
             }
             {
-                selectedIndex === 2 && <UpdateForm product />
+                selectedIndex === 2 && <UpdateForm product ></UpdateForm>
             }
             {
-                selectedIndex === 3 && <DeleteForm product  /> //*BUG
+                selectedIndex === 3 && <DeleteForm product  ></DeleteForm> //*BUG
             }
 
-        </>
+        </div>
     )
 }
 

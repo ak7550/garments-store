@@ -92,9 +92,6 @@ const ManageCategories = () => {
 
     return (
         <>
-
-            <div className={classes.drawerHeader} />
-
             <Grid
                 container
                 direction="column"

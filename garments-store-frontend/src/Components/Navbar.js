@@ -16,11 +16,11 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import { Link } from 'react-router-dom';
 import { MainLayOutContext } from './MainLayOut';
+import { drawerWidth } from '../Utils/backEnd';
 
 // -> extra stylings are being provided like this, others are already being given by the material ui
 // docs: https://material-ui.com/components/app-bar/#app-bar
 
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {

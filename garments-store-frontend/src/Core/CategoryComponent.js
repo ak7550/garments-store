@@ -1,48 +1,14 @@
-import { Grid, makeStyles } from '@material-ui/core';
-import clsx from 'clsx';
+import { Grid, } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 import { loadAllProducts } from '../Utils/Product';
-import { drawerWidth } from '../Utils/backEnd'
 import { MainLayOutContext } from '../Components/MainLayOut';
 import ProductCard from '../Components/ProductCard';
 
-const useStyle = makeStyles(theme => ({
-    link: {
-        display: "inherit",
-        textDecoration: "none",
-        color: "inherit"
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: -drawerWidth,
-    },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-    },
-    drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: theme.spacing(0, 1),
-        //* necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
-    },
-}));
 
 
 const CategoryComponent = () => {
     const { categoryIndex } = useParams();
-    const classes = useStyle();
     const [productArr, setProductArr] = useState({
         arr: [],
         cateIndex: categoryIndex,
@@ -72,15 +38,7 @@ const CategoryComponent = () => {
 
     return (
         <>
-            <div
-                className={clsx(classes.content, {
-                    [classes.contentShift]: sideBar,
-                })}
-                style={{
-                    maxWidth: "100%"
-                }}
-            >
-                <div className={classes.drawerHeader} />
+            <div>
                 {
                     <Grid
                         container
