@@ -23,14 +23,13 @@ const Routes = () => {
 
                 //todo: make them id instead of index, change in localforage accordingly
                 <Route path="/category/:categoryIndex" exact><CategoryComponent /></Route>
-                <Route path="product/:productId" exact><ProductPage /></Route>  
-                <Route path="/user/dashboard/:userId" exact component={UserDashboard} /> //_ this is look into anyone's dashboard
+                <Route path="product/:productId" exact><ProductPage /></Route>
+                <Route path="/user/dashboard/:userId" exact component={UserDashboard} /> //_ this is to look into anyone's dashboard
                 <Route path="/user/orderList/:userId" component={OrderList} exact />
                 <Route path="/user/wishList/:userId" component={UserWishList} exact />
                 <Route path="/user/followerList/:userId" component={UserList} exact />
                 <Route path="/user/followingList/:userId" component={UserList} exact />
-
-                <PrivateRoute path="" exact component={UserCart} />
+                <Route path="/user/cart/:userId" exact component={UserCart} /> 
 
                 <SellerRoute path="/seller/dashboard/:userId" exact component={SellerDashBoard} />
                 <SellerRoute path="/seller/category/:userId" exact component={ManageCategories} />

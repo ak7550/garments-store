@@ -49,7 +49,6 @@ export const logOutApiCall = (next, handleErr) => {
         .then(res => {
             console.log(`user signedOut.\n ${JSON.stringify(res.data)}`);
             axios.defaults.headers['Authorization'] = ``; // making it null
-            localforage.removeItem("token");
             localforage.removeItem("user"); //deleting the local data
             next(res.data);
         })

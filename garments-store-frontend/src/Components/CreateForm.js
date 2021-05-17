@@ -2,21 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import {
     Button,
-    ButtonGroup,
-    ClickAwayListener,
-    Divider,
     FormControl,
     FormLabel,
     Grid,
-    Grow,
-    InputAdornment,
     InputLabel,
     makeStyles,
     MenuItem,
-    MenuList,
     OutlinedInput,
-    Paper,
-    Popper,
     Select,
     TextField
 } from '@material-ui/core';
@@ -171,10 +163,10 @@ const CreateForm = ({ category = false, product = false }) => {
 
     return (
         <div style={{
-            maxWidth: '90%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            maxWidth: '90%',
             position: 'absolute',
             left: '5em',
             marginTop: '10em'

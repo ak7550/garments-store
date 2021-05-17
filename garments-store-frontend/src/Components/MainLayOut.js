@@ -29,6 +29,8 @@ const MainLayOut = ({
                 {
                     sideBar && <SideBar />
                 }
+
+                
             main layout
             {children}
                 <Footer />

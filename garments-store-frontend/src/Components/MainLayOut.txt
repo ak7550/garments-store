@@ -52,12 +52,16 @@ create the managecategories page ==> done
 create the manageproducts page ==> done
 update the link inside the product card ==> done
 define private routes for sellers. ==> done
+create the wishlist page ==> use the same product card component ==> done
+
+
+
+
 
 create the home page ==> pagination, carousoul, parallax effect wiht products and categories.
 create the product page
 create the userdashboard page
 create the orderlist page ==> use the same product card component
-create the wishlist page ==> use the same product card component
 
 
 create the userlist(follower) page  ==> use the same user card component

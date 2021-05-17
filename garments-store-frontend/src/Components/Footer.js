@@ -41,7 +41,10 @@ const useRowFlexStyles = makeStyles(theme => ({
 
 const useStyles = makeStyles(theme => ({
     rot: {
-        flexGrow: 1
+        flexGrow: 1,
+        marginTop: '5em',
+        position: 'absolute', //todo: need to change this property
+        bottom: '0',
     },
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
@@ -67,7 +70,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const MiddleItemRowFlex = () => {
+const Footer = () => {
     const flexStyles = useRowFlexStyles();
     const classes = useStyles();
     const { sideBar } = useContext(MainLayOutContext);
@@ -93,11 +96,7 @@ const MiddleItemRowFlex = () => {
                 }, flexStyles.relativeParent)}
                 minWidth={{ xs: 300, sm: 500 }}
                 bgcolor={indigo[500]}
-                style={{
-                    position: 'absolute',
-                    bottom: '0',
-                    width: '100%'
-                }}
+
             >
                 <Box width={72} height={120} bgcolor={'primary'} m={1} />
                 <Box
@@ -164,4 +163,4 @@ const MiddleItemRowFlex = () => {
     );
 };
 
-export default MiddleItemRowFlex;
+export default Footer;
