@@ -40,9 +40,10 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const MainLayOut = ({
-    children: mainContent,
-}) => {
+const MainLayOut = props => {
+    const {
+        children: mainContent,
+    } = props;
     const [sideBar, setSideBar] = useState(true);
     const [user, setUser] = useState(null); //todo: user should have the
     //todo: method to fetch user information
@@ -54,6 +55,7 @@ const MainLayOut = ({
     //docs: https://flaviocopes.com/react-hook-usecallback/ ==> only those components will re-render which are somehow dependant on sideBar state.
 
     console.log(`user is:`, user);
+    console.log(`whole prop is: `, props);
     const toggleSideBar = useCallback(() => setSideBar(!sideBar), [sideBar]);
     return (
         <>
@@ -73,7 +75,6 @@ const MainLayOut = ({
                         main layout
                     {mainContent}
                 </div>
-                <Footer />
             </MainLayOutContext.Provider>
         </>
     )

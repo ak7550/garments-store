@@ -32,6 +32,7 @@ import { Redirect } from 'react-router';
 import { getAllProducts } from '../Utils/Product';
 import { formatProductInfo, formatProductUpdateInfo } from '../Helper/format';
 import { handleSuccess } from '../Helper/handleSuccess';
+import Footer from './Footer';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -467,6 +468,7 @@ const UpdateForm = ({ category = false, product = false }) => {
                     </Grid>
                 </form>
             </Grid>
+            <Footer />
         </div>
     )
 }

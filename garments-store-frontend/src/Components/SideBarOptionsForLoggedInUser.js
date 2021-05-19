@@ -115,7 +115,7 @@ const SideBarOptionsForLoggedInUser = () => {
         listArrForSeller = [{
             name: "My Dashboard",
             icon: <DashboardIcon />,
-            linkTo: `/seller/dashboard/${user._id}`,
+            linkTo: `/user/dashboard/${user._id}`,
             onClick: link => history.push(link),
         },
         {

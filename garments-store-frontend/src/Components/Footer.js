@@ -56,8 +56,14 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+
+    },
+    footer: {
         top: 'auto',
         bottom: '0',
+        // borderTop: '4em solid black',
+        boxSizing: 'border-box',
+        marginTop: '12em'
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -96,10 +102,10 @@ const Footer = () => {
 
 
     return (
-            <AppBar position="fixed" color="primary"
+            <AppBar position="absolute" color="primary"
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: sideBar,
-                }, flexStyles.relativeParent)}
+                }, flexStyles.relativeParent, classes.footer)}
             >
                 <Toolbar>
                     <Box width={72} height={60} bgcolor={'primary'} m={1} />
@@ -128,42 +134,35 @@ const Footer = () => {
                         }
 
 
-                    </Box>
-                    <Box
-                        className={flexStyles.centeredChild}
-                        borderRadius={'50%'}
-                        height={40}
-                        width={40}
-                        bgcolor={'common.white'}
-                        border={'1px solid #888'}
-                    >
+                </Box>
+                <Box
+                    className={flexStyles.centeredChild}
+                    borderRadius={'50%'}
+                    height={40}
+                    width={40}
+                    bgcolor={'common.white'}
+                    border={'1px solid #888'}
+                >
 
-                    </Box>
+                </Box>
                 <div className={classes.root} />
                 <Link to="/" className={classes.link}>
-                        <Box
+                    <Box
                             className={cx(flexStyles.rightChild, flexStyles.parent)}
                             m={1}
                             p={1}
-                            // style={{
-                            //     color: 'white',
-                            //     paddingRight: '10em',
-                            //     position: 'absolute',
-                            //     right: '10%',
-                            //     bottom: '25%'
-                            // }}
-
+                    >
+                        <Typography
+                            variant="h6"
+                            className={classes.title}
                         >
-                            <Typography
-                                variant="h6"
-                                className={classes.title}
-                            >
-                                OurAppLogo
+                            OurAppLogo
                     </Typography>
-                        </Box>
-                    </Link>
-                </Toolbar>
-            </AppBar>
+                    </Box>
+                </Link>
+            </Toolbar>
+        </AppBar>
+        // </Box>
     );
 };
 

@@ -18,6 +18,7 @@ import { drawerWidth } from '../Utils/backEnd';
 import { amber, grey, red } from '@material-ui/core/colors';
 import CreateIcon from '@material-ui/icons/Create';
 import { useForm } from 'react-hook-form';
+import Footer from '../Components/Footer';
 
 
 const useStyle = makeStyles(theme => ({
@@ -25,32 +26,6 @@ const useStyle = makeStyles(theme => ({
         display: "inherit",
         textDecoration: "none",
         color: "inherit"
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: -drawerWidth,
-        maxWidth: '100vw'
-    },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-        marginRight: drawerWidth
-    },
-    drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: theme.spacing(0, 1),
-        //* necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
     },
     large: {
         width: theme.spacing(22),
@@ -77,10 +52,11 @@ const useStyle = makeStyles(theme => ({
 const UserDashboard = () => {
     const { userId } = useParams();
     const classes = useStyle();
-    const { user, sideBar } = useContext(MainLayOutContext);
+    const { user } = useContext(MainLayOutContext);
     const [userInfo, setUserInfo] = useState(user);
     const [readOnly, setReadOnly] = useState(false);
-    const { reset, register, handleSubmit, formState: { errors }, clearErrors } = useForm();
+    const { reset, register, handleSubmit, formState: { errors }, clearErrors, getValues } = useForm();
+    const firstName = user?.firstName?.toUpperCase();
 
     useEffect(() => {
         console.log(`user is: `, user._id);
@@ -193,17 +169,69 @@ const UserDashboard = () => {
         );
     }
 
+    const ageSection = () => {
+        return (
+            <>
+                <Box border={`1px solid pink`} p={5} m={2} minWidth={'90%'}>
+                    <FormLabel
+                        component="legend"
+                        className={classes.formlabel}
+                    >
+                        {firstName}'s Age:
+                </FormLabel>
+                    <TextField
+                        fullWidth
+                        size="medium"
+                        variant="standard"
+                        type="number"
+                        {
+                        ...register("age")
+                        }
+                        required
+                        disabled={readOnly}
+                    />
+                </Box>
+            </>
+        );
+    }
+
+    const genderSection = () => {
+        return (
+            <>
+                <Box border={`1px solid pink`} p={5} m={2} minWidth={'90%'}>
+                    <FormLabel
+                        component="legend"
+                        className={classes.formlabel}
+                    >
+                        {firstName} is a:
+                </FormLabel>
+                    <TextField
+                        fullWidth
+                        size="medium"
+                        variant="standard"
+                        type="text"
+                        {
+                        ...register("sex")
+                        }
+                        required
+                        disabled={readOnly}
+                    />
+                </Box>
+            </>
+        );
+    }
+
+
+    const editFabIcon = () => {
+
+    }
+
+
 
 
 
     return (
-        <div
-            className={clsx(classes.content, {
-                [classes.contentShift]: sideBar,
-            })}
-
-        >
-            <div className={classes.drawerHeader} />
+        <>
             <Grid
                 container
                 direction="column"
@@ -212,16 +240,25 @@ const UserDashboard = () => {
                 wrap
                 style={{
                     maxWidth: '100%',
-                    marginLeft: "20em",
                     // border: '2px solid blue',
-                    // height: '12em'
+                    // height: '12em',
+                    marginBottom: '9em'
                 }}
             >
                 {profilePictureSection()}
                 {nameSection()}
                 {descriptionSection()}
+                <Grid container justify='center' spacing={10} >
+                    <Grid item >
+                        {ageSection()}
+                    </Grid>
+                    <Grid item>
+                        {genderSection()}
+                    </Grid>
+                </Grid>
+                {editFabIcon()}
             </Grid>
-        </div>
+        </>
     )
 }
 

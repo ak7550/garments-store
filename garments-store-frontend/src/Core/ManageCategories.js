@@ -19,6 +19,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import CreateForm from '../Components/CreateForm';
 import UpdateForm from '../Components/UpdateForm';
 import DeleteForm from '../Components/DeleteForm';
+import Footer from '../Components/Footer';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -150,7 +151,9 @@ const ManageCategories = () => {
             {
                 selectedIndex === 3 && <DeleteForm category />
             }
-
+            {
+                selectedIndex === 0 && <Footer />
+            }
     </>
     )
 }

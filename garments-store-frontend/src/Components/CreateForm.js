@@ -23,6 +23,7 @@ import produce from 'immer';
 import { formatProductInfo } from '../Helper/format';
 import { Redirect, useHistory } from 'react-router';
 import { handleSuccess } from '../Helper/handleSuccess';
+import Footer from './Footer';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -445,6 +446,7 @@ const CreateForm = ({ category = false, product = false }) => {
                     </Grid>
                 </form>
             </Grid>
+            <Footer />
         </div>
     )
 }
