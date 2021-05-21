@@ -27,8 +27,8 @@ const Routes = () => {
                 <Route path="/user/dashboard/:userId" exact component={UserDashboard} /> //_ this is to look into anyone's dashboard
                 <Route path="/user/orderList/:userId" component={OrderList} exact />
                 <Route path="/user/wishList/:userId" component={UserWishList} exact />
-                <Route path="/user/followerList/:userId" component={UserList} exact />
-                <Route path="/user/followingList/:userId" component={UserList} exact />
+                <Route path="/user/followerList/:userId"  exact ><UserList follower /></Route>
+                <Route path="/user/followingList/:userId"  exact ><UserList following /></Route>
                 <Route path="/user/cart/:userId" exact component={UserCart} />
 
                 <SellerRoute path="/seller/dashboard/:userId" exact component={SellerDashBoard} /> //_ this needs some advance features

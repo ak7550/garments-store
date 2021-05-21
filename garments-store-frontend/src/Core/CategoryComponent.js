@@ -45,9 +45,9 @@ const CategoryComponent = () => {
                         justify="flex-start"
                         alignItems="center"
                         wrap
-                        style={{
-                            marginLeft: "20em"
-                        }}
+                        // style={{
+                        //     marginLeft: "20em"
+                        // }}
                     >
                         {
                             productArr.arr.length &&

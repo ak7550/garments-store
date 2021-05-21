@@ -237,3 +237,37 @@ exports.getAllWatchListItem = (req, res) => {
         else return res.status(200).json(user.watchList);
     });
 }
+
+exports.getFollowers = (req, res) => {
+    User.findById(id)
+        .populate("followers")
+        .exec((err, user) => {
+            if (err || !user) {
+                console.log(`User not found in db\n Error is: ${err}`);
+                // return so i don't want to proceed further the api call as an error has already occured.
+                return res.status(400).json({
+                    msg: `${user} not found in db`
+                })
+            } else {
+                console.log(`User found in db`);
+                return res.status(200).json(user.followers);
+            }
+        })
+
+}
+exports.getFollowings = (req, res) => {
+    User.findById(id)
+        .populate("followings")
+        .exec((err, user) => {
+            if (err || !user) {
+                console.log(`User not found in db\n Error is: ${err}`);
+                // return so i don't want to proceed further the api call as an error has already occured.
+                return res.status(400).json({
+                    msg: `${user} not found in db`
+                })
+            } else {
+                console.log(`User found in db`);
+                return res.status(200).json(user.followings);
+            }
+        })
+}

@@ -26,3 +26,25 @@ export const updateUserAPI = (userInfo, id, next, errorHandler) => {
             errorHandler(err);
         })
 }
+
+export const getFollowersAPI = (id, next) => {
+    axios.get(`${API}/user/${id}/followers`)
+        .then(res => {
+            console.log(`data is: `, res.data);
+            next(res.data);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+export const getFollowingsAPI = (id, next) => {
+    axios.get(`${API}/user/${id}/followings`)
+        .then(res => {
+            console.log(`data is: `, res.data);
+            next(res.data);
+         })
+        .catch(err => {
+            console.log(err);
+        });
+}
