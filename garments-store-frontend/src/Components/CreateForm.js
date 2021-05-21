@@ -446,7 +446,7 @@ const CreateForm = ({ category = false, product = false }) => {
                     </Grid>
                 </form>
             </Grid>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }

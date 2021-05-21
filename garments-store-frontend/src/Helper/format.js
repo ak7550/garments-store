@@ -40,3 +40,16 @@ export const formatProductUpdateInfo = (info, sizeArr) => {
 
     return product;
 }
+
+export const formatUserUpdateInfo = (info) => {
+    const { firstName, lastName, description, age, gender } = info;
+    return {
+        firstName,
+        lastName,
+        description,
+        userInfo: {
+            sex: gender,
+            age
+        }
+    }
+}

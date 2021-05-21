@@ -1,24 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { MainLayOutContext } from '../Components/MainLayOut';
 import {
     Avatar,
     Badge,
     Box,
+    Button,
     Divider,
+    FormControlLabel,
     FormLabel,
     Grid,
     makeStyles,
     Paper,
+    Radio,
+    RadioGroup,
     TextField
 } from '@material-ui/core';
-import { getUserAPI } from '../API/User';
+import { getUserAPI, updateUserAPI } from '../API/User';
 import clsx from 'clsx';
 import { drawerWidth } from '../Utils/backEnd';
 import { amber, grey, red } from '@material-ui/core/colors';
 import CreateIcon from '@material-ui/icons/Create';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import Footer from '../Components/Footer';
+import { formatUserUpdateInfo } from '../Helper/format';
+import { handleSuccess } from '../Helper/handleSuccess';
+import { handleError } from '../Helper/handleError';
 
 
 const useStyle = makeStyles(theme => ({
@@ -52,10 +59,10 @@ const useStyle = makeStyles(theme => ({
 const UserDashboard = () => {
     const { userId } = useParams();
     const classes = useStyle();
-    const { user } = useContext(MainLayOutContext);
+    const { user, setUser } = useContext(MainLayOutContext);
     const [userInfo, setUserInfo] = useState(user);
     const [readOnly, setReadOnly] = useState(false);
-    const { reset, register, handleSubmit, formState: { errors }, clearErrors, getValues } = useForm();
+    const { reset, control, register, handleSubmit, formState: { errors }, clearErrors, getValues } = useForm();
     const firstName = user?.firstName?.toUpperCase();
 
     useEffect(() => {
@@ -117,28 +124,56 @@ const UserDashboard = () => {
             </>
         );
     }
+
+
     const nameSection = () => {
         return (
             <>
-                <Box border={`1px solid pink`} p={5} m={2} minWidth={'90%'}>
-                    <FormLabel
-                        component="legend"
-                        className={classes.formlabel}
-                    >
-                        Name:
+                <Grid container justify='center'  >
+                    <Grid item >
+                        <Box border={`1px solid pink`} p={5} m={2} minWidth={'90%'}>
+                            <FormLabel
+                                component="legend"
+                                className={classes.formlabel}
+                            >
+                                First Name:
                 </FormLabel>
-                    <TextField
-                        fullWidth
-                        size="medium"
-                        variant="standard"
-                        type="text"
-                        {
-                        ...register("name")
-                        }
-                        required
-                        disabled={readOnly}
-                    />
-                </Box>
+                            <TextField
+                                fullWidth
+                                size="medium"
+                                variant="standard"
+                                type="text"
+                                {
+                                ...register("firstName")
+                                }
+                                required
+                                disabled={readOnly}
+                            />
+                        </Box>
+                    </Grid>
+                    <Grid item>
+                        <Box border={`1px solid pink`} p={5} m={2} minWidth={'90%'}>
+                            <FormLabel
+                                component="legend"
+                                className={classes.formlabel}
+                            >
+                                Last Name:
+                </FormLabel>
+                            <TextField
+                                fullWidth
+                                size="medium"
+                                variant="standard"
+                                type="text"
+                                {
+                                ...register("lastName")
+                                }
+                                required
+                                disabled={readOnly}
+                            />
+                        </Box>
+                    </Grid>
+                </Grid>
+
             </>
         );
     }
@@ -205,16 +240,32 @@ const UserDashboard = () => {
                     >
                         {firstName} is a:
                 </FormLabel>
-                    <TextField
-                        fullWidth
-                        size="medium"
-                        variant="standard"
-                        type="text"
-                        {
-                        ...register("sex")
+                    <Controller
+                        render={
+                            ({ field }) => (
+                                <RadioGroup
+                                    aria-label="gender"
+                                    row
+                                    className={classes.radiogroup}
+                                    {
+                                    ...register("gender")
+                                    }
+                                >
+                                    <FormControlLabel
+                                        value="female"
+                                        control={<Radio />}
+                                        label="Female"
+                                    />
+                                    <FormControlLabel
+                                        value="male"
+                                        control={<Radio />}
+                                        label="Male"
+                                    />
+                                </RadioGroup>
+                            )
                         }
-                        required
-                        disabled={readOnly}
+                        name="Gender"
+                        control={control}
                     />
                 </Box>
             </>
@@ -225,39 +276,76 @@ const UserDashboard = () => {
     const editFabIcon = () => {
 
     }
+    const history = useHistory();
 
+    const onSubmit = (info, event) => {
+        console.log(`submit button clicked: `, info);
+        if (!readOnly)
+            updateUserAPI(formatUserUpdateInfo(info), userId, data => {
+                setUser(data);
+                setUserInfo(data);
+                handleSuccess(data);
+                history.push("/");
+            },
+                err => {
+                    handleError(err);
+                    reset();
+                    clearErrors();
+                });
+        else handleError("You can't the information of another user.");
+    }
 
-
-
+    const onError = (errors, event) => {
+        console.log("error is: ", errors);
+        handleError(errors);
+        reset();
+        clearErrors();
+    }
 
     return (
         <>
-            <Grid
-                container
-                direction="column"
-                justify="flex-start"
-                alignItems="center"
-                wrap
-                style={{
-                    maxWidth: '100%',
-                    // border: '2px solid blue',
-                    // height: '12em',
-                    marginBottom: '9em'
-                }}
+            <form
+                onSubmit={handleSubmit(onSubmit, onError)}
             >
-                {profilePictureSection()}
-                {nameSection()}
-                {descriptionSection()}
-                <Grid container justify='center' spacing={10} >
-                    <Grid item >
-                        {ageSection()}
+                <Grid
+                    container
+                    direction="column"
+                    justify="flex-start"
+                    alignItems="center"
+                    wrap
+                    style={{
+                        maxWidth: '100%',
+                        border: '2px solid blue',
+                        // height: '12em',
+                        marginBottom: '9em',
+                        overflowX: 'hidden'
+                    }}
+                >
+                    {profilePictureSection()}
+                    {nameSection()}
+                    {descriptionSection()}
+                    <Grid container justify='center'  >
+                        <Grid item >
+                            {ageSection()}
+                        </Grid>
+                        <Grid item>
+                            {genderSection()}
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        {genderSection()}
-                    </Grid>
+                    {
+                        !readOnly && <Grid item>
+                            <Button
+                                color="secondary"
+                                fullWidth
+                                type="submit"
+                                variant="contained"
+                            >Update {firstName}'s Information </Button>
+
+                        </Grid>
+                    }
+                    {editFabIcon()}
                 </Grid>
-                {editFabIcon()}
-            </Grid>
+            </form>
         </>
     )
 }

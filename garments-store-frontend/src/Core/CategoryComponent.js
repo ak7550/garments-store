@@ -6,7 +6,6 @@ import { MainLayOutContext } from '../Components/MainLayOut';
 import ProductCard from '../Components/ProductCard';
 
 
-
 const CategoryComponent = () => {
     const { categoryIndex } = useParams();
     const [productArr, setProductArr] = useState({
