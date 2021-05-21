@@ -16,22 +16,24 @@ import UserList from './Core/UserList'
 import UserWishList from './Core/UserWishList'
 
 const Routes = () => {
+    //_ this is to look into anyone's dashboard
+    //todo: make them id instead of index, change in localforage accordingly
+    //_ this needs some advance features
     return (
         <Switch>
             <MainLayOut>
                 <Route path="/" exact ><Home /></Route>
 
-                //todo: make them id instead of index, change in localforage accordingly
                 <Route path="/category/:categoryIndex" exact><CategoryComponent /></Route>
                 <Route path="product/:productId" exact><ProductPage /></Route>
-                <Route path="/user/dashboard/:userId" exact component={UserDashboard} /> //_ this is to look into anyone's dashboard
+                <Route path="/user/dashboard/:userId" exact component={UserDashboard} />
                 <Route path="/user/orderList/:userId" component={OrderList} exact />
                 <Route path="/user/wishList/:userId" component={UserWishList} exact />
-                <Route path="/user/followerList/:userId"  exact ><UserList follower /></Route>
-                <Route path="/user/followingList/:userId"  exact ><UserList following /></Route>
+                <Route path="/user/followerList/:userId" exact ><UserList follower /></Route>
+                <Route path="/user/followingList/:userId" exact ><UserList following /></Route>
                 <Route path="/user/cart/:userId" exact component={UserCart} />
 
-                <SellerRoute path="/seller/dashboard/:userId" exact component={SellerDashBoard} /> //_ this needs some advance features
+                <SellerRoute path="/seller/dashboard/:userId" exact component={SellerDashBoard} />
                 <SellerRoute path="/seller/category/:userId" exact component={ManageCategories} />
                 <SellerRoute path="/seller/product/:userId" exact component={ManageProducts} />
 

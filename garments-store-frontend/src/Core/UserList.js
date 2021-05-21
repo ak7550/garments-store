@@ -7,12 +7,12 @@ import UserCard from '../Components/UserCard';
 
 const UserList = ({ follower = false, following = false }) => {
     const { userId } = useParams();
-    const { sideBar } = useContext(MainLayOutContext);
-    const [friendList, setFriendList] = useState([]);
+    const { user, sideBar } = useContext(MainLayOutContext);
+    const [friendList, setFriendList] = useState([user]);
 
     useEffect(() => {
-        follower && getFollowersAPI(userId, data => setFriendList(data));
-        following && getFollowingsAPI(userId, data => setFriendList(data));
+        // follower && getFollowersAPI(userId, data => setFriendList(data));
+        // following && getFollowingsAPI(userId, data => setFriendList(data));
     }, [sideBar]);
 
     return (
@@ -20,20 +20,21 @@ const UserList = ({ follower = false, following = false }) => {
             {
                 <Grid
                     container
-                    direction="row"
+                    direction="column"
                     justify="flex-start"
-                    alignItems="center"
-                    wrap
-                    // style={{
-                    //     marginLeft: "20em"
-                    // }}
+                    // alignItems="flex-start"
+                    // wrap
+                    style={{
+                        // marginLeft: "20em"
+
+                    }}
                 >
                     {
-                        friendList.length &&
                         friendList.map((friend, index) => (
-                            <Grid item
+                            <Grid item xs={12}
                                 style={{
-                                    paddingLeft: '1em',
+                                    paddingLeft: '',
+                                    // border: '2px solid black'
                                 }}
                             >
                                 <UserCard info={friend} />

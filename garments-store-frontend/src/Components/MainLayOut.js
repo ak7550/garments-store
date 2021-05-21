@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     },
 
     contentArea: {
-        border: '2px solid green',
+        // border: '2px solid green',
     }
 }));
 
@@ -72,7 +72,7 @@ const MainLayOut = props => {
                     }, classes.contentArea)}
                 >
                     <div className={classes.drawerHeader} />
-                        main layout
+                        
                     {mainContent}
                 </div>
             </MainLayOutContext.Provider>

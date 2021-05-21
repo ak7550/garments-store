@@ -10,18 +10,18 @@ const formidable = require("formidable"); // formidable is a npm package used to
 exports.getUserById = (req, res, next, id) => {
     User.findById(id)
         .exec((err, user) => {
-        if (err || !user) {
-            console.log(`User not found in db\n Error is: ${err}`);
-            // return so i don't want to proceed further the api call as an error has already occured.
-            return res.status(400).json({
-                msg: `${user} not found in db`
-            })
-        } else {
-            console.log(`User found in db`);
-            req.userProfileInfo = user; // parsing a new section into the req json obj
-            next(); // calling next over here, cause i don't want to proceed the api call further if there's any error occurs in if statement
-        }
-    })
+            if (err || !user) {
+                console.log(`User not found in db\n Error is: ${err}`);
+                // return so i don't want to proceed further the api call as an error has already occured.
+                return res.status(400).json({
+                    msg: `${user} not found in db`
+                })
+            } else {
+                console.log(`User found in db`);
+                req.userProfileInfo = user; // parsing a new section into the req json obj
+                next(); // calling next over here, cause i don't want to proceed the api call further if there's any error occurs in if statement
+            }
+        })
 }
 
 // testing done
@@ -233,13 +233,13 @@ exports.getAllWatchListItem = (req, res) => {
     User.findById(user._id)
         .populate("watchList")
         .exec((err, user) => {
-        if (err) return res.status(400).json(err);
-        else return res.status(200).json(user.watchList);
-    });
+            if (err) return res.status(400).json(err);
+            else return res.status(200).json(user.watchList);
+        });
 }
 
 exports.getFollowers = (req, res) => {
-    User.findById(id)
+    User.findOne({ email: req.userProfileInfo.email })
         .populate("followers")
         .exec((err, user) => {
             if (err || !user) {
@@ -256,7 +256,7 @@ exports.getFollowers = (req, res) => {
 
 }
 exports.getFollowings = (req, res) => {
-    User.findById(id)
+    User.findOne({ email: req.userProfileInfo.email })
         .populate("followings")
         .exec((err, user) => {
             if (err || !user) {
