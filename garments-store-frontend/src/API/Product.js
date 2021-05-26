@@ -85,3 +85,9 @@ export const getWishListItemAPI = (userId, next) => {
         })
         .catch(err => console.log(err));
 }
+
+export const getProductAPI = (id, next) => {
+    axios.get(`${API}/product/${id}`)
+        .then(res => next(res.data))
+        .catch(err => console.log(err));
+}

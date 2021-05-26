@@ -23,9 +23,8 @@ const Routes = () => {
         <Switch>
             <MainLayOut>
                 <Route path="/" exact ><Home /></Route>
-
                 <Route path="/category/:categoryIndex" exact><CategoryComponent /></Route>
-                <Route path="product/:productId" exact><ProductPage /></Route>
+                <Route path="/product/:productId" exact><ProductPage /></Route>
                 <Route path="/user/dashboard/:userId" exact component={UserDashboard} />
                 <Route path="/user/orderList/:userId" component={OrderList} exact />
                 <Route path="/user/wishList/:userId" component={UserWishList} exact />

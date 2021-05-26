@@ -2,6 +2,7 @@ import { Grid } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { getFollowersAPI, getFollowingsAPI } from '../API/User';
+import Footer from '../Components/Footer';
 import { MainLayOutContext } from '../Components/MainLayOut';
 import UserCard from '../Components/UserCard';
 
@@ -45,6 +46,7 @@ const UserList = ({ follower = false, following = false }) => {
 
                 </Grid>
             }
+            <Footer />
         </div>
     )
 }

@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import { loadAllProducts } from '../Utils/Product';
 import { MainLayOutContext } from '../Components/MainLayOut';
 import ProductCard from '../Components/ProductCard';
+import Footer from '../Components/Footer';
 
 
 const CategoryComponent = () => {
@@ -69,6 +70,7 @@ const CategoryComponent = () => {
 
                     </Grid>
                 }
+                <Footer />
             </div>
         </>
     );

@@ -48,9 +48,21 @@ const MainLayOut = props => {
     const [user, setUser] = useState(null); //todo: user should have the
     //todo: method to fetch user information
     const classes = useStyles();
+    const [footer, setFooter] = useState(false);
+
+    window.addEventListener('scroll', () => {
+        console.log(`changing value: ${window.scrollY}`);
+        console.log(`constant: ${document.body.scrollHeight}`);
+        if (window.scrollY < document.body.scrollHeight) setFooter(false);
+        else setFooter(true);
+    });
 
     useEffect(() =>
         localforage.getItem("user", (err, value) => setUser(value)), []);
+
+    useEffect(() => {
+        console.log(`height of this page is: ${document.body.scrollHeight}`);
+    }, [sideBar]);
 
     //docs: https://flaviocopes.com/react-hook-usecallback/ ==> only those components will re-render which are somehow dependant on sideBar state.
 
@@ -72,9 +84,10 @@ const MainLayOut = props => {
                     }, classes.contentArea)}
                 >
                     <div className={classes.drawerHeader} />
-                        
                     {mainContent}
                 </div>
+
+                 {/* <Footer /> */}
             </MainLayOutContext.Provider>
         </>
     )

@@ -5,10 +5,12 @@ import {
     AppBar,
     Avatar,
     Divider,
+    Fade,
     IconButton,
     makeStyles,
     Toolbar,
-    Typography
+    Typography,
+    useScrollTrigger
 } from '@material-ui/core';
 import { blue, indigo } from '@material-ui/core/colors';
 import clsx from 'clsx';
@@ -56,7 +58,11 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-
+        marginTop: 'auto',
+        position: 'absolute !important',
+        left: 0,
+        bottom: 0,
+        right: 0,
     },
     footer: {
         top: 'auto',
@@ -87,6 +93,7 @@ const Footer = () => {
     const flexStyles = useRowFlexStyles();
     const classes = useStyles();
     const { sideBar } = useContext(MainLayOutContext);
+    const trigger = useScrollTrigger();
     const arr = [{
         icon: <FacebookIcon />
     },
@@ -102,6 +109,15 @@ const Footer = () => {
 
 
     return (
+        <Fade
+            appear={false}
+            direction="left"
+            in={trigger}
+            timeout={{
+                enter: 1000
+            }}
+            
+        >
             <AppBar position="absolute" color="primary"
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: sideBar,
@@ -134,35 +150,35 @@ const Footer = () => {
                         }
 
 
-                </Box>
-                <Box
-                    className={flexStyles.centeredChild}
-                    borderRadius={'50%'}
-                    height={40}
-                    width={40}
-                    bgcolor={'common.white'}
-                    border={'1px solid #888'}
-                >
-
-                </Box>
-                <div className={classes.root} />
-                <Link to="/" className={classes.link}>
+                    </Box>
                     <Box
+                        className={flexStyles.centeredChild}
+                        borderRadius={'50%'}
+                        height={40}
+                        width={40}
+                        bgcolor={'common.white'}
+                        border={'1px solid #888'}
+                    >
+
+                    </Box>
+                    <div className={classes.root} />
+                    <Link to="/" className={classes.link}>
+                        <Box
                             className={cx(flexStyles.rightChild, flexStyles.parent)}
                             m={1}
                             p={1}
-                    >
-                        <Typography
-                            variant="h6"
-                            className={classes.title}
                         >
-                            OurAppLogo
+                            <Typography
+                                variant="h6"
+                                className={classes.title}
+                            >
+                                OurAppLogo
                     </Typography>
-                    </Box>
-                </Link>
-            </Toolbar>
-        </AppBar>
-        // </Box>
+                        </Box>
+                    </Link>
+                </Toolbar>
+            </AppBar>
+        </Fade>
     );
 };
 

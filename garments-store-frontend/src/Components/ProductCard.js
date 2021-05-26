@@ -102,12 +102,12 @@ const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
   const classes = useStyles({ color: '#203f52' });
   const { name, description, _id: id, imageLinks, sizes } = product;
   const { price } = sizes[0];
-  const [wishList, setWishList] = useState(fav);
+  const [wishList, setWishList] = useState(false);
   const { user } = useContext(MainLayOutContext);
 
-  useEffect(() => {
-    toggle();
-  }, [wishList])
+  // useEffect(() => {
+  //   toggle();
+  // }, [wishList])
 
   const handleFavouriteButtonPressed = event =>
     wishList ?

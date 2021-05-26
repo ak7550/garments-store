@@ -10,12 +10,15 @@ const UserWishList = () => {
     const { userId } = useParams();
     const [productArr, setProductArr] = useState([]);
     const [toggler, setToggler] = useState(true);
+
+    
     useEffect(() => {
         getWishListItemAPI(userId, data => {
             console.log(`data is: ${data}`);
             setProductArr(data);
         });
     }, []);
+
     return (
         <>
             {
@@ -25,9 +28,9 @@ const UserWishList = () => {
                     justify="flex-start"
                     alignItems="center"
                     wrap
-                    style={{
-                        marginLeft: "20em"
-                    }}
+                    // style={{
+                    //     marginLeft: "20em"
+                    // }}
                 >
                     {
                         productArr.length &&
@@ -40,8 +43,8 @@ const UserWishList = () => {
                                 <ProductCard
                                     product={product}
                                     linkTo={`/product/${product._id}`}
-                                    fav
-                                    toggle={() => setToggler(!toggler)}
+                                    // fav
+                                    // toggle={() => setToggler(!toggler)}
                                 />
                             </Grid>
                         ))

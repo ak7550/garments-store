@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import { useHistory, useParams } from 'react-router';
 import { MainLayOutContext } from '../Components/MainLayOut';
 import {
@@ -7,25 +7,33 @@ import {
     Box,
     Button,
     Divider,
+    Fab,
+    Fade,
     FormControlLabel,
     FormLabel,
     Grid,
+    Input,
+    InputLabel,
     makeStyles,
     Paper,
     Radio,
     RadioGroup,
-    TextField
+    Slide,
+    TextField,
+    useScrollTrigger
 } from '@material-ui/core';
 import { getUserAPI, updateUserAPI } from '../API/User';
 import clsx from 'clsx';
 import { drawerWidth } from '../Utils/backEnd';
-import { amber, grey, red } from '@material-ui/core/colors';
+import { amber, grey, purple, red } from '@material-ui/core/colors';
 import CreateIcon from '@material-ui/icons/Create';
 import { Controller, useForm } from 'react-hook-form';
 import Footer from '../Components/Footer';
 import { formatUserUpdateInfo } from '../Helper/format';
 import { handleSuccess } from '../Helper/handleSuccess';
 import { handleError } from '../Helper/handleError';
+import EditIcon from '@material-ui/icons/Edit';
+import { getRandomImages } from '../Helper/Random';
 
 
 const useStyle = makeStyles(theme => ({
@@ -53,6 +61,9 @@ const useStyle = makeStyles(theme => ({
         fontWeight: theme.typography.fontWeightBold,
         marginBottom: theme.spacing(2)
     },
+    extendedIcon: {
+        marginRight: theme.spacing(1),
+    },
 }));
 
 
@@ -62,7 +73,12 @@ const UserDashboard = () => {
     const { user, setUser } = useContext(MainLayOutContext);
     const [userInfo, setUserInfo] = useState(user);
     const [readOnly, setReadOnly] = useState(false);
-    const { reset, control, register, handleSubmit, formState: { errors }, clearErrors, getValues } = useForm();
+    const { reset, control, register, handleSubmit, formState: { errors }, clearErrors, getValues, setValue } = useForm({
+        defaultValues: {
+            profilePicture: ""
+        }
+    });
+    const inputref = useRef();
     const firstName = user?.firstName?.toUpperCase();
 
     useEffect(() => {
@@ -72,53 +88,92 @@ const UserDashboard = () => {
             getUserAPI(userId, data => setUserInfo(data));
             setReadOnly(true);
         }
+        const { profilePicture } = userInfo;
+        if (!profilePicture)
+            getRandomImages("face", data => profilePicture = data);
+
+        // setValue("profilePicture", profilePicture);
         console.log(`hi from the useEffect of user dashboard`);
     }, []);
 
 
     const profilePictureSection = () => {
-        const { firstName, profilePicture } = userInfo;
+        const { firstName = "New User", profilePicture = "" } = userInfo;
         console.log(`firstName: ${firstName}`);
         return (
             <>
                 <Paper elevation={3}
                     style={{
                         border: `12px solid ${grey[50]}`,
-                        borderRadius: '50%'
+                        borderRadius: '50%',
+                        marginTop: '2em'
                     }}
                 >
                     <Box>
-                        <Badge
-                            overlap="circle"
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'right',
-                            }}
-                            invisible={readOnly}
-                            badgeContent={
-                                <Avatar
-                                    style={{
-                                        backgroundColor: 'white'
-                                    }}
-                                    className={classes.small}
-                                    onClick={() => { }} //todo:
-                                >
-                                    <Paper elevation={3}
-                                        className={classes.paper}
-                                        style={{
-                                            border: `4px solid white`,
-                                            borderRadius: '50%',
-                                        }}
-                                        variant='outlined'
-                                    >
-                                        <CreateIcon />
-                                    </Paper>
-                                </Avatar>
-                            }
-                        >
-                            <Avatar alt={firstName} src={profilePicture} className={classes.large} />
-                        </Badge>
 
+                        <Controller
+                            control={control}
+                            name="profilePic"
+                            render={({ field: { value, onChange } }) => (
+                                <Badge
+                                    overlap="circle"
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
+                                    }}
+                                    invisible={readOnly}
+                                    badgeContent={
+                                        <Avatar
+                                            style={{
+                                                backgroundColor: 'white'
+                                            }}
+                                            className={classes.small}
+                                            onClick={() => {
+                                                const inp = inputref.current.getElementsByTagName('input');
+                                                console.log(inp[0]);
+                                                inp[0].focus();
+                                                console.log(inp[0].value);
+                                            }} //todo:
+                                        >
+                                            //todo: not working so far..
+                                            <Paper elevation={3}
+                                                className={classes.paper}
+                                                style={{
+                                                    border: `4px solid white`,
+                                                    borderRadius: '50%',
+                                                }}
+                                                variant='outlined'
+                                            >
+                                                <InputLabel >
+                                                    <CreateIcon />
+                                                </InputLabel>
+                                            </Paper>
+                                        </Avatar>
+                                    }
+                                >
+                                    <Avatar
+                                        alt={firstName}
+                                        src={profilePicture}
+                                        className={classes.large}
+                                        ref={inputref}
+                                    >
+                                        <Input
+                                            type='file'
+                                            value={value}
+                                            onChange={onChange}
+                                        />
+                                        <InputLabel for>
+                                            <Avatar
+                                                alt={firstName}
+                                                src={profilePicture}
+                                                className={classes.large}
+                                            />
+                                        </InputLabel>
+                                    </Avatar>
+
+                                </Badge>
+                            )}
+                        />
                     </Box>
                 </Paper>
             </>
@@ -136,7 +191,7 @@ const UserDashboard = () => {
                                 component="legend"
                                 className={classes.formlabel}
                             >
-                                First Name:
+                                First Names:
                 </FormLabel>
                             <TextField
                                 fullWidth
@@ -273,9 +328,41 @@ const UserDashboard = () => {
     }
 
 
-    const editFabIcon = () => {
+    const EditFabIcon = () => {
+        const trigger = useScrollTrigger();
+        if (!readOnly)
+            return (
+                <Grid item spacing={4}
+                    style={{
+                        marginBottom: '1em',
+                        overflow: 'hidden',
+                        marginRight: '2em'
+                    }}
+                >
+                    <Fade
+                        appear={false}
+                        direction="left"
+                        in={trigger}
+                        timeout={{
+                            enter: 1000
+                        }}
+                    >
+                        <Fab variant="extended"
+                            color="secondary"
+                            type="submit"
+                            style={{
+                                boxShadow: '0 0 0'
+                            }}
 
+                        >
+                            <EditIcon className={classes.extendedIcon} />
+                            Update
+                            </Fab>
+                    </Fade>
+                </Grid >
+            )
     }
+
     const history = useHistory();
 
     const onSubmit = (info, event) => {
@@ -303,7 +390,7 @@ const UserDashboard = () => {
     }
 
     return (
-        <>
+        <Paper elevation={2} color={purple[500]}>
             <form
                 onSubmit={handleSubmit(onSubmit, onError)}
             >
@@ -315,10 +402,11 @@ const UserDashboard = () => {
                     wrap
                     style={{
                         maxWidth: '100%',
-                        border: '2px solid blue',
+                        // border: '2px solid blue',
                         // height: '12em',
                         marginBottom: '9em',
-                        overflowX: 'hidden'
+                        overflowX: 'hidden',
+                        // margin: '3em'
                     }}
                 >
                     {profilePictureSection()}
@@ -332,21 +420,16 @@ const UserDashboard = () => {
                             {genderSection()}
                         </Grid>
                     </Grid>
-                    {
-                        !readOnly && <Grid item>
-                            <Button
-                                color="secondary"
-                                fullWidth
-                                type="submit"
-                                variant="contained"
-                            >Update {firstName}'s Information </Button>
 
-                        </Grid>
-                    }
-                    {editFabIcon()}
+                    <Grid container alignItems='flex-end' direction="column"
+                        style={{
+                        }}
+                    >
+                        <EditFabIcon />
+                    </Grid>
                 </Grid>
             </form>
-        </>
+        </Paper>
     )
 }
 
