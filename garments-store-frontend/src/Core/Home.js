@@ -1,9 +1,7 @@
-import { ButtonBase, CardMedia, Fade, Grid, makeStyles, Paper, Typography } from '@material-ui/core'
+import { ButtonBase, Grid, makeStyles, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router';
-import Footer from '../Components/Footer'
 import { loadAllCategories } from '../Utils/Category';
-import { getImage, imgeAPI } from '../Helper/Random'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -94,17 +92,12 @@ const Home = () => {
 
     return (
         <div>
-            <Grid container style={{
-                border: '2px solid black',
-            }} direction="row">
+            <Grid container  direction="row" >
                 {
                     categoryList.map((category, i) => (
                         <Grid item key={i}
                             style={{
-                                // height: '18em',
                                 width: '100%',
-                                border: '2px solid green',
-                                // marginBottom: '2px'
                             }}
                         >
                             <ButtonBase
@@ -120,7 +113,7 @@ const Home = () => {
                                 <span
                                     className={classes.imageSrc}
                                     style={{
-                                        backgroundImage: `url(${`https://source.unsplash.com/featured/?${category.name.split(" ")[0]}`})`,
+                                        backgroundImage: `url(${`https://source.unsplash.com/featured/?${category.name.split(" ")[0]}/800x600`})`,
                                     }}
                                 />
                                 <span className={classes.imageBackdrop} />
