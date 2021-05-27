@@ -44,18 +44,11 @@ const MainLayOut = props => {
     const {
         children: mainContent,
     } = props;
-    const [sideBar, setSideBar] = useState(true);
+    const [sideBar, setSideBar] = useState(false);
     const [user, setUser] = useState(null); //todo: user should have the
     //todo: method to fetch user information
     const classes = useStyles();
     const [footer, setFooter] = useState(false);
-
-    window.addEventListener('scroll', () => {
-        console.log(`changing value: ${window.scrollY}`);
-        console.log(`constant: ${document.body.scrollHeight}`);
-        if (window.scrollY < document.body.scrollHeight) setFooter(false);
-        else setFooter(true);
-    });
 
     useEffect(() =>
         localforage.getItem("user", (err, value) => setUser(value)), []);

@@ -126,7 +126,7 @@ const SignUpForm = ({close}) => {
                                     }
                                     required
                                     error={Boolean(errors.name)}
-                                    helperText={errors.email?.message}
+                                    helperText={errors.name?.message}
                                 />
                             </Grid>
                             <Grid item xs={12}>

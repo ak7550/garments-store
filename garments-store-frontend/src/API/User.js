@@ -48,3 +48,9 @@ export const getFollowingsAPI = (id, next) => {
             console.log(err);
         });
 }
+
+export const getFulllNameAPI =async (id) => {
+    console.log(`from the full name api`, id);
+    const res = await axios.get(`${API}/user/${id}/fullName`)
+    return res.data;
+}

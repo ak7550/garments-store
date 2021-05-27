@@ -79,3 +79,9 @@ fix the avatar pannel in the nav bar
 
 Question:
 how can i delete the localstorage after a certain amount of time.
+
+add the addtocartapi call ==> done
+fix the nav bar ==> done
+
+fix the successmessage section.
+fix the errormessage section.

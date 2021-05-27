@@ -53,7 +53,6 @@ export const getAllProductsAPI = next => {
         .catch(err => console.log(err));
 }
 
-//*write
 export const updateProductAPI = (userId, productId, info, next, error) => {
     axios.put(`${API}/product/${userId}/${productId}`, info)
         .then(res => {
@@ -64,7 +63,7 @@ export const updateProductAPI = (userId, productId, info, next, error) => {
         .then(err => error(err));
 }
 
-//*write
+
 export const createProductAPI = (userId, info, next, error) => {
     axios.post(`${API}/product/${userId}/createProduct`, info)
         .then(res => {
@@ -91,3 +90,13 @@ export const getProductAPI = (id, next) => {
         .then(res => next(res.data))
         .catch(err => console.log(err));
 }
+
+export const addReivewAPI = (userId, productId, info, next, error) =>
+    axios.put(`${API}/product/${userId}/${productId}/review`, info)
+        .then(res => getProductAPI(productId, next))
+        .catch(err => error(err));
+
+export const getSimiliarProductAPI = (productid, next, error) =>
+    axios.get(`${API}/product/${productid}/getCategoryProducts`)
+        .then(res => next(res.data))
+        .catch(err => error(err));

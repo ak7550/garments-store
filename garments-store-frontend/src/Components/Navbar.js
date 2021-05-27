@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import {
     AppBar,
     Avatar,
+    Badge,
     Grid,
     IconButton,
     makeStyles,
@@ -14,9 +15,10 @@ import SearchBar from './SearchBar';
 import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { MainLayOutContext } from './MainLayOut';
 import { drawerWidth } from '../Utils/backEnd';
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 
 // -> extra stylings are being provided like this, others are already being given by the material ui
 // docs: https://material-ui.com/components/app-bar/#app-bar
@@ -58,7 +60,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
     const classes = useStyles();
-    const { user ,sideBar, toggleSideBar } = useContext(MainLayOutContext);
+    const { user, sideBar, toggleSideBar } = useContext(MainLayOutContext);
+    const history = useHistory();
     return (
         <div className={classes.root}>
             <AppBar position="fixed"
@@ -115,10 +118,27 @@ const Navbar = () => {
                             <IconButton onClick={toggleSideBar}>
                                 {
                                     user ?
-                                        <Avatar
-                                            alt={user.name}
-                                            src={user.profilePic}
-                                        />
+                                        <Badge
+                                            badgeContent={user.shoppingCart.length}
+                                            color="error"
+                                            max={9}
+                                        >
+                                            <IconButton
+                                                onClick={e => history.push(`/user/cart`)}
+                                            >
+                                                <ShoppingCartOutlinedIcon
+                                                    color="inherit"
+                                                    style={{
+                                                        fontSize: '1.4em',
+                                                        position: 'absolute',
+                                                        top: '2px',
+                                                        right: '3px',
+                                                        color: 'white',
+                                                        opacity: '1'
+                                                    }}
+                                                />
+                                            </IconButton>
+                                        </Badge>
                                         :
                                         <Avatar>
                                             <AccountCircle fontSize="medium"

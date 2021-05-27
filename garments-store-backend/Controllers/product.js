@@ -64,10 +64,7 @@ exports.getAllProducts = (req, res) => Product.find({},
 exports.getProductById = (req, res, next, id) => {
     Product.findById(id)
         .populate('category')
-        .populate({
-            path: "reviews",
-            select: "user",
-        })
+        .populate("reviews.user") //docs: https://stackoverflow.com/questions/16641210/mongoose-populate-with-array-of-objects-containing-ref
         .exec((err, pro) => {
             if (err) return res.status(400).json(err);
             else {
