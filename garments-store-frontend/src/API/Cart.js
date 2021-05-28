@@ -7,3 +7,8 @@ export const addToCartAPI = (userId, productId, sizeObj, next, error) => {
         .then(res => next(res.data))
         .catch(err => error(err));
 }
+
+export const getCartAPI = (cartId, userId, next, error) =>
+    axios.get(`${API}/cart/${userId}/${cartId}`)
+        .then(res => next(res.data))
+        .catch(err => error(err));

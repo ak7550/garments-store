@@ -18,7 +18,6 @@ import { addReivewAPI, getProductAPI, getSimiliarProductAPI } from '../API/Produ
 import CarouselBox from '../Components/Carousel';
 import { blue, green, grey, } from '@material-ui/core/colors';
 import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined';
-import Alert from '@material-ui/lab/Alert';
 import AttachMoneySharpIcon from '@material-ui/icons/AttachMoneySharp';
 import { useForm } from 'react-hook-form';
 import { MainLayOutContext } from '../Components/MainLayOut';

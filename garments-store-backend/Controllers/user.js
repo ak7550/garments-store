@@ -9,6 +9,7 @@ const formidable = require("formidable"); // formidable is a npm package used to
 // http://expressjs.com/en/api.html#app.param
 exports.getUserById = (req, res, next, id) => {
     User.findById(id)
+        .populate("shoppingCart")
         .exec((err, user) => {
             if (err || !user) {
                 console.log(`User not found in db\n Error is: ${err}`);

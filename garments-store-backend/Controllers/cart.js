@@ -1,12 +1,36 @@
 const ProductCart = require('../models/productCart');
 
 
+exports.getCartById = (req, res, next, id) => {
+    ProductCart.findById(id)
+        .populate("productDetail")
+        .exec((err, cart) => {
+            if (err || !cart)
+                return res.status(400).json({
+                    msg: `${cart} not found in db`
+                });
+            else {
+                req.cart = cart;
+                next();
+            }
+        })
+
+}
+
+exports.getCart = (req, res) => res.status(200).json(req.cart);
+
+
 //_ working fine
 exports.addToCart = (req, res) => {
     const { userProfileInfo: user, product } = req;
 
-    //soln: https://stackoverflow.com/questions/11637353/comparing-mongoose-id-and-strings
-    const cartItemIndex = user.shoppingCart.findIndex(p => p.productDetail.equals(product._id) && p.size == req.body.size);
+    console.log(`user is: `, user);
+    console.log(`product is: `, product);
+
+    //docs: https://stackoverflow.com/questions/11637353/comparing-mongoose-id-and-strings
+    const cartItemIndex = user.shoppingCart.findIndex(p =>
+        p.productDetail.equals(product._id) && p.size == req.body.size
+    );
 
     // if present then increase the quantity
     if (cartItemIndex >= 0) {
@@ -17,7 +41,7 @@ exports.addToCart = (req, res) => {
             productDetail: product,
             size: req.body.size,
             quantity: req.body.quantity,
-            costOfEachItem: req.body.cost,
+            costOfEachItem: req.body.price,
         });
         cartItem.save(err => {
             if (err) return res.status(400).json(err);
@@ -75,6 +99,7 @@ exports.updateQuantity = (req, res) => {
         }
     }
 }
+
 
 
 

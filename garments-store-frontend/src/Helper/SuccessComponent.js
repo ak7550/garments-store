@@ -21,27 +21,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const SuccessComponent = ({success}) => {
+const SuccessComponent = ({ success }) => {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(!!success);
+    const [open, setOpen] = React.useState(success);
 
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
+    const handleClose = (event, reason) =>
         setOpen(false);
-    };
 
     console.log(`executed`);
     return (
-        <div className={classes.root}>
-            <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success">
-                    Success
-        </Alert>
-            </Snackbar>
-        </div>
+        open &&
+        <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: 'center' }}
+            open={open}
+            onClose={handleClose}
+            message={success}
+            autoHideDuration={2000}
+        />
     )
 }
 

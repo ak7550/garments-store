@@ -46,9 +46,7 @@ const LogInForm = ({ close }) => {
                 console.log(`user information from the login form after setting user state: ${data}`);
                 close();
                 toggleSideBar();
-                {
-                    <SuccessComponent success={data.name} />
-                }
+                handleSuccess("LoggedIn successfully");
                 <Redirect to="/" />
             },
             resErr => {
