@@ -30,7 +30,7 @@ const CarouselBox = ({ images = [] }) => {
         <>
             <Button
                 style={{
-                    cursor: 'zoom-in',
+                    // cursor: 'zoom-in',
                     backgroundImage: `url(${images[index]})`,
                     backgroundSize: '25em',
                     backgroundRepeat: 'no-repeat',
@@ -54,17 +54,7 @@ const CarouselBox = ({ images = [] }) => {
                 >
                     <ChevronRightIcon />
                 </IconButton>
-                {
-                    magnify && (
-                        <Modal
-                            open={magnify}
-                            onClose={handleOnClose}
-                            onBackdropClick={handleOnClose}
-                        >
-                            <img src={images[index]} width="900" height="900" />
-                        </Modal>
-                    )
-                }
+                
             </Button>
         </>
     )

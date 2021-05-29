@@ -1,19 +1,34 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {
     Avatar,
+    Button,
     Card,
+    CardActions,
+    CardContent,
     CardHeader,
     CardMedia,
+    Chip,
     Divider,
-    makeStyles
+    FormControl,
+    Grid,
+    IconButton,
+    InputLabel,
+    makeStyles,
+    OutlinedInput,
+    TextField,
+    Typography
 } from '@material-ui/core';
-import { getCartAPI } from '../API/Cart';
+import { getCartAPI, removeFromCartAPI, updateQuantityAPI } from '../API/Cart';
 import { MainLayOutContext } from './MainLayOut';
 import clsx from 'clsx';
 import { blue, green, grey, orange, pink, purple, red } from '@material-ui/core/colors';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import { Link } from 'react-router-dom';
-
+import produce from 'immer';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AttachMoneySharpIcon from '@material-ui/icons/AttachMoneySharp';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -82,7 +97,20 @@ const useStyles = makeStyles((theme) => ({
         display: "inherit",
         textDecoration: "none",
         color: "inherit"
-    }
+    },
+    large: {
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+        color: `${blue[50]}`,
+        opacity: 1
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+    cardAction: {
+        backgroundColor: grey[200],
+        minHeight: '3em'
+    },
 }));
 
 const CartItem = ({ id }) => {
@@ -92,21 +120,105 @@ const CartItem = ({ id }) => {
         size: "S",
         costOfEachItem: 100
     });
-    const { user } = useContext(MainLayOutContext);
+    const { user, setUser } = useContext(MainLayOutContext);
     const classes = useStyles({ color: '#203f52' });
+
 
     useEffect(() =>
         getCartAPI(id, user._id, d => {
             setCartInfo(d);
-            console.log(`cartInfo: `, d.productDetail);
+            console.log(`cart info: `, d);
+            console.log(`productDetail: `, d.productDetail);
         }, err => console.log(err))
         , []);
+
+    const minusButtonPressed = e => {
+        const newCart = produce(cartInfo, draft =>
+            draft.quantity = cartInfo.quantity - 1
+        );
+        setCartInfo(newCart);
+        updateQuantityAPI(cartInfo.productDetail._id, user._id, cartInfo.size, u => setUser(u), err => console.log(err));
+    }
+
+    const addButtonPressed = e => {
+        const newCart = produce(cartInfo, draft =>
+            draft.quantity = cartInfo.quantity + 1
+        );
+        setCartInfo(newCart);
+        updateQuantityAPI(cartInfo.productDetail._id, user._id, cartInfo.size, u => setUser(u), err => console.log(err));
+    }
+
+    const deleteButtonPressed = e =>
+        removeFromCartAPI(id, user._id, u => setUser(u), err => console.log(err));
+
+
+
+
+    const quantitySection = () => (
+        <Grid container
+            direction="row"
+            justify="flex-start"
+            alignItems="center"
+            wrap
+        >
+            <Grid item xs={6}>
+                <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                >
+                    <Grid item>
+                        <IconButton
+                            color="warning"
+                            onClick={minusButtonPressed}
+                            disabled={cartInfo.quantity <= 1}
+                        >
+                            <RemoveCircleOutlineIcon />
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <Typography style={{
+                            // textDecoration: 'underline',
+                            fontWeight: 'bold'
+                        }}>
+                            {cartInfo.quantity}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <IconButton color="secondary" onClick={addButtonPressed} >
+                            <AddCircleOutlineIcon />
+                        </IconButton>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid item>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    // className={classes.button}
+                    startIcon={<DeleteIcon />}
+                    onClick={deleteButtonPressed}
+                >
+                    Remove
+                </Button>
+            </Grid>
+
+        </Grid>
+    )
+
 
     return (
         <Card className={clsx(classes.root, classes.card)}>
             <CardHeader
                 title={cartInfo.productDetail?.name}
-                subheader={<Avatar className={clsx(classes.avatar, classes.orange)}>{cartInfo.size}</Avatar>}
+                subheader={
+                    <Avatar
+                        className={clsx(classes.avatar, classes.orange, classes.large)}
+                    >
+                        {cartInfo.size}
+                    </Avatar>
+                }
                 action={
                     <Link to={`/product/${cartInfo.productDetail?._id}`} className={classes.link}>
                         <Avatar className={classes.avatar}>
@@ -121,6 +233,26 @@ const CartItem = ({ id }) => {
                 title={cartInfo.productDetail?.name}
             />
             <Divider />
+            <CardContent>
+                {
+                    quantitySection()
+                }
+            </CardContent>
+            <Divider />
+            <CardActions disableSpacing className={classes.cardAction}>
+                <Chip
+                    icon={<AttachMoneySharpIcon />}
+                    color="secondary"
+                    label={cartInfo.costOfEachItem}
+                    style={{
+                        position: "relative",
+                        fontWeight: 'normal',
+                        fontSize: '1rem',
+                        margin: 'auto'
+                    }}
+                    clickable
+                />
+            </CardActions>
         </Card>
     )
 }

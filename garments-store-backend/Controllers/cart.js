@@ -69,7 +69,9 @@ exports.removeFromCart = (req, res) => {
 //_ working fine
 exports.updateQuantity = (req, res) => {
     const { userProfileInfo: user, product } = req;
-    const cartItemIndex = user.shoppingCart.findIndex(p => p.productDetail._id.equals(product._id) && p.size == req.body.size);
+    const cartItemIndex = user.shoppingCart.findIndex(p =>
+        p.productDetail._id.equals(product._id) && p.size == req.body.size
+    );
     console.log(`cartItemIndex: ${cartItemIndex}`);
     if (cartItemIndex == -1)
         return res.status(400).json({
@@ -99,6 +101,12 @@ exports.updateQuantity = (req, res) => {
         }
     }
 }
+
+exports.removeThisCart = (req, res) =>
+    ProductCart.findByIdAndDelete(req.cart._id, err => {
+        if (err) return res.status(400).json(req.userProfileInfo);
+        else return res.status(200).json(req.userProfileInfo);
+    });
 
 
 

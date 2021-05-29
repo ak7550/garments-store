@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
     Grid,
     Typography
@@ -7,9 +7,11 @@ import { MainLayOutContext } from '../Components/MainLayOut'
 import CartItem from '../Components/CartItem';
 
 const UserCart = () => {
-    const { user, setUser } = useContext(MainLayOutContext);
+    const { user } = useContext(MainLayOutContext);
     const { shoppingCart = [] } = user;
     console.log(`cart: `, shoppingCart);
+    
+
     return (
         <div>
             {
@@ -23,20 +25,19 @@ const UserCart = () => {
                     justify="flex-start"
                     alignItems="center"
                     wrap
-                // style={{
-                //     marginLeft: "20em"
-                // }}
                 >
                     {
                         shoppingCart.map((item, i) => (
                             <Grid item
                                 style={{
-                                    marginLeft: '1em',
+                                    marginLeft: '2em',
                                     maxWidth: '20%',
                                     maxHeight: '20%'
                                 }}
                             >
-                                <CartItem id={item} />
+                                <CartItem
+                                    id={item}
+                                />
                             </Grid>
                         ))
                     }
