@@ -79,8 +79,3 @@ fix the errormessage section.
 
 Today's task:
 complete the cart page
-
-
-the actual problem is token is attached with the cookies,
-while returning the new updated user back i need to parse the cookies as well.
-that's why in the second time, it's being authorized

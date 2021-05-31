@@ -26,7 +26,6 @@ export const getCartAPI = (cartId, next, error) =>
         .catch(err => error(err));
 
 
-//!need to work
 export const removeFromCartAPI = (cartId, userId, next, error) =>
     localforage.getItem("user", (err, u) => {
         const token = u.token;

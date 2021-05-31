@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
     Button,
     Divider,
@@ -10,8 +10,18 @@ import CartItem from '../Components/CartItem';
 
 const UserCart = () => {
     const { user } = useContext(MainLayOutContext);
+    const [totalCost, setTotalCost] = useState(0);
     const { shoppingCart = [] } = user;
     console.log(`cart: `, shoppingCart);
+
+    const calculateTotalSum = (cartItems=[]) => {
+        let total = 0;
+        cartItems.forEach(obj => total += (obj.costOfEachItem * obj.quantity));
+        setTotalCost(total);
+    }
+
+
+    useEffect(() => calculateTotalSum(user.shoppingCart), [user]);
 
 
     return (
@@ -66,7 +76,7 @@ const UserCart = () => {
                         // className={classes.button}
                         // endIcon={<SaveIcon />}
                         >
-                            Procceed To CheckOut
+                            Procceed To CheckOut {totalCost}
                         </Button>
                     </Grid>
                 </>
