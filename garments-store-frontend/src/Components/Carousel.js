@@ -30,6 +30,7 @@ const CarouselBox = ({ images = [] }) => {
         <>
             <Button
                 style={{
+                    // docs: https://material-ui.com/components/popover/#mouse-over-interaction
                     // cursor: 'zoom-in',
                     backgroundImage: `url(${images[index]})`,
                     backgroundSize: '25em',
@@ -54,7 +55,7 @@ const CarouselBox = ({ images = [] }) => {
                 >
                     <ChevronRightIcon />
                 </IconButton>
-                
+
             </Button>
         </>
     )

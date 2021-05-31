@@ -86,6 +86,7 @@ exports.signIn = (req, res) => {
         console.log(`req.body: ${JSON.stringify(req.body)}`);
         const { email, password } = req.body;
         User.findOne({ email })
+            .populate("shoppingCart")
             .exec((err, user) => {
             //TODO: dont send all the user info
             if (!user)

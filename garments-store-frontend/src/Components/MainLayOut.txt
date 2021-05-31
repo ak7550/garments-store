@@ -54,12 +54,18 @@ update the link inside the product card ==> done
 define private routes for sellers. ==> done
 create the wishlist page ==> use the same product card component ==> done
 
+create the usercart page ==> use the same product card component with checkout button at the end  ==> done
+add an cart button in nav bar ==> done
+fix the avatar pannel in the nav bar ==> done
+add the addtocartapi call ==> done
+fix the nav bar ==> done
+create the home page ==> pagination, carousoul, parallax effect wiht products and categories. ==> done
+create the product page ==> done
 
 
 
 
-create the home page ==> pagination, carousoul, parallax effect wiht products and categories.
-create the product page
+
 create the userdashboard page
 create the orderlist page ==> use the same product card component
 
@@ -67,21 +73,14 @@ create the orderlist page ==> use the same product card component
 create the userlist(follower) page  ==> use the same user card component
 create the userlist(following) page ==> use the same user card component
 
-create the usercart page ==> use the same product card component with checkout button at the end
-
-
-
-
-
-add an cart button in nav bar
-fix the avatar pannel in the nav bar
-
-
-Question:
-how can i delete the localstorage after a certain amount of time.
-
-add the addtocartapi call ==> done
-fix the nav bar ==> done
-
 fix the successmessage section.
 fix the errormessage section.
+
+
+Today's task:
+complete the cart page
+
+
+the actual problem is token is attached with the cookies,
+while returning the new updated user back i need to parse the cookies as well.
+that's why in the second time, it's being authorized

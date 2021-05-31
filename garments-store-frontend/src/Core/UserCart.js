@@ -1,5 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import {
+    Button,
+    Divider,
     Grid,
     Typography
 } from '@material-ui/core';
@@ -10,7 +12,7 @@ const UserCart = () => {
     const { user } = useContext(MainLayOutContext);
     const { shoppingCart = [] } = user;
     console.log(`cart: `, shoppingCart);
-    
+
 
     return (
         <div>
@@ -19,30 +21,55 @@ const UserCart = () => {
                 <Typography variant="h3">Your Shopping Cart is empty!!</Typography>
             }
             {
-                <Grid
-                    container
-                    direction="row"
-                    justify="flex-start"
-                    alignItems="center"
-                    wrap
-                >
-                    {
-                        shoppingCart.map((item, i) => (
-                            <Grid item
-                                style={{
-                                    marginLeft: '2em',
-                                    maxWidth: '20%',
-                                    maxHeight: '20%'
-                                }}
-                            >
-                                <CartItem
-                                    id={item}
-                                />
-                            </Grid>
-                        ))
-                    }
+                shoppingCart.length !== 0 &&
+                <>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="flex-start"
+                        alignItems="center"
+                        wrap
+                    >
+                        {
+                            shoppingCart.map((item, i) => (
+                                <Grid item
+                                    xs={12}
+                                    style={{
+                                        margin: '2em',
+                                        maxWidth: '20%',
+                                        maxHeight: '20%'
+                                    }}
+                                >
+                                    <CartItem
+                                        id={item}
+                                    />
+                                </Grid>
+                            ))
+                        }
 
-                </Grid>
+                    </Grid>
+                    <Divider />
+                    <Grid container
+                        justify="center"
+                        alignItems='center'
+                        style={{
+                            minWidth: '2em',
+                            minHeight: '2em',
+                            // border: '2px solid black',
+                            marginTop: '2em'
+                        }}
+                    >
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                        // className={classes.button}
+                        // endIcon={<SaveIcon />}
+                        >
+                            Procceed To CheckOut
+                        </Button>
+                    </Grid>
+                </>
             }
         </div>
     )

@@ -67,46 +67,45 @@ exports.removeFromCart = (req, res) => {
 }
 
 //_ working fine
-exports.updateQuantity = (req, res) => {
-    const { userProfileInfo: user, product } = req;
-    const cartItemIndex = user.shoppingCart.findIndex(p =>
-        p.productDetail._id.equals(product._id) && p.size == req.body.size
-    );
-    console.log(`cartItemIndex: ${cartItemIndex}`);
-    if (cartItemIndex == -1)
-        return res.status(400).json({
-            msg: `the product doesnot exist to cart`
-        });
-    // check db present quantity and update it accordingly
-    else {
-        // check if the qunatities are availble into the db
-        console.log(`Item: ${JSON.stringify(user.shoppingCart[cartItemIndex])}`);
-        const quantity = product.getQuantity(req.body.size);
-        console.log(`quantity: ${quantity}`);
-        if (quantity < req.body.quantity) return res.status(400).json({
-            err: `${req.body.quantity} pieces are not availble currently.`
-        });
-        else {
-            user.shoppingCart[cartItemIndex].quantity += req.body.quantity;
-            user.shoppingCart[cartItemIndex].save(err => {
-                if (err) return res.status(400).json(err);
-            });
-            user.save(err => {
-                if (err) return res.status(400).json(err);
-            });
-            return res.status(200).json({
-                user,
-                msg: `updated quantity for the ${JSON.stringify(user.shoppingCart[cartItemIndex])} is updated.`
-            });
-        }
-    }
-}
+exports.updateQuantity = (req, res) =>
+    ProductCart.findByIdAndUpdate(req.cart._id,
+        {
+            $set: {
+                quantity: req.body.quantity
+            }
+        },
+        {
+            new: true,
+            overwrite: false,
+        })
+        .populate("productDetail")
+        .exec((err, cart) =>
+            (err || !cart) ?
+                res.status(400).json({
+                    err,
+                    msg: `error updating quantity in db`
+                }) :
+                res.status(200).json(cart));
 
-exports.removeThisCart = (req, res) =>
-    ProductCart.findByIdAndDelete(req.cart._id, err => {
-        if (err) return res.status(400).json(req.userProfileInfo);
-        else return res.status(200).json(req.userProfileInfo);
-    });
+
+//! server is crashing, though the code seems good
+exports.removeThisCart = (req, res) => {
+    const { userProfileInfo: user, cart } = req;
+    const shoppingCart = user.shoppingCart.filter((cartObj) =>
+        !(cartObj._id.equals(cart._id))
+    );
+    user.shoppingCart = shoppingCart;
+    user.save(err => res.status(400).json(err));
+    console.log(`user is: `, user);
+    ProductCart.findByIdAndDelete(cart._id, {},
+        (err, cart) =>
+            (err || !cart) ?
+                res.status(400).json({
+                    err,
+                    msg: `some error occured in db.`
+                }) :
+                res.status(200).json(user));
+}
 
 
 

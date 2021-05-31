@@ -8,6 +8,7 @@ import {
     CardHeader,
     CardMedia,
     Chip,
+    CircularProgress,
     Divider,
     FormControl,
     Grid,
@@ -29,6 +30,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AttachMoneySharpIcon from '@material-ui/icons/AttachMoneySharp';
+import { getProductAPI } from '../API/Product';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -113,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CartItem = ({ id }) => {
+const CartItem = ({ id: cartInformation }) => {
     const [cartInfo, setCartInfo] = useState({
         productDetail: null,
         quantity: 0,
@@ -122,34 +124,49 @@ const CartItem = ({ id }) => {
     });
     const { user, setUser } = useContext(MainLayOutContext);
     const classes = useStyles({ color: '#203f52' });
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() =>
-        getCartAPI(id, user._id, d => {
-            setCartInfo(d);
-            console.log(`cart info: `, d);
-            console.log(`productDetail: `, d.productDetail);
-        }, err => console.log(err))
-        , []);
+        getCartAPI(cartInformation._id, d => setCartInfo(d), err => console.log(err)), []);
 
     const minusButtonPressed = e => {
-        const newCart = produce(cartInfo, draft =>
-            draft.quantity = cartInfo.quantity - 1
-        );
-        setCartInfo(newCart);
-        updateQuantityAPI(cartInfo.productDetail._id, user._id, cartInfo.size, u => setUser(u), err => console.log(err));
+        setLoading(true);
+        updateQuantityAPI(cartInfo._id, user._id,
+            {
+                quantity: cartInfo.quantity - 1
+            },
+            (u, c) => {
+                setUser(u);
+                setCartInfo(c);
+                console.log(`updated cart info is: `, c);
+                setLoading(false);
+            },
+            err => console.log(err));
     }
+
 
     const addButtonPressed = e => {
-        const newCart = produce(cartInfo, draft =>
-            draft.quantity = cartInfo.quantity + 1
-        );
-        setCartInfo(newCart);
-        updateQuantityAPI(cartInfo.productDetail._id, user._id, cartInfo.size, u => setUser(u), err => console.log(err));
+        setLoading(true);
+        updateQuantityAPI(cartInfo._id, user._id,
+            {
+                quantity: cartInfo.quantity + 1
+            },
+            (u, c) => {
+                setUser(u);
+                setCartInfo(c);
+                console.log(`updated cart info is: `, c);
+                setLoading(false);
+            },
+            err => console.log(err));
     }
 
+    //!check
     const deleteButtonPressed = e =>
-        removeFromCartAPI(id, user._id, u => setUser(u), err => console.log(err));
+        removeFromCartAPI(cartInfo._id,
+            user._id,
+            u => setUser(u),
+            err => console.log(err));
 
 
 
@@ -182,7 +199,13 @@ const CartItem = ({ id }) => {
                             // textDecoration: 'underline',
                             fontWeight: 'bold'
                         }}>
-                            {cartInfo.quantity}
+                            {
+                                loading ? <CircularProgress className={classes.large} />
+                                    :
+                                    <>
+                                        {cartInfo.quantity}
+                                    </>
+                            }
                         </Typography>
                     </Grid>
                     <Grid item>

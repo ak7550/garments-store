@@ -3,12 +3,18 @@ import axios from '../Utils/axios'
 import localforage from 'localforage'
 
 export const getUserAPI = (userId, next) => {
-    axios.get(`${API}/user/${userId}`)
-        .then(res => {
-            const { userProfileInfo } = res.data;
-            next(userProfileInfo);
-        })
-        .catch(err => console.log(err));
+    let token = undefined;
+    localforage.getItem("user")
+        .then(user => {
+            token = user.token;
+            axios.get(`${API}/user/${userId}`)
+                .then(res => {
+                    const { userProfileInfo } = res.data;
+                    userProfileInfo.token = token;
+                    next(userProfileInfo);
+                })
+                .catch(err => console.log(err));
+        });
 }
 
 export const updateUserAPI = (userInfo, id, next, errorHandler) => {
