@@ -95,16 +95,20 @@ exports.removeThisCart = (req, res) => {
         !(cartObj._id.equals(cart._id))
     );
     user.shoppingCart = shoppingCart;
-    user.save(err => res.status(400).json(err));
+    user.save(err => {
+        if (err)
+            return res.status(400).json(err);
+    });
     console.log(`user is: `, user);
     ProductCart.findByIdAndDelete(cart._id, {},
-        (err, cart) =>
-            (err || !cart) ?
-                res.status(400).json({
+        (err, cart) => {
+            if (err || !cart)
+                return res.status(400).json({
                     err,
                     msg: `some error occured in db.`
-                }) :
-                res.status(200).json(user));
+                });
+        });
+    return res.status(200).json(user);
 }
 
 

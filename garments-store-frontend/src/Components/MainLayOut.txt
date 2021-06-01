@@ -61,21 +61,14 @@ add the addtocartapi call ==> done
 fix the nav bar ==> done
 create the home page ==> pagination, carousoul, parallax effect wiht products and categories. ==> done
 create the product page ==> done
-
-
-
-
+create the userlist(follower) page  ==> use the same user card component
+create the userlist(following) page ==> use the same user card component
+complete the cart page ==> done
 
 create the userdashboard page
 create the orderlist page ==> use the same product card component
 
-
-create the userlist(follower) page  ==> use the same user card component
-create the userlist(following) page ==> use the same user card component
-
+Today's task:
+integrate payment gateway
 fix the successmessage section.
 fix the errormessage section.
-
-
-Today's task:
-complete the cart page
