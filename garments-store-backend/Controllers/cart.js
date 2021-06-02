@@ -32,9 +32,15 @@ exports.addToCart = (req, res) => {
         p.productDetail.equals(product._id) && p.size == req.body.size
     );
 
+    console.log("\n\n\n cartItemIndex", cartItemIndex);
+
     // if present then increase the quantity
     if (cartItemIndex >= 0) {
-        user.shoppingCart[cartItemIndex].quantity += req.body.quantity;
+        user.shoppingCart[cartItemIndex].quantity += req.body.quantity; //quantity update
+        user.shoppingCart[cartItemIndex].save(err => {
+            if (err)
+                return res.status(400).json(err);
+        }); //then save it to the database
     }
     else {
         const cartItem = new ProductCart({
@@ -88,7 +94,6 @@ exports.updateQuantity = (req, res) =>
                 res.status(200).json(cart));
 
 
-//! server is crashing, though the code seems good
 exports.removeThisCart = (req, res) => {
     const { userProfileInfo: user, cart } = req;
     const shoppingCart = user.shoppingCart.filter((cartObj) =>
