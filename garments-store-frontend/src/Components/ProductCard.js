@@ -178,7 +178,9 @@ const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
           <ShareIcon />
         </IconButton>
         <Chip
-          icon={<AttachMoneySharpIcon />}
+          icon={
+            <span>₹</span>
+          }
           color="secondary"
           label={price}
           style={{

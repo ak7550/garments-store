@@ -208,7 +208,13 @@ const ProductPage = () => {
                                         <>
                                             {obj.size}
                                             <Chip
-                                                icon={<AttachMoneySharpIcon fontSize="small" />}
+                                                icon={
+                                                    <span style={{
+                                                        paddingLeft: 1
+                                                    }}>
+                                                        ₹
+                                                    </span>
+                                                }
                                                 color="primary"
                                                 label={obj.price}
                                                 style={{

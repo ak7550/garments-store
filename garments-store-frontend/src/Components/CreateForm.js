@@ -403,6 +403,7 @@ const CreateForm = ({ category = false, product = false }) => {
                                                                         >
                                                                             <InputLabel htmlFor="outlined-adornment-amount">
                                                                                 Amount
+                                                                                <span> ₹</span>
                                                                             </InputLabel>
                                                                             <OutlinedInput
                                                                                 id="outlined-adornment-amount"

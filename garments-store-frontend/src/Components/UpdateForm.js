@@ -425,6 +425,7 @@ const UpdateForm = ({ category = false, product = false }) => {
                                                                         >
                                                                             <InputLabel htmlFor="outlined-adornment-amount">
                                                                                 Amount
+                                                                                <span> ₹</span>
                                                                             </InputLabel>
                                                                             <OutlinedInput
                                                                                 id="outlined-adornment-amount"
@@ -468,7 +469,7 @@ const UpdateForm = ({ category = false, product = false }) => {
                     </Grid>
                 </form>
             </Grid>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }

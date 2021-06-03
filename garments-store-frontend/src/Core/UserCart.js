@@ -7,12 +7,17 @@ import {
 } from '@material-ui/core';
 import { MainLayOutContext } from '../Components/MainLayOut'
 import CartItem from '../Components/CartItem';
+import AkBackDrop from '../Components/AkBackDrop';
+import RazorPayForm from './Auth/RazorPayForm';
+import { createOrderAPI } from '../API/Order';
+import { setUseProxies } from 'immer';
 
 const UserCart = () => {
-    const { user } = useContext(MainLayOutContext);
+    const { user, setUser } = useContext(MainLayOutContext);
     const [totalCost, setTotalCost] = useState(0);
     const { shoppingCart = [] } = user;
     console.log(`cart: `, shoppingCart);
+    const [checkOut, setCheckOut] = useState(false);
 
     const calculateTotalSum = (cartItems=[]) => {
         let total = 0;
@@ -22,6 +27,13 @@ const UserCart = () => {
 
 
     useEffect(() => calculateTotalSum(user.shoppingCart), [user]);
+
+    const loadCheckOut = e =>
+        createOrderAPI(user._id,
+            data => {
+                setUser(data);
+            }
+        );
 
 
     return (
@@ -73,12 +85,23 @@ const UserCart = () => {
                             variant="contained"
                             color="primary"
                             size="large"
+                            onClick={loadCheckOut}
                         // className={classes.button}
                         // endIcon={<SaveIcon />}
                         >
-                            Procceed To CheckOut {totalCost}
+                            Procceed To CheckOut ₹{totalCost}
                         </Button>
                     </Grid>
+                    {
+                        checkOut &&
+                        (
+                            <AkBackDrop open={checkOut}
+                                onClose={() => setCheckOut(!checkOut)}
+                            >
+                                <RazorPayForm />
+                            </AkBackDrop>
+                        )
+                    }
                 </>
             }
         </div>

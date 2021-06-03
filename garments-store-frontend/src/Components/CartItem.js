@@ -264,7 +264,9 @@ const CartItem = ({ id: cartInformation }) => {
             <Divider />
             <CardActions disableSpacing className={classes.cardAction}>
                 <Chip
-                    icon={<AttachMoneySharpIcon />}
+                    icon={
+                        <span>₹</span>
+                    }
                     color="secondary"
                     label={cartInfo.costOfEachItem}
                     style={{
