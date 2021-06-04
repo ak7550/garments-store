@@ -10,7 +10,8 @@ import CartItem from '../Components/CartItem';
 import AkBackDrop from '../Components/AkBackDrop';
 import RazorPayForm from './Auth/RazorPayForm';
 import { createOrderAPI } from '../API/Order';
-import { setUseProxies } from 'immer';
+import { Redirect } from 'react-router';
+
 
 const UserCart = () => {
     const { user, setUser } = useContext(MainLayOutContext);
@@ -30,8 +31,9 @@ const UserCart = () => {
 
     const loadCheckOut = e =>
         createOrderAPI(user._id,
-            data => {
-                setUser(data);
+            u => {
+                setUser(u);
+                <Redirect to="/" />
             }
         );
 
