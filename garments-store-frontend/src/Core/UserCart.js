@@ -8,7 +8,7 @@ import {
 import { MainLayOutContext } from '../Components/MainLayOut'
 import CartItem from '../Components/CartItem';
 import AkBackDrop from '../Components/AkBackDrop';
-import RazorPayForm from './Auth/RazorPayForm';
+// import RazorPayForm from './Auth/RazorPayForm';
 import { createOrderAPI } from '../API/Order';
 import { Redirect } from 'react-router';
 
@@ -30,7 +30,7 @@ const UserCart = () => {
     useEffect(() => calculateTotalSum(user.shoppingCart), [user]);
 
     const loadCheckOut = e =>
-        createOrderAPI(user._id,
+        createOrderAPI(user._id, totalCost,
             u => {
                 setUser(u);
                 <Redirect to="/" />
@@ -88,22 +88,10 @@ const UserCart = () => {
                             color="primary"
                             size="large"
                             onClick={loadCheckOut}
-                        // className={classes.button}
-                        // endIcon={<SaveIcon />}
                         >
                             Procceed To CheckOut ₹{totalCost}
                         </Button>
                     </Grid>
-                    {
-                        checkOut &&
-                        (
-                            <AkBackDrop open={checkOut}
-                                onClose={() => setCheckOut(!checkOut)}
-                            >
-                                <RazorPayForm />
-                            </AkBackDrop>
-                        )
-                    }
                 </>
             }
         </div>

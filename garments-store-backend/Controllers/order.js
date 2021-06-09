@@ -68,7 +68,7 @@ exports.createOrder = async (req, res) => {
         products: user.shoppingCart,
         user,
         address: req.body.address,
-        totalCost: countTotalCost(),
+        totalCost: req.body.totalCost,
     };
 
 

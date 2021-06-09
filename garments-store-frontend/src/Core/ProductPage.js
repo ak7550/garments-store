@@ -53,6 +53,7 @@ const ProductPage = () => {
     const classes = useStyles();
     const { user, setUser } = useContext(MainLayOutContext);
     const [similiarProduct, setSimiliarProduct] = useState([]);
+
     useEffect(() => {
         getProductAPI(productId, data => {
             setProduct(data);
@@ -330,6 +331,7 @@ const ProductPage = () => {
                                         alignItems="flex-start"
                                         wrap
                                         direction="column"
+                                        key={i}
                                         style={{
                                             backgroundColor: `${grey[200]}`,
                                             margin: '2em',

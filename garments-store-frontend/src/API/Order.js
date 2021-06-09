@@ -53,12 +53,12 @@ const razorPayCheckOutPopUp = async (data, user) => {
 }
 
 
-export const createOrderAPI = (userId, next) => {
+export const createOrderAPI = (userId, totalCost, next) => {
     let token = undefined;
     localforage.getItem("user")
         .then(u => {
             token = u.token;
-            axios.post(`${API}/order/${userId}/order`)
+            axios.post(`${API}/order/${userId}/order`, {totalCost})
                 .then(res => {
                     const { order, user } = res.data;
                     user.token = token;

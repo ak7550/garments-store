@@ -28,7 +28,7 @@ export const logInApiCall = (userInfo, next, errorLog) => {
 export const signUpApiCall = (userData, next, errorLog) => {
     userData.role = userData.role === "1" ? 1 : 0;
     const sex = userData.gender;
-    const age = new Date(userData.dob).getFullYear() - new Date().getFullYear();
+    const age = Math.abs(new Date(userData.dob).getFullYear() - new Date().getFullYear());
     const userInfo = { sex, age };
     userData.userInfo = userInfo;
     console.log("userDate to pass: ", userData);
