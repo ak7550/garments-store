@@ -5,7 +5,7 @@ const { getString } = require('../Controllers/random');
 
     const UserSchema = new mongoose.Schema({
     //! delete this shit
-    _password: String,
+    // _password: String,
     firstName: {
         type: String,
         required: true,
@@ -95,7 +95,7 @@ UserSchema.virtual("fullName").get(function () {
 UserSchema.virtual("password").get(function () {
     return this._password; // _ as this is not present in our schema, we have written here just for the testing purpose
 }).set(function (password) {
-    this._password = password;
+    // this._password = password;
     this.salt = uuidv4();
     this.encryptedPassword = this.securePassword(password);
 });

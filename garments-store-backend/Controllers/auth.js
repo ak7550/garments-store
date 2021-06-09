@@ -14,7 +14,7 @@ exports.signUp = (req, res) => {
     // https://express-validator.github.io/docs/validation-chain-api.html
     console.log(`request body: `, req.body);
     if (!errs.isEmpty()) {
-        res.status(400).json({
+        return res.status(400).json({
             errors: errs.array()
         });
     } else {
@@ -42,7 +42,8 @@ exports.signUp = (req, res) => {
 
         // this saves the entry into our database ==> https://mongoosejs.com/docs/models.html#compiling
         user.save(err => {
-            if (err) return res.status(400).json({
+            if (err)
+                return res.status(400).json({
                 msg: `Error Occured!!`
             });
 

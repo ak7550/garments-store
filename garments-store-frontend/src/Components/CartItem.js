@@ -31,6 +31,7 @@ import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AttachMoneySharpIcon from '@material-ui/icons/AttachMoneySharp';
 import { getProductAPI } from '../API/Product';
+import { handleError } from '../Helper/handleError';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -128,7 +129,7 @@ const CartItem = ({ id: cartInformation }) => {
 
 
     useEffect(() =>
-        getCartAPI(cartInformation._id, d => setCartInfo(d), err => console.log(err)), []);
+        getCartAPI(cartInformation._id, d => setCartInfo(d), err => handleError(err)), []);
 
     const minusButtonPressed = e => {
         setLoading(true);
@@ -142,7 +143,7 @@ const CartItem = ({ id: cartInformation }) => {
                 console.log(`updated cart info is: `, c);
                 setLoading(false);
             },
-            err => console.log(err));
+            err => handleError(err));
     }
 
 
@@ -158,7 +159,7 @@ const CartItem = ({ id: cartInformation }) => {
                 console.log(`updated cart info is: `, c);
                 setLoading(false);
             },
-            err => console.log(err));
+            err => handleError(err));
     }
 
     //!check
@@ -166,7 +167,7 @@ const CartItem = ({ id: cartInformation }) => {
         removeFromCartAPI(cartInfo._id,
             user._id,
             u => setUser(u),
-            err => console.log(err));
+            err => handleError(err));
 
 
 

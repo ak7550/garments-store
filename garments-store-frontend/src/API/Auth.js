@@ -13,7 +13,7 @@ export const logInApiCall = (userInfo, next, errorLog) => {
             localforage.setItem("user", user);
             console.log(`logInAPI response is: `, res.data);
             axios.defaults.headers['Authorization'] = `Bearer ${user.token}`;
-            next(res.data.user);
+            next(user);
         })
         .catch(error => {
             //docs: https://stackoverflow.com/questions/49967779/axios-handling-errors
@@ -39,7 +39,7 @@ export const signUpApiCall = (userData, next, errorLog) => {
             localforage.setItem("user", user);
             console.log(`signUpAPI response is: `, res.data);
             axios.defaults.headers['Authorization'] = `Bearer ${token}`;
-            next(res.data.user);
+            next(user);
         })
         .catch(error => errorLog(error.response));
 }

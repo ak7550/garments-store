@@ -14,7 +14,7 @@ import { Redirect } from 'react-router';
 
 
 const UserCart = () => {
-    const { user, setUser } = useContext(MainLayOutContext);
+    const { user, setUser, setSideBar } = useContext(MainLayOutContext);
     const [totalCost, setTotalCost] = useState(0);
     const { shoppingCart = [] } = user;
     console.log(`cart: `, shoppingCart);

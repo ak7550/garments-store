@@ -23,6 +23,7 @@ import { useForm } from 'react-hook-form';
 import { MainLayOutContext } from '../Components/MainLayOut';
 import { addToCartAPI } from '../API/Cart';
 import ProductCard from '../Components/ProductCard';
+import { handleError } from '../Helper/handleError';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +60,7 @@ const ProductPage = () => {
         });
         getSimiliarProductAPI(productId,
             data => setSimiliarProduct(data),
-            err => console.log(err));
+            err => handleError(err));
     }, []);
 
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, } = useForm();
@@ -72,7 +73,7 @@ const ProductPage = () => {
                 setProduct(data);
                 console.log(`product: `, data);
             },
-            err => console.log(err));
+            err => handleError(err));
         reset();
     }
 
@@ -258,7 +259,7 @@ const ProductPage = () => {
                                 productId,
                                 sizeSelected,
                                 data => setUser(data),
-                                err => console.log(err));
+                                err => handleError(err));
                     }}
                     disabled={!user}
                 >

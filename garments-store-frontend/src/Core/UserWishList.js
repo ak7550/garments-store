@@ -11,7 +11,7 @@ const UserWishList = () => {
     const [productArr, setProductArr] = useState([]);
     const [toggler, setToggler] = useState(true);
 
-    
+
     useEffect(() => {
         getWishListItemAPI(userId, data => {
             console.log(`data is: ${data}`);
@@ -43,8 +43,7 @@ const UserWishList = () => {
                                 <ProductCard
                                     product={product}
                                     linkTo={`/product/${product._id}`}
-                                    // fav
-                                    // toggle={() => setToggler(!toggler)}
+                                    key={index}
                                 />
                             </Grid>
                         ))

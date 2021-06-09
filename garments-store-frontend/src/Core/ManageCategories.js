@@ -151,9 +151,7 @@ const ManageCategories = () => {
             {
                 selectedIndex === 3 && <DeleteForm category />
             }
-            {
-                selectedIndex === 0 && <Footer />
-            }
+            
     </>
     )
 }

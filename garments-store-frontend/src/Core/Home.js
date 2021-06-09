@@ -92,7 +92,7 @@ const Home = () => {
 
     return (
         <div>
-            <Grid container  direction="row" >
+            <Grid container direction="row" >
                 {
                     categoryList.map((category, i) => (
                         <Grid item key={i}
@@ -108,12 +108,15 @@ const Home = () => {
                                 style={{
                                     width: '100%',
                                 }}
-                                onClick={e => history.push(`/category/${i}`) }
+                                onClick={e => history.push(`/category/${i}`)}
                             >
                                 <span
                                     className={classes.imageSrc}
                                     style={{
-                                        backgroundImage: `url(${`https://source.unsplash.com/featured/?${category.name.split(" ")[0]}/800x600`})`,
+                                        backgroundImage: `url(
+                                            ${`https://source.unsplash.com/featured/?${category.name.split(" ")[0]}/800x600`}
+                                            )`,
+                                        backgroundPosition: "center"
                                     }}
                                 />
                                 <span className={classes.imageBackdrop} />

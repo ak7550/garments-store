@@ -130,20 +130,33 @@ exports.uploadProfilePic = (req, res) => {
             const { userProfileInfo } = req;
             userProfileInfo.profilePicture.data = fs.readFileSync(file.photo.path);
             userProfileInfo.profilePicture.contentType = file.photo.type;
-            userProfileInfo.save(err => err ? res.status(400).json(err) : res.status(200).send(userProfileInfo));
+            userProfileInfo.save(err =>
+                err ?
+                    res.status(400).json(err)
+                    :
+                    res.status(200).send(userProfileInfo));
             console.log(`Field is: ${JSON.stringify(field)}`);
             console.log(`File is: ${JSON.stringify(file)}`);
         }
     });
 }
+
 //_ working fine
-exports.getProfilePic = (req, res) => req.userProfileInfo.profilePicture ? res.status(200).send(req.userProfileInfo.profilePicture) : res.status(400).json({ err: `${req.userProfileInfo.fullName} do not have any profile pic.` });
+exports.getProfilePic = (req, res) =>
+    req.userProfileInfo.profilePicture ?
+        res.status(200).send(req.userProfileInfo.profilePicture)
+        : res.status(400).json({
+            err: `${req.userProfileInfo.fullName} do not have any profile pic.`
+        });
 
 //_ working fine
 exports.deleteProfilePic = (req, res) => {
     const { userProfileInfo } = req;
     userProfileInfo.profilePicture = undefined; // delete
-    userProfileInfo.save(err => err ? res.status(400).json(err) : res.status(200).json(userProfileInfo));
+    userProfileInfo.save(err =>
+        err ?
+            res.status(400).json(err)
+            : res.status(200).json(userProfileInfo));
 }
 
 //_ working fine

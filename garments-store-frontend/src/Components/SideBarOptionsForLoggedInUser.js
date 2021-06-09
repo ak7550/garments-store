@@ -72,7 +72,7 @@ const SideBarOptionsForLoggedInUser = () => {
     {
         name: "My Shopping Cart",
         icon: <ShoppingCartIcon />,
-        linkTo: `/user/cart/${user._id}`,
+        linkTo: `/user/cart`,
         onClick: link => history.push(link),
 
     },

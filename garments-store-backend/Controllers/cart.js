@@ -20,12 +20,13 @@ exports.getCartById = (req, res, next, id) => {
 exports.getCart = (req, res) => res.status(200).json(req.cart);
 
 
-//_ working fine
+//!problem
 exports.addToCart = (req, res) => {
     const { userProfileInfo: user, product } = req;
 
     console.log(`user is: `, user);
     console.log(`product is: `, product);
+    console.log(`req.body`, req.body);
 
     //docs: https://stackoverflow.com/questions/11637353/comparing-mongoose-id-and-strings
     const cartItemIndex = user.shoppingCart.findIndex(p =>
@@ -37,21 +38,16 @@ exports.addToCart = (req, res) => {
     // if present then increase the quantity
     if (cartItemIndex >= 0) {
         user.shoppingCart[cartItemIndex].quantity += req.body.quantity; //quantity update
-        user.shoppingCart[cartItemIndex].save(err => {
-            if (err)
-                return res.status(400).json(err);
-        }); //then save it to the database
+        user.shoppingCart[cartItemIndex].save(); //then save it to the database
     }
     else {
         const cartItem = new ProductCart({
-            productDetail: product,
+            productDetail: product._id, //objectId has to be passed
             size: req.body.size,
             quantity: req.body.quantity,
             costOfEachItem: req.body.price,
         });
-        cartItem.save(err => {
-            if (err) return res.status(400).json(err);
-        });
+        cartItem.save();
         console.log(`cartItem: ${JSON.stringify(cartItem)}`);
         user.shoppingCart.push(cartItem);
     }

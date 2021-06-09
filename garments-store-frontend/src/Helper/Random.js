@@ -1,5 +1,3 @@
-import axios from "axios"
-
 export const imgeAPI = process.env.REACT_APP_IMAGE_API;
 
 export const getRandomImages = (tag = "fashion", next) => {
