@@ -12,6 +12,7 @@ import {
     FormControlLabel,
     FormLabel,
     Grid,
+    IconButton,
     Input,
     InputLabel,
     makeStyles,
@@ -34,6 +35,7 @@ import { handleSuccess } from '../Helper/handleSuccess';
 import { handleError } from '../Helper/handleError';
 import EditIcon from '@material-ui/icons/Edit';
 import { getRandomImages } from '../Helper/Random';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 
 const useStyle = makeStyles(theme => ({
@@ -63,6 +65,9 @@ const useStyle = makeStyles(theme => ({
     },
     extendedIcon: {
         marginRight: theme.spacing(1),
+    },
+    input: {
+        display: 'none',
     },
 }));
 
@@ -121,22 +126,14 @@ const UserDashboard = () => {
                                         vertical: 'bottom',
                                         horizontal: 'right',
                                     }}
-                                    invisible={readOnly}
                                     badgeContent={
+                                        !readOnly &&
                                         <Avatar
                                             style={{
                                                 backgroundColor: 'white'
                                             }}
                                             className={classes.small}
-                                            onClick={() => {
-                                                const inp = inputref.current.getElementsByTagName('input');
-                                                console.log(inp[0]);
-                                                inp[0].focus();
-                                                console.log(inp[0].value);
-                                            }} //todo:
                                         >
-                                            //todo: not working so far..
-                                            //docs: https://material-ui.com/components/buttons/#upload-button
                                             <Paper elevation={3}
                                                 className={classes.paper}
                                                 style={{
@@ -145,33 +142,30 @@ const UserDashboard = () => {
                                                 }}
                                                 variant='outlined'
                                             >
-                                                <InputLabel >
-                                                    <CreateIcon />
-                                                </InputLabel>
+                                                <input accept="image/*"
+                                                    className={classes.input}
+                                                    id="icon-button-file"
+                                                    type="file"
+                                                />
+                                                <label htmlFor="icon-button-file">
+                                                    <IconButton
+                                                        color={grey[400]}
+                                                        aria-label="upload picture"
+                                                        component="span"
+                                                    >
+                                                        <CreateIcon />
+                                                    </IconButton>
+                                                </label>
                                             </Paper>
                                         </Avatar>
                                     }
                                 >
                                     <Avatar
                                         alt={firstName}
-                                        src={profilePicture}
+                                        src={profilePicture || "http://placekitten.com/200/300"}
                                         className={classes.large}
                                         ref={inputref}
-                                    >
-                                        <Input
-                                            type='file'
-                                            value={value}
-                                            onChange={onChange}
-                                        />
-                                        <InputLabel for>
-                                            <Avatar
-                                                alt={firstName}
-                                                src={profilePicture}
-                                                className={classes.large}
-                                            />
-                                        </InputLabel>
-                                    </Avatar>
-
+                                    />
                                 </Badge>
                             )}
                         />

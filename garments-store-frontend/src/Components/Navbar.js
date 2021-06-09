@@ -19,6 +19,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { MainLayOutContext } from './MainLayOut';
 import { drawerWidth } from '../Utils/backEnd';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import logo from '../RedwithXBandLogo.jpg';
 
 // -> extra stylings are being provided like this, others are already being given by the material ui
 // docs: https://material-ui.com/components/app-bar/#app-bar
@@ -99,14 +100,15 @@ const Navbar = () => {
                                     variant="h6"
                                     className={classes.title}
                                 >
-                                    OurAppLogo
+                                    G - STORE
+
                                 </Typography>
                             </Link>
                         </Grid>
                         <Grid container
                             xs={6}
                         >
-                            <SearchBar />
+                            {/* <SearchBar /> */}
                         </Grid>
                         <Grid
                             container
