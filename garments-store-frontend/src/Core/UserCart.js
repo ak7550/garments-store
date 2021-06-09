@@ -14,11 +14,10 @@ import { Redirect } from 'react-router';
 
 
 const UserCart = () => {
-    const { user, setUser, setSideBar } = useContext(MainLayOutContext);
+    const { user, setUser } = useContext(MainLayOutContext);
     const [totalCost, setTotalCost] = useState(0);
     const { shoppingCart = [] } = user;
     console.log(`cart: `, shoppingCart);
-    const [checkOut, setCheckOut] = useState(false);
 
     const calculateTotalSum = (cartItems=[]) => {
         let total = 0;
