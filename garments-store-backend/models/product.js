@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
         ref: "Category",
         required: true //_ required
     },
-    
+
     photos: [{
         data: Buffer,
         contentType: String
@@ -38,11 +38,12 @@ const productSchema = new mongoose.Schema({
             default: 1000,
         },
         stockCount: {
-            type: Number, default: 2, //TODO: make a method to increase and decrease the stockCount values using api calls.
+            type: Number,
+            default: 100000, //TODO: make a method to increase and decrease the stockCount values using api calls.
         },
         soldOut: {
             type: Boolean,
-            default: true,
+            default: false,
         },
         // _id: false, // so it doesn't make any other object id for this internal object.
     }],

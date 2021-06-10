@@ -97,7 +97,7 @@ const SideBar = () => {
             {user ? (
               <Avatar
                 alt={user.name}
-                src={user.profilePic}
+                src={user.profilePic || "http://placekitten.com/200/300"}
                 className={classes.large}
               />
             ) : (

@@ -12,8 +12,8 @@ router.param("productId", getProductById);
 
 //routes
 router.post("/:userId/order", isSignedIn, isAuthenticated, createOrder);
-router.get("/:userId/:orderId/order", isSignedIn, isAuthenticated, getOrder);
+router.get("/:userId/:orderId/order",  isSignedIn, isAuthenticated, getOrder);
 router.put("/:userId/:orderId/status", isSignedIn, isAuthenticated, isAdmin, updateOrderStatus); // userId needs to be of Admin
- 
+
 
 module.exports = router;

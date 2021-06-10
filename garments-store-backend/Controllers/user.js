@@ -9,19 +9,20 @@ const formidable = require("formidable"); // formidable is a npm package used to
 // http://expressjs.com/en/api.html#app.param
 exports.getUserById = (req, res, next, id) => {
     User.findById(id)
+        .populate("shoppingCart")
         .exec((err, user) => {
-        if (err || !user) {
-            console.log(`User not found in db\n Error is: ${err}`);
-            // return so i don't want to proceed further the api call as an error has already occured.
-            return res.status(400).json({
-                msg: `${user} not found in db`
-            })
-        } else {
-            console.log(`User found in db`);
-            req.userProfileInfo = user; // parsing a new section into the req json obj
-            next(); // calling next over here, cause i don't want to proceed the api call further if there's any error occurs in if statement
-        }
-    })
+            if (err || !user) {
+                console.log(`User not found in db\n Error is: ${err}`);
+                // return so i don't want to proceed further the api call as an error has already occured.
+                return res.status(400).json({
+                    msg: `${user} not found in db`
+                })
+            } else {
+                console.log(`User found in db`);
+                req.userProfileInfo = user; // parsing a new section into the req json obj
+                next(); // calling next over here, cause i don't want to proceed the api call further if there's any error occurs in if statement
+            }
+        })
 }
 
 // testing done
@@ -129,20 +130,33 @@ exports.uploadProfilePic = (req, res) => {
             const { userProfileInfo } = req;
             userProfileInfo.profilePicture.data = fs.readFileSync(file.photo.path);
             userProfileInfo.profilePicture.contentType = file.photo.type;
-            userProfileInfo.save(err => err ? res.status(400).json(err) : res.status(200).send(userProfileInfo));
+            userProfileInfo.save(err =>
+                err ?
+                    res.status(400).json(err)
+                    :
+                    res.status(200).send(userProfileInfo));
             console.log(`Field is: ${JSON.stringify(field)}`);
             console.log(`File is: ${JSON.stringify(file)}`);
         }
     });
 }
+
 //_ working fine
-exports.getProfilePic = (req, res) => req.userProfileInfo.profilePicture ? res.status(200).send(req.userProfileInfo.profilePicture) : res.status(400).json({ err: `${req.userProfileInfo.fullName} do not have any profile pic.` });
+exports.getProfilePic = (req, res) =>
+    req.userProfileInfo.profilePicture ?
+        res.status(200).send(req.userProfileInfo.profilePicture)
+        : res.status(400).json({
+            err: `${req.userProfileInfo.fullName} do not have any profile pic.`
+        });
 
 //_ working fine
 exports.deleteProfilePic = (req, res) => {
     const { userProfileInfo } = req;
     userProfileInfo.profilePicture = undefined; // delete
-    userProfileInfo.save(err => err ? res.status(400).json(err) : res.status(200).json(userProfileInfo));
+    userProfileInfo.save(err =>
+        err ?
+            res.status(400).json(err)
+            : res.status(200).json(userProfileInfo));
 }
 
 //_ working fine
@@ -155,33 +169,24 @@ exports.addFollowing = (req, res) => {
             personToBeFollwed = user;
             console.log(`\n\n\npersontobefollowed: ${JSON.stringify(personToBeFollwed)}\n\n\n`);
             const followingArr = follower.followings;
-            // if followingArr already contains the id of personToBeFollowed, that means he's already following the person, in that case we don't need to follow him again.
 
-            console.log(`followingArr is: ${followingArr}\npersonToBeFollowedId is: ${personToBeFollwedId}\nThe personTobeFollowed object is: ${JSON.stringify(personToBeFollwed)}`);
-            const check = followingArr.find(x => x == personToBeFollwedId);
-            console.log(`check: ${check}`);
-            if (check)
-                return res.status(400).json({
-                    msg: `${follower.firstName} is already following ${personToBeFollwed.firstName}`
-                });
-            else {
-                console.log(`\n\n\npersontobefollowed: ${JSON.stringify(personToBeFollwed)}\n\n\n`);
-                followingArr.push(personToBeFollwedId);
-                const followerArr = personToBeFollwed.followers;
-                console.log(`\n\n\nfollower arr is: ${followerArr}`);
-                followerArr.push(follower);
-                follower.save(err => {
-                    if (err)
-                        return res.status(400).json(err);
-                });
-                personToBeFollwed.save(err => {
-                    if (err)
-                        return res.status(400).json(err);
-                });
-                return res.status(200).json({
-                    msg: `${follower.firstName} is now a follower of ${personToBeFollwed.firstName}`
-                });
-            }
+            console.log(`\n\n\npersontobefollowed: ${JSON.stringify(personToBeFollwed)}\n\n\n`);
+            followingArr.push(personToBeFollwedId);
+            const followerArr = personToBeFollwed.followers;
+            console.log(`\n\n\nfollower arr is: ${followerArr}`);
+            followerArr.push(follower._id);
+            follower.save(err => {
+                if (err)
+                    return res.status(400).json(err);
+            });
+            personToBeFollwed.save(err => {
+                if (err)
+                    return res.status(400).json(err);
+            });
+            return res.status(200).json({
+                msg: `${follower.firstName} is now a follower of ${personToBeFollwed.firstName}`
+            });
+
         }
     });
 }
@@ -233,7 +238,41 @@ exports.getAllWatchListItem = (req, res) => {
     User.findById(user._id)
         .populate("watchList")
         .exec((err, user) => {
-        if (err) return res.status(400).json(err);
-        else return res.status(200).json(user.watchList);
-    });
+            if (err) return res.status(400).json(err);
+            else return res.status(200).json(user.watchList);
+        });
+}
+
+exports.getFollowers = (req, res) => {
+    User.findOne({ email: req.userProfileInfo.email })
+        .populate("followers")
+        .exec((err, user) => {
+            if (err || !user) {
+                console.log(`User not found in db\n Error is: ${err}`);
+                // return so i don't want to proceed further the api call as an error has already occured.
+                return res.status(400).json({
+                    msg: `${user} not found in db`
+                })
+            } else {
+                console.log(`User found in db`);
+                return res.status(200).json(user.followers);
+            }
+        })
+
+}
+exports.getFollowings = (req, res) => {
+    User.findOne({ email: req.userProfileInfo.email })
+        .populate("followings")
+        .exec((err, user) => {
+            if (err || !user) {
+                console.log(`User not found in db\n Error is: ${err}`);
+                // return so i don't want to proceed further the api call as an error has already occured.
+                return res.status(400).json({
+                    msg: `${user} not found in db`
+                })
+            } else {
+                console.log(`User found in db`);
+                return res.status(200).json(user.followings);
+            }
+        })
 }

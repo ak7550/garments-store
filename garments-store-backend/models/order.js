@@ -5,7 +5,10 @@ const OrderSchema = new mongoose.Schema({
         type: mongoose.ObjectId,
         ref: "ProductCart",
     }],
-    transactionId: mongoose.Mixed,
+    transactionDetails: {
+        type: mongoose.Mixed,
+        required: true
+    },
     address: {
         type: String,
         default: () => getString(20),

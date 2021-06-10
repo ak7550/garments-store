@@ -23,6 +23,7 @@ import { handleError } from '../Helper/handleError';
 import CategoryOutlinedIcon from '@material-ui/icons/CategoryOutlined';
 import CachedOutlinedIcon from '@material-ui/icons/CachedOutlined';
 import clsx from 'clsx';
+import GroupIcon from '@material-ui/icons/Group';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -72,14 +73,14 @@ const SideBarOptionsForLoggedInUser = () => {
     {
         name: "My Shopping Cart",
         icon: <ShoppingCartIcon />,
-        linkTo: `/user/cart/${user._id}`,
+        linkTo: `/user/cart`,
         onClick: link => history.push(link),
 
     },
     {
         name: "My Followers",
         icon: <PersonAddIcon />,
-        linkTo: `/user/followerList/${user._id}`,
+        linkTo: `/user/followerList`,
         onClick: link => history.push(link),
     },
     {
@@ -97,7 +98,13 @@ const SideBarOptionsForLoggedInUser = () => {
         >
             <PersonIcon />
         </Badge>,
-        linkTo: `/user/followingList/${user._id}`,
+        linkTo: `/user/followingList`,
+        onClick: link => history.push(link),
+    },
+    {
+        name: 'All Users',
+        icon: <GroupIcon />,
+        linkTo: `/user/allUsers`,
         onClick: link => history.push(link),
     },
     {
@@ -105,9 +112,9 @@ const SideBarOptionsForLoggedInUser = () => {
         icon: <ExitToAppIcon />,
         linkTo: "/logOut",
         onClick: link => {
+            <Redirect to="/" />
             logOutApiCall(data => {
                 setUser(null);
-                <Redirect to="/" />
             },
                 err => handleError(err));
         }
@@ -115,7 +122,7 @@ const SideBarOptionsForLoggedInUser = () => {
         listArrForSeller = [{
             name: "My Dashboard",
             icon: <DashboardIcon />,
-            linkTo: `/seller/dashboard/${user._id}`,
+            linkTo: `/user/dashboard/${user._id}`,
             onClick: link => history.push(link),
         },
         {
@@ -136,9 +143,9 @@ const SideBarOptionsForLoggedInUser = () => {
             linkTo: "/logOut",
             onClick: link => {
                 console.log(`i have been called`);
+                <Redirect to="/" />
                 logOutApiCall(data => {
                     setUser(null);
-                    <Redirect to="/" />
                 },
                     err => handleError(err));
             }

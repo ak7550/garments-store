@@ -13,7 +13,7 @@ export const logInApiCall = (userInfo, next, errorLog) => {
             localforage.setItem("user", user);
             console.log(`logInAPI response is: `, res.data);
             axios.defaults.headers['Authorization'] = `Bearer ${user.token}`;
-            next(res.data.user);
+            next(user);
         })
         .catch(error => {
             //docs: https://stackoverflow.com/questions/49967779/axios-handling-errors
@@ -28,7 +28,7 @@ export const logInApiCall = (userInfo, next, errorLog) => {
 export const signUpApiCall = (userData, next, errorLog) => {
     userData.role = userData.role === "1" ? 1 : 0;
     const sex = userData.gender;
-    const age = new Date(userData.dob).getFullYear() - new Date().getFullYear();
+    const age = Math.abs(new Date(userData.dob).getFullYear() - new Date().getFullYear());
     const userInfo = { sex, age };
     userData.userInfo = userInfo;
     console.log("userDate to pass: ", userData);
@@ -39,7 +39,7 @@ export const signUpApiCall = (userData, next, errorLog) => {
             localforage.setItem("user", user);
             console.log(`signUpAPI response is: `, res.data);
             axios.defaults.headers['Authorization'] = `Bearer ${token}`;
-            next(res.data.user);
+            next(user);
         })
         .catch(error => errorLog(error.response));
 }
@@ -49,7 +49,6 @@ export const logOutApiCall = (next, handleErr) => {
         .then(res => {
             console.log(`user signedOut.\n ${JSON.stringify(res.data)}`);
             axios.defaults.headers['Authorization'] = ``; // making it null
-            localforage.removeItem("token");
             localforage.removeItem("user"); //deleting the local data
             next(res.data);
         })

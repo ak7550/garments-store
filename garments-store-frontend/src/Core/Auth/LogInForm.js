@@ -14,6 +14,7 @@ import { createFormHeader } from '../../Components/formHeader';
 import { Redirect } from 'react-router';
 import { handleSuccess } from '../../Helper/handleSuccess';
 import SuccessComponent from '../../Helper/SuccessComponent';
+import { Helmet } from 'react-helmet'
 
 //docs: https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
 
@@ -46,9 +47,7 @@ const LogInForm = ({ close }) => {
                 console.log(`user information from the login form after setting user state: ${data}`);
                 close();
                 toggleSideBar();
-                {
-                    <SuccessComponent success={data.name} />
-                }
+                handleSuccess("LoggedIn successfully");
                 <Redirect to="/" />
             },
             resErr => {
@@ -71,6 +70,9 @@ const LogInForm = ({ close }) => {
 
     return (
         <Container className={classes.container} maxWidth="xs">
+            <Helmet>
+                <title>LogIn Form</title>
+            </Helmet>
             {createFormHeader("Log In Form")}
             <form
                 onSubmit={handleSubmit(onSubmit, onError)}
@@ -114,7 +116,7 @@ const LogInForm = ({ close }) => {
                                     required
                                     placeholder="password"
                                     {
-                                        ...register("password")
+                                    ...register("password")
                                     }
                                     error={Boolean(errors.password)}
                                     helperText={errors.password?.message}

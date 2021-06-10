@@ -40,7 +40,8 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true, // setting it false, prevents connecting (docs)
     useCreateIndex: true, // uses mongo default indexing process for every new entry (docs)
-    useUnifiedTopology: true // helps to maintain a stable connection (docs)
+    useUnifiedTopology: true, // helps to maintain a stable connection (docs)
+    useFindAndModify: false //docs: https://mongoosejs.com/docs/deprecations.html#findandmodify
 }).then(() => console.log(`DB CONNECT ON PORT 27017 \n\n\n\n`)).catch(err => handleError("hi" + err)); // docs ==> if db cinnects successfull, calls the then call back else catches the error and handle it accordingly.
 
 const port = 8000; // port no, in which our backend server will run

@@ -1,7 +1,17 @@
 import React, { useContext, } from 'react';
 import Box from '@material-ui/core/Box';
 import cx from 'clsx';
-import { Avatar, Divider, IconButton, makeStyles, Typography } from '@material-ui/core';
+import {
+    AppBar,
+    Avatar,
+    Divider,
+    Fade,
+    IconButton,
+    makeStyles,
+    Toolbar,
+    Typography,
+    useScrollTrigger
+} from '@material-ui/core';
 import { blue, indigo } from '@material-ui/core/colors';
 import clsx from 'clsx';
 import { drawerWidth } from '../Utils/backEnd';
@@ -17,11 +27,11 @@ const useRowFlexStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
     },
-    relativeParent: {
-        display: 'flex',
-        alignItems: 'center',
-        position: 'relative',
-    },
+    // relativeParent: {
+    //     display: 'flex',
+    //     alignItems: 'center',
+    //     position: 'relative',
+    // },
     centeredChild: {
         position: 'absolute',
         left: '50%',
@@ -40,14 +50,26 @@ const useRowFlexStyles = makeStyles(theme => ({
 }));
 
 const useStyles = makeStyles(theme => ({
-    rot: {
-        flexGrow: 1
+    root: {
+        flexGrow: 1,
     },
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        marginTop: 'auto',
+        position: 'absolute !important',
+        left: 0,
+        bottom: 0,
+        right: 0,
+    },
+    footer: {
+        top: 'auto',
+        bottom: '0',
+        // borderTop: '4em solid black',
+        boxSizing: 'border-box',
+        marginTop: '12em'
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -67,10 +89,11 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const MiddleItemRowFlex = () => {
+const Footer = () => {
     const flexStyles = useRowFlexStyles();
     const classes = useStyles();
     const { sideBar } = useContext(MainLayOutContext);
+    const trigger = useScrollTrigger();
     const arr = [{
         icon: <FacebookIcon />
     },
@@ -86,82 +109,77 @@ const MiddleItemRowFlex = () => {
 
 
     return (
-        <div className={classes.root}>
-            <Box
+        <Fade
+            appear={false}
+            direction="left"
+            in={trigger}
+            timeout={{
+                enter: 1000
+            }}
+            
+        >
+            <AppBar position="absolute" color="primary"
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: sideBar,
-                }, flexStyles.relativeParent)}
-                minWidth={{ xs: 300, sm: 500 }}
-                bgcolor={indigo[500]}
-                style={{
-                    position: 'absolute',
-                    bottom: '0',
-                    width: '100%'
-                }}
+                }, flexStyles.relativeParent, classes.footer)}
             >
-                <Box width={72} height={120} bgcolor={'primary'} m={1} />
-                <Box
-                    className={cx(flexStyles.leftChild, flexStyles.parent)}
-                    m={1}
-                    p={1}
-                >
-                    {
-                        arr.map((item, index) => (
-                            <>
-                                <IconButton style={{
-                                    color: 'white'
-                                }}>
-                                    {item.icon}
-                                </IconButton>
-                                <Divider orientation="vertical" flexItem
-                                    light
-                                    style={{
-                                        color: 'white',
-                                        backgroundColor: 'white'
-                                    }}
-                                />
-                            </>
-                        ))
-                    }
-
-
-                </Box>
-                <Box
-                    className={flexStyles.centeredChild}
-                    borderRadius={'50%'}
-                    height={40}
-                    width={40}
-                    bgcolor={'common.white'}
-                    border={'1px solid #888'}
-                >
-
-                </Box>
-                <Link to="/" className={classes.link}>
+                <Toolbar>
+                    <Box width={72} height={60} bgcolor={'primary'} m={1} />
                     <Box
-                        className={cx(flexStyles.rightChild, flexStyles.parent)}
+                        className={cx(flexStyles.leftChild, flexStyles.parent)}
                         m={1}
                         p={1}
-                        style={{
-                            color: 'white',
-                            paddingRight: '10em',
-                            position: 'absolute',
-                            right: '10%',
-                            bottom: '25%'
-                        }}
-
                     >
-                        <Typography
-                            variant="h6"
-                            className={classes.title}
-                        >
-                            OurAppLogo
-                    </Typography>
-                    </Box>
-                </Link>
+                        {
+                            arr.map((item, index) => (
+                                <>
+                                    <IconButton style={{
+                                        color: 'white'
+                                    }}>
+                                        {item.icon}
+                                    </IconButton>
+                                    <Divider orientation="vertical" flexItem
+                                        light
+                                        style={{
+                                            color: 'white',
+                                            backgroundColor: 'white'
+                                        }}
+                                    />
+                                </>
+                            ))
+                        }
 
-            </Box>
-        </div>
+
+                    </Box>
+                    <Box
+                        className={flexStyles.centeredChild}
+                        borderRadius={'50%'}
+                        height={40}
+                        width={40}
+                        bgcolor={'common.white'}
+                        border={'1px solid #888'}
+                    >
+
+                    </Box>
+                    <div className={classes.root} />
+                    <Link to="/" className={classes.link}>
+                        <Box
+                            className={cx(flexStyles.rightChild, flexStyles.parent)}
+                            m={1}
+                            p={1}
+                        >
+                            <Typography
+                                variant="h6"
+                                className={classes.title}
+                            >
+                                OurAppLogo
+                    </Typography>
+                        </Box>
+                    </Link>
+                </Toolbar>
+            </AppBar>
+        </Fade>
     );
 };
 
-export default MiddleItemRowFlex;
+export default Footer;

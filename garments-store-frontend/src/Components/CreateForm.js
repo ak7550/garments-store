@@ -2,21 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import {
     Button,
-    ButtonGroup,
-    ClickAwayListener,
-    Divider,
     FormControl,
     FormLabel,
     Grid,
-    Grow,
-    InputAdornment,
     InputLabel,
     makeStyles,
     MenuItem,
-    MenuList,
     OutlinedInput,
-    Paper,
-    Popper,
     Select,
     TextField
 } from '@material-ui/core';
@@ -31,6 +23,7 @@ import produce from 'immer';
 import { formatProductInfo } from '../Helper/format';
 import { Redirect, useHistory } from 'react-router';
 import { handleSuccess } from '../Helper/handleSuccess';
+import Footer from './Footer';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -171,10 +164,10 @@ const CreateForm = ({ category = false, product = false }) => {
 
     return (
         <div style={{
-            maxWidth: '90%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            maxWidth: '90%',
             position: 'absolute',
             left: '5em',
             marginTop: '10em'
@@ -410,6 +403,7 @@ const CreateForm = ({ category = false, product = false }) => {
                                                                         >
                                                                             <InputLabel htmlFor="outlined-adornment-amount">
                                                                                 Amount
+                                                                                <span> ₹</span>
                                                                             </InputLabel>
                                                                             <OutlinedInput
                                                                                 id="outlined-adornment-amount"
@@ -453,6 +447,7 @@ const CreateForm = ({ category = false, product = false }) => {
                     </Grid>
                 </form>
             </Grid>
+            {/* <Footer /> */}
         </div>
     )
 }

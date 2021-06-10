@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const AkBackDrop = ({
-    open, onClose, children
+    open, onClose, children, ...props
 }) => {
     const classes = useStyles();
     return (
@@ -36,6 +36,7 @@ const AkBackDrop = ({
                 BackdropProps={{
                     timeout: 500,
                 }}
+                {...props}
             >
                 <Fade in={open}>
                     <div className={classes.paper}

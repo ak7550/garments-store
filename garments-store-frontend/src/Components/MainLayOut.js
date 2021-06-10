@@ -1,25 +1,66 @@
-import { CssBaseline } from '@material-ui/core'
+import { CssBaseline, makeStyles } from '@material-ui/core'
 import React, { createContext, useCallback, useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import SideBar from './SideBar';
 import localforage from 'localforage';
 import Footer from './Footer';
-
+import clsx from 'clsx';
+import { drawerWidth } from '../Utils/backEnd';
 
 const MainLayOutContext = createContext();
 
-const MainLayOut = ({
-    children,
-}) => {
-    const [sideBar, setSideBar] = useState(true);
+const useStyles = makeStyles(theme => ({
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    contentShift: {
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+    },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(0, 1),
+        //* necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end',
+    },
+
+    contentArea: {
+        // border: '2px solid green',
+    }
+}));
+
+const MainLayOut = props => {
+    const {
+        children: mainContent,
+    } = props;
+    const [sideBar, setSideBar] = useState(false);
     const [user, setUser] = useState(null); //todo: user should have the
     //todo: method to fetch user information
+    const classes = useStyles();
+    const [footer, setFooter] = useState(false);
+
     useEffect(() =>
         localforage.getItem("user", (err, value) => setUser(value)), []);
+
+    useEffect(() => {
+        console.log(`height of this page is: ${document.body.scrollHeight}`);
+    }, [sideBar]);
 
     //docs: https://flaviocopes.com/react-hook-usecallback/ ==> only those components will re-render which are somehow dependant on sideBar state.
 
     console.log(`user is:`, user);
+    console.log(`whole prop is: `, props);
     const toggleSideBar = useCallback(() => setSideBar(!sideBar), [sideBar]);
     return (
         <>
@@ -29,9 +70,17 @@ const MainLayOut = ({
                 {
                     sideBar && <SideBar />
                 }
-            main layout
-            {children}
-                <Footer />
+
+                <div
+                    className={clsx(classes.content, {
+                        [classes.contentShift]: sideBar,
+                    }, classes.contentArea)}
+                >
+                    <div className={classes.drawerHeader} />
+                    {mainContent}
+                </div>
+
+                 {/* <Footer /> */}
             </MainLayOutContext.Provider>
         </>
     )
