@@ -19,7 +19,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { MainLayOutContext } from './MainLayOut';
 import { drawerWidth } from '../Utils/backEnd';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import logo from '../RedwithXBandLogo.jpg';
+import logo from '../Assets/fashion.png';
 
 // -> extra stylings are being provided like this, others are already being given by the material ui
 // docs: https://material-ui.com/components/app-bar/#app-bar
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
+        marginLeft: theme.spacing(1),
     },
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
@@ -95,13 +96,19 @@ const Navbar = () => {
                             >
                                 <MenuIcon />
                             </IconButton>
-                            <Link to="/" className={classes.link}>
+                            <Link to="/" className={clsx([classes.link, classes.title])}>
+                                <Avatar src={logo} style={{
+                                    color: 'white'
+                                }} />
                                 <Typography
-                                    variant="h6"
-                                    className={classes.title}
+                                    variant="subtitle2"
+                                    style={{
+                                        position: 'absolute',
+                                        top: '1.4em',
+                                        left: '9em'
+                                    }}
                                 >
                                     G - STORE
-
                                 </Typography>
                             </Link>
                         </Grid>

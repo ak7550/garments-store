@@ -1,4 +1,4 @@
-import { Grid, } from '@material-ui/core';
+import { Grid, Typography, } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 import { getWishListItemAPI } from '../API/Product';
@@ -28,12 +28,12 @@ const UserWishList = () => {
                     justify="flex-start"
                     alignItems="center"
                     wrap
-                    // style={{
-                    //     marginLeft: "20em"
-                    // }}
+                // style={{
+                //     marginLeft: "20em"
+                // }}
                 >
                     {
-                        productArr.length &&
+                        productArr.length !== 0 &&
                         productArr.map((product, index) => (
                             <Grid item
                                 style={{
@@ -48,6 +48,10 @@ const UserWishList = () => {
                             </Grid>
                         ))
 
+                    }
+                    {
+                        productArr.length === 0 &&
+                        <Typography variant="h3" align="center"> Wish List is empty!!</Typography>
                     }
 
                 </Grid>

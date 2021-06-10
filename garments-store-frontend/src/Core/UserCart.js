@@ -41,7 +41,7 @@ const UserCart = () => {
         <div>
             {
                 shoppingCart.length === 0 &&
-                <Typography variant="h3">Your Shopping Cart is empty!!</Typography>
+                <Typography variant="h3" align="center">Your Shopping Cart is empty!!</Typography>
             }
             {
                 shoppingCart.length !== 0 &&

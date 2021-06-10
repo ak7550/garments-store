@@ -1,9 +1,27 @@
-import { ButtonBase, Grid, IconButton, makeStyles, Paper, Typography } from '@material-ui/core';
-import { cyan, red } from '@material-ui/core/colors';
-import React, { useEffect } from 'react'
+import {
+    Avatar,
+    Button,
+    ButtonBase,
+    Chip,
+    Grid,
+    IconButton,
+    makeStyles,
+    Paper,
+    Typography
+} from '@material-ui/core';
+import { cyan, green, red } from '@material-ui/core/colors';
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react';
 import { getRandomImages } from '../Helper/Random'
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
+import { addFollowingAPI, getUserAPI, removeFollowingAPI } from '../API/User';
+import girlIcon from '../Assets/girl-svgrepo-com.png'
+import FaceIcon from '@material-ui/icons/Face';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import { MainLayOutContext } from './MainLayOut';
+import DoneIcon from '@material-ui/icons/Done';
+import localforage from 'localforage';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,16 +45,123 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const UserCard = ({ info }) => {
+const UserCard = ({ id, follower = false, following = false, all = false }) => {
+    const { user, setUser } = useContext(MainLayOutContext);
     const classes = useStyles();
-
-    // const { firstName, lastName, userInfo, profilePicture, description } = info;
-
     const [photo, setPhoto] = useState("");
+    const [userData, setUserData] = useState({
+        firstName: "",
+        lastName: "",
+        userInfo: {
+            sex: "", age: 1
+        },
+        description: "",
+        role: 1,
+        watchList: [],
+    });
 
     useEffect(() => {
         getRandomImages("person", data => setPhoto(data));
+        following && getUserAPI(id, d => setUserData(d));
+        follower && getUserAPI(id, d => setUserData(d));
+        all && setUserData(id); // id is not id in case of all
     }, []);
+
+    const downButtons = () =>
+        <Grid container justify="flex-start" spacing={2}>
+            <Grid item>
+                <Button
+                    variant="contained"
+                    // variant="outlined"
+                    color="primary"
+                    href={`wishList/${userData._id}`}
+                    size="small"
+                >
+                    {userData.firstName}'s DashBoard
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    href={`wishList/${userData._id}`}
+                >
+                    {userData.firstName}'s WishList
+                </Button>
+            </Grid>
+
+        </Grid>
+
+    const followButtonClicked = e => {
+        // if user is already following him, then do nothing ==> wont make noise in back end
+        const v = user.followings.find(id => id === userData._id);
+        !v && addFollowingAPI(user._id, userData._id, () => {
+            user.followings.push(userData._id);
+            setUser(user);
+            console.log("pushed to user followings array");
+            localforage.setItem("user", user);
+        });
+        following = true;
+    }
+
+    const unFollowButtonClicked = e => {
+        // if v does not exist in follwoing array, that means, ==> user does not follow him
+        const newArr = user.followings.filter(id => id !== userData._id);
+        newArr.length !== user.followings.length
+            &&
+            removeFollowingAPI(user._id, userData._id, () => {
+                user.followings = newArr;
+                setUser(user);
+                localforage.setItem("user", user);
+                console.log("removed to user followings array");
+            });
+        following = false;
+    }
+
+
+    const followUnFollowSection = () =>
+        <Grid
+            container
+            direction="column"
+            spacing={3}
+            justify="space-evenly"
+            alignItems="center"
+        >
+            {
+                follower || all &&
+                <Grid item>
+                    <Chip
+                        variant="outlined"
+                        color="primary"
+                        icon={<PersonAddIcon />}
+                        label="Follow"
+                        size="large"
+                        clickable
+                        onClick={followButtonClicked}
+                        deleteIcon={following && <DoneIcon />}
+                    />
+                </Grid>
+            }
+            <Grid item>
+                {
+                    following &&
+                    <Chip
+                        variant="outlined"
+                        color="primary"
+                        icon={<PersonAddIcon />}
+                        label="UnFollow"
+                        size="small"
+                        clickable
+                        onClick={unFollowButtonClicked}
+                    />
+                }
+
+            </Grid>
+
+        </Grid>
+
+    console.log(`user id: `, id);
 
     return (
         <div className={classes.root}>
@@ -51,37 +176,44 @@ const UserCard = ({ info }) => {
                         <Grid item xs container direction="column" spacing={2} >
                             <Grid item xs>
                                 <Typography gutterBottom variant="subtitle1">
-                                    Dummy User Name
-                                 </Typography>
+                                    {`${userData.firstName} ${userData.lastName}`}
+                                </Typography>
                                 <Typography variant="body2" gutterBottom>
-                                    Dummy User Description
+                                    {userData.description}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary">
-                                    Dummy User Age
+                                    {Math.abs(userData.userInfo.age)}
                                 </Typography>
-                                <Typography variant="body2" color="textSecondary">
-                                    Dummy User Male / Female
+                                <Typography variant="h5" color="textSecondary">
+                                    <Chip
+                                        color={userData.userInfo.sex === "male" ? "primary" : "secondary"}
+                                        label={userData.userInfo.sex}
+                                        clickable
+                                        variant="outlined"
+                                        avatar={
+                                            userData.userInfo.sex === "female" && <Avatar src={girlIcon} />
+                                        }
+                                        icon={userData.userInfo.sex === "male" && <FaceIcon />}
+                                        style={{
+                                            position: "relative",
+                                            fontWeight: 'normal',
+                                            right: '0.4em',
+                                            fontSize: '1rem',
+                                            marginTop: "0.4rem",
+                                            cursor: "text"
+                                        }}
+                                        size="small"
+                                    />
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                                    Remove
-                                </Typography>
+                                {downButtons()}
                             </Grid>
                         </Grid>
 
                     </Grid>
                     <Grid item alignContent="center" justify="center">
-                        <IconButton color={red[100]}
-                            style={{
-                                marginTop: '1em',
-                                width: '2em',
-                                color: `${red[500]}`
-
-                            }}
-                        >
-                            <PersonAddDisabledIcon color={red[100]} />
-                        </IconButton>
+                        {followUnFollowSection()}
                     </Grid>
                 </Grid>
             </Paper>

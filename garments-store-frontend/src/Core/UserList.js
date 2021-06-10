@@ -1,20 +1,24 @@
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router'
-import { getFollowersAPI, getFollowingsAPI } from '../API/User';
+import { getAllUsersAPI, getFollowersAPI, getFollowingsAPI } from '../API/User';
 import Footer from '../Components/Footer';
 import { MainLayOutContext } from '../Components/MainLayOut';
 import UserCard from '../Components/UserCard';
 
-const UserList = ({ follower = false, following = false }) => {
-    const { userId } = useParams();
+const UserList = ({ follower = false, following = false, all = false }) => {
     const { user, sideBar } = useContext(MainLayOutContext);
     const [friendList, setFriendList] = useState([user]);
 
     useEffect(() => {
-        // follower && getFollowersAPI(userId, data => setFriendList(data));
-        // following && getFollowingsAPI(userId, data => setFriendList(data));
-    }, [sideBar]);
+        all && getAllUsersAPI(arr => setFriendList(arr));
+        follower && setFriendList(user.followers);
+        following && setFriendList(user.followings);
+    }, []);
+
+    useEffect(() => {
+        follower && setFriendList(user.followers);
+        following && setFriendList(user.followings);
+    }, [user])
 
     return (
         <div>
@@ -24,24 +28,36 @@ const UserList = ({ follower = false, following = false }) => {
                     direction="column"
                     justify="flex-start"
                     // alignItems="flex-start"
-                    // wrap
+                    wrap
                     style={{
-                        // marginLeft: "20em"
+                        marginTop: "2em"
 
                     }}
                 >
                     {
                         friendList.map((friend, index) => (
-                            <Grid item xs={12}
+                            friend._id !== user._id &&
+                            <Grid
+                                item
+                                xs={12}
                                 style={{
                                     paddingLeft: '',
                                     // border: '2px solid black'
                                 }}
+                                key={index}
                             >
-                                <UserCard info={friend} />
+                                <UserCard id={friend}
+                                    follower={follower}
+                                    following={following}
+                                    all={all}
+                                />
                             </Grid>
                         ))
 
+                    }
+                    {
+                        friendList.length === 0 &&
+                        <Typography variant="h3" align="center">NO ONE!!</Typography>
                     }
 
                 </Grid>

@@ -169,33 +169,24 @@ exports.addFollowing = (req, res) => {
             personToBeFollwed = user;
             console.log(`\n\n\npersontobefollowed: ${JSON.stringify(personToBeFollwed)}\n\n\n`);
             const followingArr = follower.followings;
-            // if followingArr already contains the id of personToBeFollowed, that means he's already following the person, in that case we don't need to follow him again.
 
-            console.log(`followingArr is: ${followingArr}\npersonToBeFollowedId is: ${personToBeFollwedId}\nThe personTobeFollowed object is: ${JSON.stringify(personToBeFollwed)}`);
-            const check = followingArr.find(x => x == personToBeFollwedId);
-            console.log(`check: ${check}`);
-            if (check)
-                return res.status(400).json({
-                    msg: `${follower.firstName} is already following ${personToBeFollwed.firstName}`
-                });
-            else {
-                console.log(`\n\n\npersontobefollowed: ${JSON.stringify(personToBeFollwed)}\n\n\n`);
-                followingArr.push(personToBeFollwedId);
-                const followerArr = personToBeFollwed.followers;
-                console.log(`\n\n\nfollower arr is: ${followerArr}`);
-                followerArr.push(follower);
-                follower.save(err => {
-                    if (err)
-                        return res.status(400).json(err);
-                });
-                personToBeFollwed.save(err => {
-                    if (err)
-                        return res.status(400).json(err);
-                });
-                return res.status(200).json({
-                    msg: `${follower.firstName} is now a follower of ${personToBeFollwed.firstName}`
-                });
-            }
+            console.log(`\n\n\npersontobefollowed: ${JSON.stringify(personToBeFollwed)}\n\n\n`);
+            followingArr.push(personToBeFollwedId);
+            const followerArr = personToBeFollwed.followers;
+            console.log(`\n\n\nfollower arr is: ${followerArr}`);
+            followerArr.push(follower._id);
+            follower.save(err => {
+                if (err)
+                    return res.status(400).json(err);
+            });
+            personToBeFollwed.save(err => {
+                if (err)
+                    return res.status(400).json(err);
+            });
+            return res.status(200).json({
+                msg: `${follower.firstName} is now a follower of ${personToBeFollwed.firstName}`
+            });
+
         }
     });
 }

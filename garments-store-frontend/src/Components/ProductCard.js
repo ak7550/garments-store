@@ -183,13 +183,13 @@ const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
           }
           color="secondary"
           label={price}
+          clickable
           style={{
             position: "relative",
             fontWeight: 'normal',
             left: '4.1rem',
             fontSize: '1rem'
           }}
-          clickable
         />
       </CardActions>
     </Card>

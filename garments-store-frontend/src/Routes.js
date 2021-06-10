@@ -26,8 +26,9 @@ const Routes = () => {
                 <Route path="/user/dashboard/:userId" exact component={UserDashboard} />
                 <Route path="/user/orderList/:userId" component={OrderList} exact />
                 <Route path="/user/wishList/:userId" component={UserWishList} exact />
-                <Route path="/user/followerList/:userId" exact ><UserList follower /></Route>
-                <Route path="/user/followingList/:userId" exact ><UserList following /></Route>
+                <Route path="/user/followerList" exact ><UserList follower /></Route>
+                <Route path="/user/followingList" exact ><UserList following /></Route>
+                <Route path="/user/allUsers" exact ><UserList all /></Route>
 
                 <PrivateRoute path="/user/cart" exact component={UserCart} />
 
