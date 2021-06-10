@@ -404,7 +404,8 @@ const ProductPage = () => {
                         style={{
                             paddingLeft: '1em',
                             maxWidth: '20%',
-                            maxHeight: '20%'
+                            maxHeight: '20%',
+                            margin: '3em'
                         }}
                     >
                         <ProductCard

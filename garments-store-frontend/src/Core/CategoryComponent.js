@@ -1,10 +1,11 @@
-import { Grid, } from '@material-ui/core';
+import { Grid, Typography, } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 import { loadAllProducts } from '../Utils/Product';
 import { MainLayOutContext } from '../Components/MainLayOut';
 import ProductCard from '../Components/ProductCard';
-import Footer from '../Components/Footer';
+import localforage from 'localforage'
+import { Helmet } from 'react-helmet';
 
 
 const CategoryComponent = () => {
@@ -17,6 +18,8 @@ const CategoryComponent = () => {
 
     console.log(`product arr: `, productArr);
     console.log(`into category, index is: `, categoryIndex, "\n", useParams());
+
+    const [categoryInfo, setCategoryInfo] = useState({});
 
     useEffect(() => {
         // will get inside it, only when the condition is true
@@ -35,9 +38,15 @@ const CategoryComponent = () => {
 
     }, [sideBar]); //as i need to call the method useEffect everytime the component updates ==> how do i know that the value needs to be changed ==> at that monet an obvious thing is occuring that the sidebar is changing it's value // don't think about es lint warning. //docs: https://www.akashmittal.com/useeffect-missing-dependency/
 
+    useEffect(() =>
+        localforage.getItem("categoryList", (err, cate) => setCategoryInfo(cate[categoryIndex])), []);
+
 
     return (
         <>
+            <Helmet>
+                <title>{categoryInfo.name}</title>
+            </Helmet>
             <div>
                 {
                     <Grid
@@ -51,11 +60,14 @@ const CategoryComponent = () => {
                         // }}
                     >
                         {
-                            productArr.arr.length &&
+                            productArr.arr.length > 0  &&
                             productArr.arr.map((product, index) => (
                                 <Grid item
                                     style={{
                                         paddingLeft: '1em',
+                                        maxWidth: '20%',
+                                        maxHeight: '20%',
+                                        margin: '3em'
                                     }}
                                 >
                                     <ProductCard
@@ -67,10 +79,14 @@ const CategoryComponent = () => {
                             ))
 
                         }
-
+                        {
+                            productArr.arr.length === 0 &&
+                            <Typography variant="h3" align="center">
+                                {categoryInfo.name} is empty!!
+                            </Typography>
+                        }
                     </Grid>
                 }
-                <Footer />
             </div>
         </>
     );

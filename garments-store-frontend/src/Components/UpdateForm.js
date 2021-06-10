@@ -24,11 +24,11 @@ import { MainLayOutContext } from '../Components/MainLayOut';
 import { drawerWidth } from '../Utils/backEnd'
 import { useForm } from 'react-hook-form';
 import { handleError } from '../Helper/handleError';
-import { updateCategoryAPI } from '../API/Category';
-import { createProductAPI, updateProductAPI } from '../API/Product';
+import { getAllCategoryAPI, updateCategoryAPI } from '../API/Category';
+import { createProductAPI, getAllProductsAPI, updateProductAPI } from '../API/Product';
 import { loadAllCategories } from '../Utils/Category';
 import produce from 'immer';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import { getAllProducts } from '../Utils/Product';
 import { formatProductInfo, formatProductUpdateInfo } from '../Helper/format';
 import { handleSuccess } from '../Helper/handleSuccess';
@@ -110,6 +110,7 @@ const UpdateForm = ({ category = false, product = false }) => {
             price: 0,
         },
     ]);
+    const history = useHistory();
 
     const handleQuantityPriceChange = (index, str) => event => {
         console.log(`value is: ${event.target.value}`);
@@ -129,8 +130,8 @@ const UpdateForm = ({ category = false, product = false }) => {
     const handleOpen = () => setOpenCategoryWindow(true);
 
     useEffect(() => {
-        loadAllCategories(data => setCategoryList(data));
-        product && getAllProducts(data => setProductList(data));
+        getAllCategoryAPI(data => setCategoryList(data));
+        product && getAllProductsAPI(data => setProductList(data));
     }, []);
 
 
@@ -148,7 +149,8 @@ const UpdateForm = ({ category = false, product = false }) => {
             updateProductAPI(user._id, productId, formatProductUpdateInfo(info, sizesArr), data => {
                 console.log(`${data.name} is updated`);
                 handleSuccess(data);
-             }, err => handleError(err));
+                history.push("/");
+            }, err => handleError(err));
         }
 
         else {
@@ -157,6 +159,7 @@ const UpdateForm = ({ category = false, product = false }) => {
             updateCategoryAPI(user._id, categoryId, { name }, data => {
                 console.log(`${data.name} is updated`);
                 handleSuccess(data);
+                history.push("/");
             }, err => handleError(err));
         }
 

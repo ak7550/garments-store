@@ -1,16 +1,16 @@
 export const formatProductInfo = (info, sizeArr) => {
     const { cateName, imageLinks, category, description } = info;
-    const imageLinkArr = imageLinks.split(",");
+    const imageLinkArr = imageLinks?.split(",").map(x => x.trim());
     const product = {};
-    product.name = cateName;
-    product.description = description;
-    product.category = category.name;
+    product.name = !cateName ? undefined : cateName;
+    product.description = !description  ? undefined : description;
+    product.category = !(category.name) ? undefined : category.name;
     product.imageLinks = imageLinkArr;
     const modifiedArr = sizeArr.map((obj, index) => {
         const newObj = {};
         newObj.size = obj.name;
-        newObj.price = obj.price;
-        newObj.stockCount = obj.quantity;
+        newObj.price = obj.price === 0 ? 499 : obj.price;
+        newObj.stockCount = obj.quantity === 0 ? 1000 : obj.quantity;
         return newObj;
     });
     product.sizes = modifiedArr;

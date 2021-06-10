@@ -2,6 +2,7 @@ import { ButtonBase, Grid, makeStyles, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router';
+import { getAllCategoryAPI } from '../API/Category';
 import { loadAllCategories } from '../Utils/Category';
 
 const useStyles = makeStyles((theme) => ({
@@ -84,7 +85,7 @@ const Home = () => {
 
     useEffect(() => {
         console.log(`hi from useEffct of nested links`);
-        loadAllCategories(data => {
+        getAllCategoryAPI(data => {
             console.log(data);
             setCategoryList(data);
         });
