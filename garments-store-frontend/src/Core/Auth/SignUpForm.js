@@ -23,6 +23,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { Redirect } from 'react-router';
 import { handleError } from '../../Helper/handleError';
 import { createFormHeader } from '../../Components/formHeader';
+import { Helmet } from 'react-helmet';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -97,6 +98,9 @@ const SignUpForm = ({close}) => {
     return (
         <Container className={classes.container} maxWidth="xs">
             {createFormHeader("Sign Up Form")}
+            <Helmet>
+                <title>SignUp Form</title>
+            </Helmet>
             <form
                 onSubmit={handleSubmit(onSubmit, onError)}
             >

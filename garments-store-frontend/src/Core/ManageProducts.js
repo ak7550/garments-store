@@ -17,6 +17,7 @@ import CreateForm from '../Components/CreateForm';
 import UpdateForm from '../Components/UpdateForm';
 import DeleteForm from '../Components/DeleteForm';
 import Footer from '../Components/Footer';
+import { Helmet } from 'react-helmet';
 
 
 const useStyle = makeStyles(theme => ({
@@ -63,6 +64,9 @@ const ManageProducts = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Manage Products</title>
+            </Helmet>
             <Grid
                 container
                 direction="column"

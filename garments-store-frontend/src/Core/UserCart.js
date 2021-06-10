@@ -11,6 +11,7 @@ import AkBackDrop from '../Components/AkBackDrop';
 // import RazorPayForm from './Auth/RazorPayForm';
 import { createOrderAPI } from '../API/Order';
 import { Redirect } from 'react-router';
+import { Helmet } from 'react-helmet';
 
 
 const UserCart = () => {
@@ -19,7 +20,7 @@ const UserCart = () => {
     const { shoppingCart = [] } = user;
     console.log(`cart: `, shoppingCart);
 
-    const calculateTotalSum = (cartItems=[]) => {
+    const calculateTotalSum = (cartItems = []) => {
         let total = 0;
         cartItems.forEach(obj => total += (obj.costOfEachItem * obj.quantity));
         setTotalCost(total);
@@ -39,6 +40,9 @@ const UserCart = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>{user.firstName}'s Cart</title>
+            </Helmet>
             {
                 shoppingCart.length === 0 &&
                 <Typography variant="h3" align="center">Your Shopping Cart is empty!!</Typography>

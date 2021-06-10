@@ -1,5 +1,6 @@
 import { ButtonBase, Grid, makeStyles, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router';
 import { loadAllCategories } from '../Utils/Category';
 
@@ -92,6 +93,9 @@ const Home = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>G-Store</title>
+            </Helmet>
             <Grid container direction="row" >
                 {
                     categoryList.map((category, i) => (

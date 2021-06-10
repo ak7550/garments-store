@@ -36,6 +36,7 @@ import { handleError } from '../Helper/handleError';
 import EditIcon from '@material-ui/icons/Edit';
 import { getRandomImages } from '../Helper/Random';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import { Helmet } from 'react-helmet';
 
 
 const useStyle = makeStyles(theme => ({
@@ -391,6 +392,9 @@ const UserDashboard = () => {
 
     return (
         <Paper elevation={2} color={purple[500]}>
+            <Helmet>
+                <title>{user.firstName}'s DashBoard</title>
+            </Helmet>
             <form
                 onSubmit={handleSubmit(onSubmit, onError)}
             >

@@ -20,6 +20,7 @@ import CreateForm from '../Components/CreateForm';
 import UpdateForm from '../Components/UpdateForm';
 import DeleteForm from '../Components/DeleteForm';
 import Footer from '../Components/Footer';
+import { Helmet } from 'react-helmet';
 
 const useStyle = makeStyles(theme => ({
     link: {
@@ -93,6 +94,9 @@ const ManageCategories = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Manage Categories</title>
+            </Helmet>
             <Grid
                 container
                 direction="column"
@@ -151,7 +155,7 @@ const ManageCategories = () => {
             {
                 selectedIndex === 3 && <DeleteForm category />
             }
-            
+
     </>
     )
 }

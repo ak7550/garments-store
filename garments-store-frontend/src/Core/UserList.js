@@ -1,5 +1,6 @@
 import { Grid, Typography } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet';
 import { getAllUsersAPI, getFollowersAPI, getFollowingsAPI } from '../API/User';
 import Footer from '../Components/Footer';
 import { MainLayOutContext } from '../Components/MainLayOut';
@@ -22,6 +23,9 @@ const UserList = ({ follower = false, following = false, all = false }) => {
 
     return (
         <div>
+            <Helmet>
+                <title>All User List</title>
+            </Helmet>
             {
                 <Grid
                     container

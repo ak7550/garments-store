@@ -24,6 +24,7 @@ import { MainLayOutContext } from '../Components/MainLayOut';
 import { addToCartAPI } from '../API/Cart';
 import ProductCard from '../Components/ProductCard';
 import { handleError } from '../Helper/handleError';
+import { Helmet } from 'react-helmet';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -419,58 +420,63 @@ const ProductPage = () => {
 
 
     return (
-        <Grid container direction="column">
-            <Grid item>
-                <Grid container
-                    style={{
-                        // border: '2px solid black',
-                        height: '30em'
-                    }}
-                    // spacing={1}
-                    justify="flex-start"
-                    alignItems="center"
-                    wrap
-                    direction="row"
-                >
-                    <Grid item xs={4} wrap
+        <>
+            <Helmet>
+                <title>{product.name}</title>
+            </Helmet>
+            <Grid container direction="column">
+                <Grid item>
+                    <Grid container
                         style={{
-                            minHeight: '25em',
-                            minWidth: '5em'
+                            // border: '2px solid black',
+                            height: '30em'
                         }}
+                        // spacing={1}
+                        justify="flex-start"
+                        alignItems="center"
+                        wrap
+                        direction="row"
                     >
-                        <CarouselBox images={product.imageLinks} />
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Grid
-                            container direction="column" justify="flex-start" alignItems="stretch" spacing={3} wrap
+                        <Grid item xs={4} wrap
                             style={{
-                                // backgroundColor: '#f7f7f7',
-                                maxWidth: '65%',
-                                position: 'absolute',
-                                top: "18%"
+                                minHeight: '25em',
+                                minWidth: '5em'
                             }}
                         >
-                            {bodySection()}
+                            <CarouselBox images={product.imageLinks} />
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Grid
+                                container direction="column" justify="flex-start" alignItems="stretch" spacing={3} wrap
+                                style={{
+                                    // backgroundColor: '#f7f7f7',
+                                    maxWidth: '65%',
+                                    position: 'absolute',
+                                    top: "18%"
+                                }}
+                            >
+                                {bodySection()}
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
+                <Grid item >
+                    {
+                        reviewSection()
+                    }
+                </Grid>
+                <Grid item>
+                    {
+                        reviewForm()
+                    }
+                </Grid>
+                <Grid item>
+                    {
+                        showSimiliarProducts()
+                    }
+                </Grid>
             </Grid>
-            <Grid item >
-                {
-                    reviewSection()
-                }
-            </Grid>
-            <Grid item>
-                {
-                    reviewForm()
-                }
-            </Grid>
-            <Grid item>
-                {
-                    showSimiliarProducts()
-                }
-            </Grid>
-        </Grid>
+        </>
     )
 }
 

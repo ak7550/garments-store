@@ -1,5 +1,6 @@
 import { Grid, Typography, } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 import { getWishListItemAPI } from '../API/Product';
 import ProductCard from '../Components/ProductCard';
@@ -21,6 +22,9 @@ const UserWishList = () => {
 
     return (
         <>
+            <Helmet>
+                <title> Wish List</title>
+            </Helmet>
             {
                 <Grid
                     container
