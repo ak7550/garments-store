@@ -2,19 +2,31 @@ import { API } from '../Utils/backEnd'
 import axios from '../Utils/axios'
 import localforage from 'localforage'
 
-export const getUserAPI = (userId, next) => {
-    let token = undefined;
-    localforage.getItem("user")
-        .then(user => {
-            token = user.token;
-            axios.get(`${API}/user/${userId}`)
-                .then(res => {
-                    const { userProfileInfo } = res.data;
-                    userProfileInfo.token = token;
-                    next(userProfileInfo);
-                })
-                .catch(err => console.log(err));
-        });
+
+//!check
+export const getUserAPI = (userId, next, actualUser = false) => {
+    if (actualUser) {
+        let token = undefined;
+        localforage.getItem("user")
+            .then(user => {
+                token = user.token;
+                axios.get(`${API}/user/${userId}`)
+                    .then(res => {
+                        const { userProfileInfo } = res.data;
+                        userProfileInfo.token = token;
+                        next(userProfileInfo);
+                    })
+                    .catch(err => console.log(err));
+            });
+    } else {
+        axios.get(`${API}/user/${userId}`)
+            .then(res => {
+                const { userProfileInfo } = res.data;
+                next(userProfileInfo);
+            })
+            .catch(err => console.log(err));
+    }
+
 }
 
 export const updateUserAPI = (userInfo, id, next, errorHandler) => {

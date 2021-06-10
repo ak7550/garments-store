@@ -6,8 +6,8 @@ import { MainLayOutContext } from '../Components/MainLayOut';
 import UserCard from '../Components/UserCard';
 
 const UserList = ({ follower = false, following = false, all = false }) => {
-    const { user, sideBar } = useContext(MainLayOutContext);
-    const [friendList, setFriendList] = useState([user]);
+    const { user } = useContext(MainLayOutContext);
+    const [friendList, setFriendList] = useState([]);
 
     useEffect(() => {
         all && getAllUsersAPI(arr => setFriendList(arr));
@@ -35,6 +35,7 @@ const UserList = ({ follower = false, following = false, all = false }) => {
                     }}
                 >
                     {
+                        friendList.length >0 &&
                         friendList.map((friend, index) => (
                             friend._id !== user._id &&
                             <Grid

@@ -72,17 +72,6 @@ const UserCard = ({ id, follower = false, following = false, all = false }) => {
             <Grid item>
                 <Button
                     variant="contained"
-                    // variant="outlined"
-                    color="primary"
-                    href={`wishList/${userData._id}`}
-                    size="small"
-                >
-                    {userData.firstName}'s DashBoard
-                </Button>
-            </Grid>
-            <Grid item>
-                <Button
-                    variant="contained"
                     color="secondary"
                     size="small"
                     href={`wishList/${userData._id}`}

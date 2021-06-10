@@ -90,6 +90,7 @@ const UserDashboard = () => {
         console.log(`user is: `, user._id);
         console.log(`condition is: ${userId != user._id}`);
         if (userId != user._id) {
+            console.log("not equal, getting userInfo");
             getUserAPI(userId, data => setUserInfo(data));
             setReadOnly(true);
         }
@@ -186,8 +187,8 @@ const UserDashboard = () => {
                                 component="legend"
                                 className={classes.formlabel}
                             >
-                                First Names:
-                </FormLabel>
+                                First Name:
+                            </FormLabel>
                             <TextField
                                 fullWidth
                                 size="medium"
@@ -198,6 +199,7 @@ const UserDashboard = () => {
                                 }
                                 required
                                 disabled={readOnly}
+                                placeholder={userInfo.firstName || ""}
                             />
                         </Box>
                     </Grid>
@@ -208,7 +210,7 @@ const UserDashboard = () => {
                                 className={classes.formlabel}
                             >
                                 Last Name:
-                </FormLabel>
+                            </FormLabel>
                             <TextField
                                 fullWidth
                                 size="medium"
@@ -219,6 +221,7 @@ const UserDashboard = () => {
                                 }
                                 required
                                 disabled={readOnly}
+                                placeholder={userInfo.lastName || ""}
                             />
                         </Box>
                     </Grid>
@@ -248,6 +251,7 @@ const UserDashboard = () => {
                         }
                         required
                         disabled={readOnly}
+                        placeholder={userInfo.description || ""}
                     />
                 </Box>
             </>
@@ -274,6 +278,7 @@ const UserDashboard = () => {
                         }
                         required
                         disabled={readOnly}
+                        placeholder={userInfo.userInfo.age || ""}
                     />
                 </Box>
             </>
