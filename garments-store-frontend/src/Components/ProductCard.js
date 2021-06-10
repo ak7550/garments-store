@@ -21,7 +21,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import clsx from 'clsx';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import { blue, red, grey, green, orange, pink, purple } from '@material-ui/core/colors';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AttachMoneySharpIcon from '@material-ui/icons/AttachMoneySharp';
 import { MainLayOutContext } from './MainLayOut';
 import { addToWatchListAPI, removeFromWatchListAPI } from '../API/Product';
@@ -104,6 +104,7 @@ const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
   const { price } = sizes[0];
   const [wishList, setWishList] = useState(false);
   const { user } = useContext(MainLayOutContext);
+  const history = useHistory();
 
   // useEffect(() => {
   //   toggle();
@@ -161,6 +162,7 @@ const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
         className={classes.media}
         image={imageLinks[0]}
         title={name}
+        onClick={e => history.push(linkTo)}
       />
       <Divider />
       <CardContent>

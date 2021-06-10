@@ -346,7 +346,7 @@ const ProductPage = () => {
                                             }}
                                                 variant="h5"
                                             >
-                                                {review.user.firstName} {review.user.lastName}
+                                                {review.user?.firstName} {review.user?.lastName}
                                             </Typography>
                                         </Grid>
                                         <Grid item>
