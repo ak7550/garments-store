@@ -6,12 +6,13 @@ require('dotenv').config();
 
 exports.getOrderById = (req, res, next, id) => {
     Order.findById(id)
-        .populate("user")
         .populate("products")
+        .populate("productDetail")
         .exec((err, order) => {
             if (err) return res.status(400).json(err);
             else {
                 req.order = order;
+                console.log(`order: `, order);
                 next();
             }
         });

@@ -66,10 +66,9 @@ const UserCart = () => {
                                         maxWidth: '20%',
                                         maxHeight: '20%'
                                     }}
+                                    index = {i}
                                 >
-                                    <CartItem
-                                        id={item}
-                                    />
+                                    <CartItem id={item} />
                                 </Grid>
                             ))
                         }

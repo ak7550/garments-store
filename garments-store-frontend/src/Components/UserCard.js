@@ -3,6 +3,7 @@ import {
     Button,
     ButtonBase,
     Chip,
+    Divider,
     Grid,
     IconButton,
     makeStyles,
@@ -167,11 +168,14 @@ const UserCard = ({ id, follower = false, following = false, all = false }) => {
                                 <Typography gutterBottom variant="subtitle1">
                                     {`${userData.firstName} ${userData.lastName}`}
                                 </Typography>
-                                <Typography variant="body2" gutterBottom>
+                                <Typography variant="body2" gutterBottom style={{
+                                    backgroundColor: 'grey'
+                                }}>
                                     {userData.description}
                                 </Typography>
+                                <Divider />
                                 <Typography variant="body2" color="textSecondary">
-                                    {Math.abs(userData.userInfo.age)}
+                                    {Math.abs(userData.userInfo.age)} yrs.
                                 </Typography>
                                 <Typography variant="h5" color="textSecondary">
                                     <Chip

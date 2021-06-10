@@ -68,3 +68,9 @@ export const createOrderAPI = (userId, totalCost, next) => {
                 })
         });
 }
+
+
+export const getOrderAPI = (userId, orderId, next) =>
+    axios.get(`${API}/order/${userId}/${orderId}/order`)
+        .then(res => next(res.data))
+        .catch(err => console.log(err));
