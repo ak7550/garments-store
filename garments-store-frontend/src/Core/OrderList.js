@@ -22,7 +22,7 @@ const OrderList = () => {
     return (
         <div>
             <Helmet>
-                <title>{user.firstName}'s Orders</title>
+                <title>{user?.firstName}'s Orders</title>
             </Helmet>
             {
                 user.orders.length === 0 &&

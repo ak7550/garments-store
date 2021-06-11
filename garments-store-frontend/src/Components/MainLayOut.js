@@ -53,13 +53,8 @@ const MainLayOut = props => {
     useEffect(() =>
         localforage.getItem("user", (err, value) => setUser(value)), []);
 
-    useEffect(() => {
-        console.log(`height of this page is: ${document.body.scrollHeight}`);
-    }, [sideBar]);
-
     //docs: https://flaviocopes.com/react-hook-usecallback/ ==> only those components will re-render which are somehow dependant on sideBar state.
 
-    console.log(`user is:`, user);
     console.log(`whole prop is: `, props);
     const toggleSideBar = useCallback(() => setSideBar(!sideBar), [sideBar]);
     return (
@@ -80,7 +75,7 @@ const MainLayOut = props => {
                     {mainContent}
                 </div>
 
-                 {/* <Footer /> */}
+                {/* <Footer /> */}
             </MainLayOutContext.Provider>
         </>
     )

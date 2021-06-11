@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
+const ProductCard = ({ product, linkTo, fav = false, toggle }) => {
   const classes = useStyles({ color: '#203f52' });
   const { name, description, _id: id, imageLinks, sizes } = product;
   const { price } = sizes[0];
@@ -158,12 +158,13 @@ const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
         }
       />
       <Divider />
-      <CardMedia
-        className={classes.media}
-        image={imageLinks[0]}
-        title={name}
-        onClick={e => history.push(linkTo)}
-      />
+      <Link to={linkTo} className={classes.link}>
+        <CardMedia
+          className={classes.media}
+          image={imageLinks[0]}
+          title={name}
+        />
+      </Link>
       <Divider />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
@@ -171,7 +172,7 @@ const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing className={classes.cardAction}>
-        <IconButton aria-label="add to favorites" color="secondary" onClick={handleFavouriteButtonPressed}>
+        <IconButton aria-label="add to favorites" color="secondary" onClick={handleFavouriteButtonPressed} disabled={!user}>
           {
             wishList ? <FavoriteIcon /> : <FavoriteBorderIcon />
           }

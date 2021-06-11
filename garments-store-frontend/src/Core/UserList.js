@@ -26,48 +26,45 @@ const UserList = ({ follower = false, following = false, all = false }) => {
             <Helmet>
                 <title>All User List</title>
             </Helmet>
-            {
-                <Grid
-                    container
-                    direction="column"
-                    justify="flex-start"
-                    // alignItems="flex-start"
-                    wrap
-                    style={{
-                        marginTop: "2em"
+            <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                // alignItems="flex-start"
+                wrap
+                style={{
+                    marginTop: "2em"
 
-                    }}
-                >
-                    {
-                        friendList.length >0 &&
-                        friendList.map((friend, index) => (
-                            friend._id !== user._id &&
-                            <Grid
-                                item
-                                xs={12}
-                                style={{
-                                    paddingLeft: '',
-                                    // border: '2px solid black'
-                                }}
-                                key={index}
-                            >
-                                <UserCard id={friend}
-                                    follower={follower}
-                                    following={following}
-                                    all={all}
-                                />
-                            </Grid>
-                        ))
+                }}
+            >
+                {
+                    friendList.length > 0 &&
+                    friendList.map((friend, index) => (
+                        friend?._id !== user._id &&
+                        <Grid
+                            item
+                            xs={12}
+                            style={{
+                                paddingLeft: '',
+                                // border: '2px solid black'
+                            }}
+                            key={index}
+                        >
+                            <UserCard id={friend}
+                                follower={follower}
+                                following={following}
+                                all={all}
+                            />
+                        </Grid>
+                    ))
 
-                    }
-                    {
-                        friendList.length === 0 &&
-                        <Typography variant="h3" align="center">NO ONE!!</Typography>
-                    }
+                }
+                {
+                    friendList.length === 0 &&
+                    <Typography variant="h3" align="center">NO ONE!!</Typography>
+                }
 
-                </Grid>
-            }
-            <Footer />
+            </Grid>
         </div>
     )
 }

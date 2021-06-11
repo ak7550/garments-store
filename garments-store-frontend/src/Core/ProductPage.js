@@ -63,7 +63,7 @@ const ProductPage = () => {
         getSimiliarProductAPI(productId,
             data => setSimiliarProduct(data),
             err => handleError(err));
-    }, []);
+    }, [productId]);
 
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, } = useForm();
 
