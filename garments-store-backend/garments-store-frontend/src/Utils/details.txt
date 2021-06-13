@@ -1,0 +1,3 @@
+in this section, we will only take the data from localforage
+
+iif it's not theere, we will ask for the api call......

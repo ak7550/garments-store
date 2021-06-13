@@ -1,0 +1,79 @@
+Things we need to do over here.
+
+
+Everything is wrapped inside it. So this plays an important role from ui perspective and the same time it will fetch api call and other things.
+
+clear concepts are very important to make the app fast.
+
+apply navbar from a different component ==> done
+add searchBar ==> done
+apply sidebar from a different component ==> done
+put the sidebar into mainLayOut component and handle it's events from navbar ==> done
+add categories to the sidebar. ==> done
+
+add the actual links and buttons in the form array of object into the list
+add the actual links and buttons in the form array of object into the list ==> done
+
+add categories to the sidebar. ==> done
+
+add list for the loggedin users ==> done
+
+lists to be: (for buyers)
+my dashboard
+my orders
+my wishlist
+My shopping cart
+my followers list
+my followings list
+logout button ==> all done
+
+lists to be: (for sellers)
+my dashboard
+categoryRoute
+productRoute
+signout ==> done
+
+if the user is a seller then create a different section for him
+lists to be:
+Categories:
+    add, remove, update categories ==> done
+products
+    add, remove, update products ==> done
+
+create the routes ==> done
+    user dashboard
+    admin user dashboard
+    crud on category
+    crud on product
+
+
+create the sellerdashboard page ==> done
+create the managecategories page ==> done
+create the manageproducts page ==> done
+update the link inside the product card ==> done
+define private routes for sellers. ==> done
+create the wishlist page ==> use the same product card component ==> done
+
+create the usercart page ==> use the same product card component with checkout button at the end  ==> done
+add an cart button in nav bar ==> done
+fix the avatar pannel in the nav bar ==> done
+add the addtocartapi call ==> done
+fix the nav bar ==> done
+create the home page ==> pagination, carousoul, parallax effect wiht products and categories. ==> done
+create the product page ==> done
+create the userlist(follower) page  ==> use the same user card component
+create the userlist(following) page ==> use the same user card component
+complete the cart page ==> done
+
+create the userdashboard page
+create the orderlist page ==> use the same product card component
+
+Today's task:
+integrate payment gateway
+fix the successmessage section.
+fix the errormessage section.
+
+
+//docs: https://material-ui.com/components/buttons/#upload-button
+
+https://bitly.com/ ==> url shortner

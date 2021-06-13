@@ -1,5 +1,8 @@
 // http://expressjs.com/en/api.html#app.param
 const Category = require("../models/category");
+
+
+
 exports.getCategoryById = (req, res, next, id) => {
     console.log(`CONTROLL COMES HERE`); //! <== SEE THIS
     Category.findById(id).exec((err, cate) => {

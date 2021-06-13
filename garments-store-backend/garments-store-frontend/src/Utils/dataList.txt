@@ -1,0 +1,3 @@
+categoryList ===> array of category objects
+
+Category${categoryId} ==> array of Products from same category

@@ -1,4 +1,4 @@
-const User = require("../Models/user");
+const User = require("../models/user");
 const fs = require("fs"); //https://nodejs.dev/learn/the-nodejs-fs-module ==> module for file handling
 const formidable = require("formidable"); // formidable is a npm package used to parse form-data, ,we are using it so we can upload picture using form-data. ==> https://www.npmjs.com/package/formidable
 
