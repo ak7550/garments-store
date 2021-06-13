@@ -43,7 +43,7 @@ const razorPayCheckOutPopUp = async (data, user) => {
             alert("ORDER ID :: " + response.razorpay_order_id);
         },
         prefill: {
-            name: `${user.firstName} ${user.lastName}`,
+            name: `${user?.firstName} ${user?.lastName}`,
             email: user.email,
         },
     };
@@ -58,7 +58,7 @@ export const createOrderAPI = (userId, totalCost, next) => {
     localforage.getItem("user")
         .then(u => {
             token = u.token;
-            axios.post(`${API}/order/${userId}/order`, {totalCost})
+            axios.post(`${API}/order/${userId}/order`, { totalCost })
                 .then(res => {
                     const { order, user } = res.data;
                     user.token = token;

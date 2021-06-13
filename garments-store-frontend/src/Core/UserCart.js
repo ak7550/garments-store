@@ -41,7 +41,7 @@ const UserCart = () => {
     return (
         <div>
             <Helmet>
-                <title>{user.firstName}'s Cart</title>
+                <title>{user?.firstName}'s Cart</title>
             </Helmet>
             {
                 shoppingCart.length === 0 &&
@@ -66,7 +66,7 @@ const UserCart = () => {
                                         maxWidth: '20%',
                                         maxHeight: '20%'
                                     }}
-                                    index = {i}
+                                    index={i}
                                 >
                                     <CartItem id={item} />
                                 </Grid>

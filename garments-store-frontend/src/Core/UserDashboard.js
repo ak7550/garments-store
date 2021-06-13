@@ -279,7 +279,7 @@ const UserDashboard = () => {
                         }
                         required
                         disabled={readOnly}
-                        placeholder={userInfo.userInfo.age || ""}
+                        placeholder={Math.abs(userInfo.userInfo.age) || ""}
                     />
                 </Box>
             </>
@@ -393,7 +393,7 @@ const UserDashboard = () => {
     return (
         <Paper elevation={2} color={purple[500]}>
             <Helmet>
-                <title>{user.firstName}'s DashBoard</title>
+                <title>{user?.firstName}'s DashBoard</title>
             </Helmet>
             <form
                 onSubmit={handleSubmit(onSubmit, onError)}

@@ -62,10 +62,18 @@ const UserCard = ({ id, follower = false, following = false, all = false }) => {
     });
 
     useEffect(() => {
-        getRandomImages("person", data => setPhoto(data));
-        following && getUserAPI(id, d => setUserData(d));
-        follower && getUserAPI(id, d => setUserData(d));
-        all && setUserData(id); // id is not id in case of all
+        following && getUserAPI(id, d => {
+            setUserData(d);
+            getRandomImages(d.userInfo.sex, data => setPhoto(data));
+        });
+        follower && getUserAPI(id, d => {
+            setUserData(d);
+            getRandomImages(d.userInfo.sex, data => setPhoto(data));
+        });
+        if (all) {
+            setUserData(id);
+            getRandomImages(id.userInfo.sex, data => setPhoto(data)); // id is not id in case of all
+        }
     }, []);
 
     const downButtons = () =>

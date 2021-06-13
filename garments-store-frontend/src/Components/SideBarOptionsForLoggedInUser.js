@@ -112,7 +112,7 @@ const SideBarOptionsForLoggedInUser = () => {
         icon: <ExitToAppIcon />,
         linkTo: "/logOut",
         onClick: link => {
-            <Redirect to="/" />
+            history.push("/");
             logOutApiCall(data => {
                 setUser(null);
             },
@@ -143,7 +143,7 @@ const SideBarOptionsForLoggedInUser = () => {
             linkTo: "/logOut",
             onClick: link => {
                 console.log(`i have been called`);
-                <Redirect to="/" />
+                history.push("/");
                 logOutApiCall(data => {
                     setUser(null);
                 },

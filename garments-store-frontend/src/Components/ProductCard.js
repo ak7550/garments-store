@@ -21,7 +21,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import clsx from 'clsx';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import { blue, red, grey, green, orange, pink, purple } from '@material-ui/core/colors';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AttachMoneySharpIcon from '@material-ui/icons/AttachMoneySharp';
 import { MainLayOutContext } from './MainLayOut';
 import { addToWatchListAPI, removeFromWatchListAPI } from '../API/Product';
@@ -98,12 +98,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
+const ProductCard = ({ product, linkTo, fav = false, toggle }) => {
   const classes = useStyles({ color: '#203f52' });
   const { name, description, _id: id, imageLinks, sizes } = product;
   const { price } = sizes[0];
   const [wishList, setWishList] = useState(false);
   const { user } = useContext(MainLayOutContext);
+  const history = useHistory();
 
   // useEffect(() => {
   //   toggle();
@@ -157,11 +158,13 @@ const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
         }
       />
       <Divider />
-      <CardMedia
-        className={classes.media}
-        image={imageLinks[0]}
-        title={name}
-      />
+      <Link to={linkTo} className={classes.link}>
+        <CardMedia
+          className={classes.media}
+          image={imageLinks[0]}
+          title={name}
+        />
+      </Link>
       <Divider />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
@@ -169,7 +172,7 @@ const ProductCard = ({ product, linkTo, fav=false, toggle }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing className={classes.cardAction}>
-        <IconButton aria-label="add to favorites" color="secondary" onClick={handleFavouriteButtonPressed}>
+        <IconButton aria-label="add to favorites" color="secondary" onClick={handleFavouriteButtonPressed} disabled={!user}>
           {
             wishList ? <FavoriteIcon /> : <FavoriteBorderIcon />
           }

@@ -2,7 +2,7 @@ require('dotenv').config();
 const expressJwt = require('express-jwt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-const User = require('../Models/user');
+const User = require('../models/user');
 
 
 // signUp testing done

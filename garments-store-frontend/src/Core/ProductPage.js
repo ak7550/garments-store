@@ -63,7 +63,7 @@ const ProductPage = () => {
         getSimiliarProductAPI(productId,
             data => setSimiliarProduct(data),
             err => handleError(err));
-    }, []);
+    }, [productId]);
 
     const { register, handleSubmit, formState: { errors }, reset, clearErrors, } = useForm();
 
@@ -346,7 +346,7 @@ const ProductPage = () => {
                                             }}
                                                 variant="h5"
                                             >
-                                                {review.user.firstName} {review.user.lastName}
+                                                {review.user?.firstName} {review.user?.lastName}
                                             </Typography>
                                         </Grid>
                                         <Grid item>
